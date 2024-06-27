@@ -27,8 +27,8 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 public final class ArrowDmgHack extends Hack implements StopUsingItemListener
 {
 	private final SliderSetting strength = new SliderSetting("Strength",
-		"description.wurst.setting.arrowdmg.strength", 10, 0.1, 10, 0.1,
-		ValueDisplay.DECIMAL);
+		"description.wurst.setting.arrowdmg.strength", 10, 0.1, 1000, 0.1,
+		ValueDisplay.DECIMAL); //250 can oneshot warden or witherboss with low bow stretching 
 	
 	private final CheckboxSetting yeetTridents =
 		new CheckboxSetting("Trident yeet mode",
