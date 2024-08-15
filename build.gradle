@@ -6,7 +6,6 @@ buildscript {
 
 plugins {
 	id "fabric-loom" version "1.7-SNAPSHOT"
-	id "com.diffplug.spotless" version "6.25.0"
 }
 
 def ENV = System.getenv()
@@ -74,20 +73,6 @@ java {
 jar {
 	from("LICENSE") {
 		rename {"${it}_${project.base.archivesName.get()}"}
-	}
-}
-
-spotless {
-	lineEndings("WINDOWS")
-	java {
-		removeUnusedImports()
-		indentWithTabs()
-		trimTrailingWhitespace()
-		eclipse().configFile(file("codestyle/formatter.xml"))
-	}
-	json {
-		target "src/**/*.json"
-		gson().indentWithSpaces(2).version("2.10.1")
 	}
 }
 
