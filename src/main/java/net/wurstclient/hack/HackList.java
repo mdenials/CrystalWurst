@@ -124,6 +124,7 @@ public final class HackList implements UpdateListener
 	public final MaceDmgHack maceDmgHack = new MaceDmgHack();
 	public final MassTpaHack massTpaHack = new MassTpaHack();
 	public final MileyCyrusHack mileyCyrusHack = new MileyCyrusHack();
+	public final MiningBotHack miningBotHack = new MiningBotHack();
 	public final MobEspHack mobEspHack = new MobEspHack();
 	public final MobSpawnEspHack mobSpawnEspHack = new MobSpawnEspHack();
 	public final MultiAuraHack multiAuraHack = new MultiAuraHack();
