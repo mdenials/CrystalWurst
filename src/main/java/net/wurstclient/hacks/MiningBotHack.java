@@ -299,8 +299,8 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	private List<BlockPos> getNeighbors(BlockPos pos)
 	{
         int sz = boxRange.getValueI();
-	Vec3i mp = pos.add(-sz,-sz,-sz);
-	Vec3i MP = pos.add(sz, sz, sz);
+	BlockPos mp = pos.add(-sz,-sz,-sz);
+	BlockPos MP = pos.add(sz, sz, sz);
 	return BlockUtils.getAllInBoxStream(mp, MP).filter(MiningBotUtils::isLog).collect(Collectors.toList());
 	}
 	
@@ -426,8 +426,8 @@ private List<PathPos> getPathSegment()
 
 private Stream<BlockPos> getPositionsAround(PathPos pos)
 {
-    int height = height.getValueI();
-    return Stream.of(pos, pos.up(height));
+    int ht = height.getValueI();
+    return Stream.of(pos, pos.up(ht));
 }
 
 		public boolean isDone()
