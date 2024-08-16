@@ -259,17 +259,17 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	{
         double rangeSq = range.getValueSq();
         BlockBreakingParams params = BlockBreaker.getBlockBreakingParams(pos);
-        if (params == null)
-            return false;
+        if (params != null)
+            return true;
 
-	if(params.distanceSq() > rangeSq)
+	if(params.distanceSq() <= rangeSq)
         {
-            return false;
+            return true;
         }
 			
-        if(checkBreakLOS.isChecked() && !params.lineOfSight())
+        if(checkBreakLOS.isChecked() && params.lineOfSight())
         {
-            return false;
+            return true;
         }
 
         // face block
@@ -279,7 +279,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
         if(MC.interactionManager.updateBlockBreakingProgress(pos, params.side()))
             swingHand.getSelected().swing(Hand.MAIN_HAND);
 
-		return true;  
+		return false;  
 	}
 	
 	@Override
@@ -415,7 +415,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		
 		private boolean isMiningStump(BlockPos pos)
 		{
-			if(MiningBotUtils.isLog(pos) || !MiningBotUtils.isLog(pos.down()))
+			if(MiningBotUtils.isLog(pos))
 			{
 				analyzeMining(pos);
 				return true;
