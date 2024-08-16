@@ -213,7 +213,8 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
         // find path
 		if(!miningFinder.isDoneOrFailed())
 		{
-            miningFinder.findPath();
+			PathProcessor.lockControls();
+            		miningFinder.findPath();
 			return;
 		}
 
@@ -233,7 +234,8 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
         // find path
 		if(!angleFinder.isDone() && !angleFinder.isFailed())
 		{
-            angleFinder.findPath();
+			PathProcessor.lockControls();
+            		angleFinder.findPath();
 			return;
 		}
 
