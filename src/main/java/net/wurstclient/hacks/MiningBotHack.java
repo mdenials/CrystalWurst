@@ -415,7 +415,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		
 		private boolean isMiningStump(BlockPos pos)
 		{
-			if(MiningBotUtils.isLog(pos))
+			if(MiningBotUtils.isLog(pos) || !TreeBotUtils.isLog(pos.down()))
 			{
 				analyzeMining(pos);
 				return true;
