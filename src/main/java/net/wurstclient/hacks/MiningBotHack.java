@@ -360,9 +360,6 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
             		if(processor.canBreakBlocks() && breakBlocks(getLeavesOnPath()))
 				return;
 
-            		if(mining != null && breakBlocks(mining.getLogs()))
-				return;
-
             		processor.process();
 		 }
 
@@ -486,23 +483,23 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 			for(BlockPos log : mining.getLogs())
 			{
 				BlockBreakingParams params = BlockBreaker.getBlockBreakingParams(eyes, log);
-                		if(params == null)
+                		if(params != null)
                 		{
-                    			return false;
+                    			return true;
                 		}
 
-                		if(params.distanceSq() > rangeSq)
+                		if(params.distanceSq() <= rangeSq)
                 		{
-                    			return false;
+                    			return true;
                 		}
                     
-               			if(checkAngleLOS.isChecked() && !params.lineOfSight())
+               			if(checkAngleLOS.isChecked() && params.lineOfSight())
                 		{
-                    			return false;
+                    			return true;
                 		}      
 			}
 			
-			return true;
+			return false;
 		}
 
         	@Override
