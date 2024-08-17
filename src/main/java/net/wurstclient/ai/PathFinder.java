@@ -60,8 +60,6 @@ public class PathFinder
 	protected final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
 	private final PathQueue queue = new PathQueue();
 	
-	protected int thinkSpeed = 1024;
-	protected int thinkTime = 200;
 	private int iterations;
 	
 	protected boolean done;
