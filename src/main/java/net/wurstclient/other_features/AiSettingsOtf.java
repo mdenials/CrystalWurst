@@ -4,7 +4,6 @@ import net.wurstclient.DontBlock;
 import net.wurstclient.SearchTags;
 import net.wurstclient.hack.Hack;
 import net.wurstclient.other_feature.OtherFeature;
-import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
@@ -16,14 +15,13 @@ public final SliderSetting range = new SliderSetting("Search Range","Max search 
 public final SliderSetting thinkSpeed = new SliderSetting("ThinkSpeed","ThinkSpeed value.", 100, 0, 2147483647, 1, ValueDisplay.INTEGER);
 public final SliderSetting thinkTime = new SliderSetting("ThinkTime","ThinkTime value.", 100, 0, 2147483647, 1, ValueDisplay.INTEGER);
 public final SliderSetting renderedThings = new SliderSetting("RenderedThings","RenderedThings max value.", 100, 0, 5000, 1, ValueDisplay.INTEGER);
-public final CheckboxSetting mineable = new CheckboxSetting("Mineable", false);
-public final CheckboxSetting extraMoves = new CheckboxSetting("ExtraMoves", false);
-public final CheckboxSetting extraDiagonalMoves = new CheckboxSetting("ExtraDiagonalMoves", false);
-public final CheckboxSetting falling = new CheckboxSetting("Allow falling", true);
-public final CheckboxSetting diving = new CheckboxSetting("Allow diving", true);
-public final CheckboxSetting flying = new CheckboxSetting("Allow flying", true);
-
-
+public final SliderSetting standartCost = new SliderSetting("Standart Cost","ThinkTime value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
+public final SliderSetting modifierCost = new SliderSetting("Cost Modifier","Cost modifier value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
+public final SliderSetting walkingCost = new SliderSetting("Cost Walking","Cost walking value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
+public final SliderSetting liquidsCost = new SliderSetting("Cost Liquids","Cost liquids value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
+public final SliderSetting slownessCost = new SliderSetting("Cost Slowness","Cost slowness value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
+public final SliderSetting miningCost = new SliderSetting("Cost Mining","Cost mining value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
+public final SliderSetting jumpingCost = new SliderSetting("Cost Jumping","Cost jumping value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
 
 public AiSettingsOtf()
 {
@@ -32,11 +30,12 @@ addSetting(range);
 addSetting(thinkSpeed);
 addSetting(thinkTime);
 addSetting(renderedThings);
-addSetting(mineable);
-addSetting(extraMoves);
-addSetting(extraDiagonalMoves);
-addSetting(falling);
-addSetting(diving);
-addSetting(flying);
+addSetting(standartCost);
+addSetting(modifierCost);
+addSetting(walkingCost);
+addSetting(liquidsCost);
+addSetting(slownessCost);
+addSetting(miningCost);
+addSetting(jumpingCost);
 }
 }
