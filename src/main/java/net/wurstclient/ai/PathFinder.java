@@ -29,10 +29,24 @@ import net.wurstclient.WurstClient;
 import net.wurstclient.util.BlockUtils;
 import net.wurstclient.util.RegionPos;
 import net.wurstclient.util.RenderUtils;
+import net.wurstclient.other_feature.OtfList;
 
 public class PathFinder
 {
 	private static final MinecraftClient MC = WurstClient.MC;
+	OtfList hax = WurstClient.INSTANCE.getOtfs();
+	private int landRange = (int)hax.aiSettingsOtf.range.getValueI();
+	private int thinkSpeed = (int)hax.aiSettingsOtf.thinkSpeed.getValue();
+	private int thinkTime = (int)hax.aiSettingsOtf.thinkTime.getValue();
+	private int renderLimit = (int)hax.aiSettingsOtf.thinkSpeed.getValue();
+	private float defCost = (float)hax.aiSettingsOtf.standartCost.getValue();
+	private float modCost = (float)hax.aiSettingsOtf.modifierCost.getValue();
+	private float walkCost = (float)hax.aiSettingsOtf.walkingCost.getValue();
+	private float diagCost = (float)hax.aiSettingsOtf.diagonalCost.getValue();
+	private float liquidCost = (float)hax.aiSettingsOtf.liquidsCost.getValue();
+	private float slowCost = (float)hax.aiSettingsOtf.slownessCost.getValue();
+	private float mineCost = (float)hax.aiSettingsOtf.miningCost.getValue();
+	private float jumpCost = (float)hax.aiSettingsOtf.jumpingCost.getValue();
 	
 	private final PlayerAbilities abilities = PlayerAbilities.get();
 	protected boolean fallingAllowed = true;
@@ -427,7 +441,7 @@ public class PathFinder
 	
 	private float getCost(BlockPos current, BlockPos next)
 	{
-		float[] costs = {0.5F, 0.5F};
+		float[] costs = {defCost, modCost};
 		BlockPos[] positions = {current, next};
 		
 		for(int i = 0; i < positions.length; i++)
@@ -437,27 +451,26 @@ public class PathFinder
 			
 			// liquids
 			if(block == Blocks.WATER && !abilities.noWaterSlowdown())
-				costs[i] *= 1.3164437838225804F;
+				costs[i] *= liquidCost;
 			else if(block == Blocks.LAVA)
-				costs[i] *= 4.539515393656079F;
+				costs[i] *= liquidCost;
 			
 			// soul sand
-			if(!canFlyAt(pos)
-				&& BlockUtils.getBlock(pos.down()) instanceof SoulSandBlock)
-				costs[i] *= 2.5F;
+			if(!canFlyAt(pos) && BlockUtils.getBlock(pos.down()) instanceof SoulSandBlock)
+				costs[i] *= slowCost;
 			
 			// mining
 			if(isMineable(pos))
-				costs[i] *= 2F;
+				costs[i] *= mineCost;
 			if(isMineable(pos.up()))
-				costs[i] *= 2F;
+				costs[i] *= mineCost;
 		}
 		
 		float cost = costs[0] + costs[1];
 		
 		// diagonal movement
 		if(current.getX() != next.getX() && current.getZ() != next.getZ())
-			cost *= 1.4142135623730951F;
+			cost *= diagCost;
 		
 		return cost;
 	}
