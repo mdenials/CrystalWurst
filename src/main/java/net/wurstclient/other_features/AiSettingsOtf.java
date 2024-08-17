@@ -18,6 +18,7 @@ public final SliderSetting renderedThings = new SliderSetting("RenderedThings","
 public final SliderSetting standartCost = new SliderSetting("Standart Cost","ThinkTime value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
 public final SliderSetting modifierCost = new SliderSetting("Cost Modifier","Cost modifier value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
 public final SliderSetting walkingCost = new SliderSetting("Cost Walking","Cost walking value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
+public final SliderSetting diagonalCost = new SliderSetting("Cost Diagonal Waking","Cost diagonal walking value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
 public final SliderSetting liquidsCost = new SliderSetting("Cost Liquids","Cost liquids value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
 public final SliderSetting slownessCost = new SliderSetting("Cost Slowness","Cost slowness value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
 public final SliderSetting miningCost = new SliderSetting("Cost Mining","Cost mining value.", 0.5, 0, 2000, 1, ValueDisplay.DECIMAL);
@@ -33,6 +34,7 @@ addSetting(renderedThings);
 addSetting(standartCost);
 addSetting(modifierCost);
 addSetting(walkingCost);
+addSetting(diagonalCost);
 addSetting(liquidsCost);
 addSetting(slownessCost);
 addSetting(miningCost);
