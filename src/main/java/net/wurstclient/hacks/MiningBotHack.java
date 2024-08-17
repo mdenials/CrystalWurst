@@ -259,17 +259,17 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	{
         double rangeSq = range.getValueSq();
         BlockBreakingParams params = BlockBreaker.getBlockBreakingParams(pos);
-        if (params != null)
-            return true;
+        if (params == null)
+            return false;
 
-	if(params.distanceSq() <= rangeSq)
+	if(params.distanceSq() > rangeSq)
         {
-            return true;
+            return false;
         }
 			
-        if(checkBreakLOS.isChecked() && params.lineOfSight())
+        if(checkBreakLOS.isChecked() && !params.lineOfSight())
         {
-            return true;
+            return false;
         }
 
         // face block
@@ -279,7 +279,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
         if(MC.interactionManager.updateBlockBreakingProgress(pos, params.side()))
             swingHand.getSelected().swing(Hand.MAIN_HAND);
 
-		return false;  
+		return true;  
 	}
 	
 	@Override
@@ -357,7 +357,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 				return;
 			}
 
-            		if(processor.canBreakBlocks() && breakBlocks(getLeavesOnPath()))
+            		if(breakBlocks(getLeavesOnPath()))
 				return;
 
             		processor.process();
@@ -412,10 +412,10 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		
 		private boolean isMiningStump(BlockPos pos)
 		{
-			if(MiningBotUtils.isLog(pos)) return true;
+			if(!MiningBotUtils.isLog(pos)) return false;
 			analyzeMining(pos);
 				 
-               		return false;
+               		return true;
 		}
 
     private void analyzeMining(BlockPos stump) 
@@ -481,23 +481,23 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 			for(BlockPos log : mining.getLogs())
 			{
 				BlockBreakingParams params = BlockBreaker.getBlockBreakingParams(eyes, log);
-                		if(params != null)
+                		if(params == null)
                 		{
-                    			return true;
+                    			return false;
                 		}
 
-                		if(params.distanceSq() <= rangeSq)
+                		if(params.distanceSq() > rangeSq)
                 		{
-                    			return true;
+                    			return false;
                 		}
                     
-               			if(checkAngleLOS.isChecked() && params.lineOfSight())
+               			if(checkAngleLOS.isChecked() && !params.lineOfSight())
                 		{
-                    			return true;
+                    			return false;
                 		}      
 			}
 			
-			return false;
+			return true;
 		}
 
         	@Override
