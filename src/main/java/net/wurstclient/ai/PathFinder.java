@@ -40,6 +40,7 @@ public class PathFinder
 	private int thinkTime = (int)hax.aiSettingsOtf.thinkTime.getValue();
 	private int renderLimit = (int)hax.aiSettingsOtf.thinkSpeed.getValue();
 	private float mhDim = (float)hax.aiSettingsOtf.manhattanDim.getValue();
+	private float mhMul = (float)hax.aiSettingsOtf.manhattanMul.getValue();
 	private float defCost = (float)hax.aiSettingsOtf.standartCost.getValue();
 	private float modCost = (float)hax.aiSettingsOtf.modifierCost.getValue();
 	private float diagCost = (float)hax.aiSettingsOtf.diagonalCost.getValue();
@@ -478,7 +479,7 @@ public class PathFinder
 		float dx = Math.abs(pos.getX() - goal.getX());
 		float dy = Math.abs(pos.getY() - goal.getY());
 		float dz = Math.abs(pos.getZ() - goal.getZ());
-		return (dx + dy + dz - (float)Math.sqrt(mhDim) * Math.min(Math.min(dx, dz), dy));
+		return mhMul * (dx + dy + dz - (float)Math.sqrt(mhDim) * Math.min(Math.min(dx, dz), dy));
 	}
 	
 	public PathPos getCurrentPos()
