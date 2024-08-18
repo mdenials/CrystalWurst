@@ -52,7 +52,7 @@ public final class FastBreakHack extends Hack
 		super("FastBreak");
 		setCategory(Category.BLOCKS);
 		addSetting(mode);
-		addSetting(breakBrogress);
+		addSetting(breakProgress);
 		addSetting(activationChance);
 		addSetting(zeroDelay);
 	}
