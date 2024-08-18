@@ -17,12 +17,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 
+import net.wurstclient.WurstClient;
+import net.wurstclient.hack.HackList;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.entity.EntityLike;
 import net.wurstclient.WurstClient;
 import net.wurstclient.event.EventManager;
