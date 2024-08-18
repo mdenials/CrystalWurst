@@ -19,6 +19,7 @@ import net.wurstclient.events.BlockBreakingProgressListener;
 import net.wurstclient.events.UpdateListener;
 import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.CheckboxSetting;
+import net.wurstclient.settings.EnumSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.util.BlockUtils;
@@ -29,19 +30,17 @@ import net.wurstclient.util.BlockUtils;
 public final class FastBreakHack extends Hack
 	implements UpdateListener, BlockBreakingProgressListener
 {
+	private final EnumSetting<Mode> mode = new EnumSetting<>("Mode", "Fastbreak modes", Mode.values(), Mode.PROGRESS);
+	private final SliderSetting breakProgress = new SliderSetting("Break Progress", 1, 0, 1, 0.000001, ValueDisplay.PERCENTAGE);
+	
 	private final SliderSetting activationChance = new SliderSetting(
 		"Activation chance",
 		"Only FastBreaks some of the blocks you break with the given chance,"
-			+ " which makes it harder for anti-cheat plugins to detect.\n\n"
-			+ "This setting does nothing if Legit mode is enabled.",
+			+ " which makes it harder for anti-cheat plugins to detect.",
 		1, 0, 1, 0.01, ValueDisplay.PERCENTAGE);
 	
-	private final CheckboxSetting legitMode = new CheckboxSetting("Legit mode",
-		"Only removes the delay between breaking blocks, without speeding up"
-			+ " the breaking process itself.\n\n"
-			+ "This is much slower, but great at bypassing anti-cheat plugins."
-			+ " Use this if regular FastBreak is not working and the Activation"
-			+ " chance slider doesn't help.",
+	private final CheckboxSetting zeroDelay = new CheckboxSetting("Zero Delay",
+		"Only removes the delay between breaking blocks, without speeding up the breaking process itself.",
 		false);
 	
 	private final Random random = new Random();
@@ -52,8 +51,10 @@ public final class FastBreakHack extends Hack
 	{
 		super("FastBreak");
 		setCategory(Category.BLOCKS);
+		addSetting(mode);
+		addSetting(breakBrogress);
 		addSetting(activationChance);
-		addSetting(legitMode);
+		addSetting(zeroDelay);
 	}
 	
 	@Override
@@ -82,35 +83,56 @@ public final class FastBreakHack extends Hack
 	@Override
 	public void onUpdate()
 	{
-		MC.interactionManager.blockBreakingCooldown = 0;
+		if(zeroDelay.isChecked()) MC.interactionManager.blockBreakingCooldown = 0;
 	}
 	
 	@Override
 	public void onBlockBreakingProgress(BlockBreakingProgressEvent event)
 	{
-		if(legitMode.isChecked())
-			return;
-		
-		if(MC.interactionManager.currentBreakingProgress >= 1)
-			return;
-		
 		BlockPos blockPos = event.getBlockPos();
+		Action action = PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK;
+		Direction direction = event.getDirection();
+		float bProgress = breakProgress.getValueF();
+		// Ignore unbreakable blocks to avoid slowdown issue
+		if(BlockUtils.isUnbreakable(blockPos))
+			return;
+		
 		if(!blockPos.equals(lastBlockPos))
 		{
 			lastBlockPos = blockPos;
 			fastBreakBlock = random.nextDouble() <= activationChance.getValue();
 		}
 		
-		// Ignore unbreakable blocks to avoid slowdown issue
-		if(BlockUtils.isUnbreakable(blockPos))
-			return;
-		
 		if(!fastBreakBlock)
 			return;
+
+		if(mode.getSelected() == Mode.PROGRESS)
+		{
+			if (MC.interactionManager.currentBreakingProgress >= bProgress)
+				MC.interactionManager.currentBreakingProgress = 1F;
+		}
+		if(mode.getSelected() == Mode.PACKET)
+		{
+			IMC.getInteractionManager().sendPlayerActionC2SPacket(action, blockPos, direction);
+		}	
+	}
+	
+ 	private enum Mode
+	{
+		PROGRESS("Progress"),
+		PACKET("Packet");
 		
-		Action action = PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK;
-		Direction direction = event.getDirection();
-		IMC.getInteractionManager().sendPlayerActionC2SPacket(action, blockPos,
-			direction);
+		private final String name;
+		
+		private Mode(String name)
+		{
+			this.name = name;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return name;
+		}
 	}
 }
