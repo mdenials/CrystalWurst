@@ -31,6 +31,14 @@ public abstract class ClientConnectionMixin
 {
 	private ConcurrentLinkedQueue<ConnectionPacketOutputEvent> events =
 		new ConcurrentLinkedQueue<>();
+
+	@Inject(method = "exceptionCaught", at = @At("HEAD"), cancellable = true)
+    	public void preventThrow(ChannelHandlerContext context, Throwable ex, CallbackInfo ci) {
+        ex.printStackTrace();
+        if (WurstClient.INSTANCE.getHax().antiPacketKickHack.isEnabled()) {
+            ci.cancel();
+        }
+    }
 	
 	@Inject(at = @At(value = "INVOKE",
 		target = "Lnet/minecraft/network/ClientConnection;handlePacket(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;)V",
