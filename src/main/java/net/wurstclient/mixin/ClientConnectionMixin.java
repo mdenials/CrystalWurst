@@ -25,6 +25,8 @@ import net.wurstclient.event.EventManager;
 import net.wurstclient.events.ConnectionPacketOutputListener.ConnectionPacketOutputEvent;
 import net.wurstclient.events.PacketInputListener.PacketInputEvent;
 
+import net.wurstclient.WurstClient;
+
 @Mixin(ClientConnection.class)
 public abstract class ClientConnectionMixin
 	extends SimpleChannelInboundHandler<Packet<?>>
