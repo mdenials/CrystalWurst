@@ -60,8 +60,8 @@ public final class FastBreakHack extends Hack
 	@Override
 	public String getRenderName()
 	{
-		if(legitMode.isChecked())
-			return getName() + "Legit";
+		if(zeroDelay.isChecked())
+			return getName() + "ZeroDelay";
 		return getName();
 	}
 	
