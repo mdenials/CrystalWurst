@@ -78,4 +78,41 @@ public abstract class EntityMixin implements Nameable, EntityLike, CommandOutput
 			.shouldBeVisible((Entity)(Object)this))
 			cir.setReturnValue(false);
 	}
+
+@Inject(method = "Lnet/minecraft/entity/Entity;changeLookDirection", at = @At("HEAD"), cancellable = true)
+   private void overridePitch(double cursorDeltaX, double cursorDeltaY, CallbackInfo ci)
+    {
+      if (WurstClient.INSTANCE.getHax().noPitchLimitHack.isEnabled())
+        {
+         if (MathHelper.abs(this.pitch) > 180.0F)
+         {
+            this.pitch = (float)(-MathHelper.sign((double)this.pitch) * 180) + (this.pitch - (float)(MathHelper.sign((double)this.pitch) * 180));
+            this.prevPitch = (float)(-MathHelper.sign((double)this.prevPitch) * 180) + (this.prevPitch - (float)(MathHelper.sign((double)this.prevPitch) * 180));
+         }
+
+         float changePitch = (float)cursorDeltaY * 0.15F;
+         float changeYaw = (float)cursorDeltaX * 0.15F;
+         this.pitch += changePitch;
+         this.yaw += MathHelper.abs(this.pitch) % 360.0F > 90.0F ? -changeYaw : changeYaw;
+         this.prevPitch += changePitch;
+         this.prevYaw += MathHelper.abs(this.pitch) % 360.0F > 90.0F ? -changeYaw : changeYaw;
+         ci.cancel();
+      }
+   }
+
+ @Inject(at = @At("HEAD"), method = "Lnet/minecraft/entity/Entity;getBoundingBox", cancellable = true)
+    public final void onGetBoundingBox(CallbackInfoReturnable<Box> cir) {
+    HackList hax = WurstClient.INSTANCE.getHax();
+    if (WurstClient.INSTANCE.getHax().hitboxHack.shouldBeExpand((Entity)(Object)this))
+    {
+	cir.setReturnValue(new Box(
+	this.boundingBox.minX - hax.hitboxHack.sv.getValue()/2f,
+	this.boundingBox.minY - hax.hitboxHack.hv.getValue()/2f,
+	this.boundingBox.minZ - hax.hitboxHack.sv.getValue()/2f,
+	this.boundingBox.maxX + hax.hitboxHack.sv.getValue()/2f,
+	this.boundingBox.maxY + hax.hitboxHack.hv.getValue()/2f,
+	this.boundingBox.maxZ + hax.hitboxHack.sv.getValue()/2f));
+        }
+    }
+	
 }
