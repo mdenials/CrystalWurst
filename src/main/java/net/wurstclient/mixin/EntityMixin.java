@@ -9,6 +9,7 @@ package net.wurstclient.mixin;
 
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -30,6 +31,17 @@ import net.wurstclient.events.VelocityFromFluidListener.VelocityFromFluidEvent;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements Nameable, EntityLike, CommandOutput
 {
+	@Shadow
+	private Box boundingBox;
+	@Shadow
+	private float yaw;
+	@Shadow
+	private float pitch;
+	@Shadow
+	public float prevYaw;
+	@Shadow
+	public float prevPitch;
+
 	/**
 	 * This mixin makes the VelocityFromFluidEvent work, which is used by
 	 * AntiWaterPush. It's set to require 0 because it doesn't work in Forge,
