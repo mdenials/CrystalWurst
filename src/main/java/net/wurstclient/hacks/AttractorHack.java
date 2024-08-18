@@ -33,7 +33,7 @@ import net.wurstclient.util.RotationUtils;
 
 @SearchTags({"telekinesis", "move entities"})
 @DontSaveState
-public final class TelekinesisHack extends Hack implements UpdateListener
+public final class AttractorHack extends Hack implements UpdateListener
 {
 private final SliderSetting range = new SliderSetting("Range", 5, 1, 512, 0.000001, ValueDisplay.DECIMAL);
 private final SliderSetting fov = new SliderSetting("FOV", 360, 0, 360, 1, ValueDisplay.DEGREES);
@@ -46,16 +46,16 @@ private int timer;
 private Entity target;
 
 	
-	public TelekinesisHack()
+	public AttractorHack()
 	{
-		super("Telekinesis");
+		super("Attractor");
 		setCategory(Category.ITEMS);
-        addSetting(range);
-        addSetting(fov);
-        addSetting(max);
-        addSetting(min);
-        addSetting(delay);
-        addSetting(checkLOS);
+        	addSetting(range);
+        	addSetting(fov);
+        	addSetting(max);
+        	addSetting(min);
+        	addSetting(delay);
+        	addSetting(checkLOS);
 	}
 	
 	@Override
@@ -76,43 +76,41 @@ private Entity target;
 	@Override
 	public void onUpdate()
 	{
-        Stream<Entity> stream = EntityUtils.getEntities();
-        stream = stream.filter(e -> MC.player.squaredDistanceTo(e) <= range.getValueSq());
+        	Stream<Entity> stream = EntityUtils.getEntities();
+        	stream = stream.filter(e -> MC.player.squaredDistanceTo(e) <= range.getValueSq());
 
-        if(fov.getValue() < 360.0) 
-        {
-        stream = stream.filter(e -> RotationUtils.getAngleToLookVec(e.getBoundingBox().getCenter()) <= fov.getValue() / 2.0);
-        }
+        	if(fov.getValue() < 360.0) 
+        	{
+        		stream = stream.filter(e -> RotationUtils.getAngleToLookVec(e.getBoundingBox().getCenter()) <= fov.getValue() / 2.0);
+        	}
 
-        stream = stream.filter(e -> e instanceof ItemEntity || e instanceof TridentEntity || e instanceof ArrowEntity || e instanceof ExperienceOrbEntity);
-        ArrayList<Entity> entities = stream.collect(Collectors.toCollection(ArrayList::new));
-        ClientPlayNetworkHandler netHandler = MC.player.networkHandler;
-        ClientPlayerEntity player = MC.player;
-        Random random = new Random();
-        double rX = min.getValue() + (max.getValue() - min.getValue()) * random.nextDouble();
-        double rZ = min.getValue() + (max.getValue() - min.getValue()) * random.nextDouble();
+        	stream = stream.filter(e -> e instanceof ItemEntity || e instanceof TridentEntity || e instanceof ArrowEntity || e instanceof ExperienceOrbEntity);
+        	ArrayList<Entity> entities = stream.collect(Collectors.toCollection(ArrayList::new));
+        	ClientPlayNetworkHandler netHandler = MC.player.networkHandler;
+        	ClientPlayerEntity player = MC.player;
+        	Random random = new Random();
+        	double rX = min.getValue() + (max.getValue() - min.getValue()) * random.nextDouble();
+        	double rZ = min.getValue() + (max.getValue() - min.getValue()) * random.nextDouble();
 
-
-        // wait for timer
+        	// wait for timer
 		if(timer > 0)
 		{
 			timer--;
 			return;
 		}
-        timer = delay.getValueI();
+        	timer = delay.getValueI();
 
-        for(Entity entity : entities)
-        {
-        Vec3d entityPosition = new Vec3d(entity.getX(), entity.getY(), entity.getZ());
-        BlockPos blockPos = new BlockPos((int)entityPosition.x, (int)entityPosition.y, (int)entityPosition.z);
+        	for(Entity entity : entities)
+        	{
+        		Vec3d entityPosition = new Vec3d(entity.getX(), entity.getY(), entity.getZ());
+        		BlockPos blockPos = new BlockPos((int)entityPosition.x, (int)entityPosition.y, (int)entityPosition.z);
 
-        if(checkLOS.isChecked() && !BlockUtils.hasLineOfSight(entityPosition))
-	     {
-          continue;
-		 }
+        		if(checkLOS.isChecked() && !BlockUtils.hasLineOfSight(entityPosition))
+	     		{
+          			continue;
+			}
 
-        netHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(entity.getX()+rX, entity.getY(), entity.getZ()+rZ, entity.isOnGround()));
-        }
-  }
-
+        		netHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(entity.getX()+rX, entity.getY(), entity.getZ()+rZ, entity.isOnGround()));
+        	}
+  	}
 }
