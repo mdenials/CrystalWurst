@@ -133,8 +133,8 @@ public class PathFinder
 		ArrayList<PathPos> neighbors = new ArrayList<>();
 		
 		// abort if too far away
-		if(Math.abs(start.getX() - pos.getX()) > 256
-			|| Math.abs(start.getZ() - pos.getZ()) > 256)
+		if(Math.abs(start.getX() - pos.getX()) > landRange
+			|| Math.abs(start.getZ() - pos.getZ()) > landRange)
 			return neighbors;
 		
 		// get all neighbors
@@ -575,7 +575,7 @@ public class PathFinder
 			RenderSystem.setShaderColor(1, 1, 0, 0.75F);
 			for(PathPos element : queue.toArray())
 			{
-				if(renderedThings >= 5000)
+				if(renderedThings > renderLimit)
 					break;
 				
 				PathRenderer.renderNode(matrixStack, element, region);
