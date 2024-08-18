@@ -38,10 +38,14 @@ public final class HackList implements UpdateListener
 		new AntiEntityPushHack();
 	public final AntiHungerHack antiHungerHack = new AntiHungerHack();
 	public final AntiKnockbackHack antiKnockbackHack = new AntiKnockbackHack();
+	public final AntiPacketKickHack antiPacketKickHack = new AntiPacketKickHack();
+	public final AntiServerHack antiServerHack = new AntiServerHack();
 	public final AntiSpamHack antiSpamHack = new AntiSpamHack();
 	public final AntiWaterPushHack antiWaterPushHack = new AntiWaterPushHack();
 	public final AntiWobbleHack antiWobbleHack = new AntiWobbleHack();
 	public final ArrowDmgHack arrowDmgHack = new ArrowDmgHack();
+	public final ArrowDodgeHack arrowDodgeHack = new ArrowDodgeHack();
+	public final AttractorHack attractorHack = new AttractorHack();
 	public final AutoArmorHack autoArmorHack = new AutoArmorHack();
 	public final AutoBuildHack autoBuildHack = new AutoBuildHack();
 	public final AutoCompleteHack autoCompleteHack = new AutoCompleteHack();
@@ -108,7 +112,9 @@ public final class HackList implements UpdateListener
 	public final HeadRollHack headRollHack = new HeadRollHack();
 	public final HealthTagsHack healthTagsHack = new HealthTagsHack();
 	public final HighJumpHack highJumpHack = new HighJumpHack();
+	public final HitboxHack hitboxHack = new HitboxHack();
 	public final InfiniChatHack infiniChatHack = new InfiniChatHack();
+	public final InfinityAuraHack infinityAuraHack = new InfinityAuraHack();
 	public final InstantBunkerHack instantBunkerHack = new InstantBunkerHack();
 	public final InvWalkHack invWalkHack = new InvWalkHack();
 	public final ItemEspHack itemEspHack = new ItemEspHack();
@@ -137,12 +143,13 @@ public final class HackList implements UpdateListener
 	public final NoFallHack noFallHack = new NoFallHack();
 	public final NoFireOverlayHack noFireOverlayHack = new NoFireOverlayHack();
 	public final NoFogHack noFogHack = new NoFogHack();
+	public final NoFrictionHack noFrictionHack = new NoFrictionHack();
 	public final NoHurtcamHack noHurtcamHack = new NoHurtcamHack();
 	public final NoLevitationHack noLevitationHack = new NoLevitationHack();
 	public final NoOverlayHack noOverlayHack = new NoOverlayHack();
+	public final NoPitchLimitHack noPitchLimitHack = new NoPitchLimitHack();
 	public final NoPumpkinHack noPumpkinHack = new NoPumpkinHack();
-	public final NoShieldOverlayHack noShieldOverlayHack =
-		new NoShieldOverlayHack();
+	public final NoShieldOverlayHack noShieldOverlayHack = new NoShieldOverlayHack();
 	public final NoSlowdownHack noSlowdownHack = new NoSlowdownHack();
 	public final NoWeatherHack noWeatherHack = new NoWeatherHack();
 	public final NoWebHack noWebHack = new NoWebHack();
@@ -173,6 +180,8 @@ public final class HackList implements UpdateListener
 	public final SpeedNukerHack speedNukerHack = new SpeedNukerHack();
 	public final SpiderHack spiderHack = new SpiderHack();
 	public final StepHack stepHack = new StepHack();
+	public final StrongholdFinderHack strongholdFinderHack = new StrongholdFinderHack();
+	public final SuperKnockbackHack superKnockbackHack = new SuperKnockbackHack();
 	public final TemplateToolHack templateToolHack = new TemplateToolHack();
 	public final ThrowHack throwHack = new ThrowHack();
 	public final TillauraHack tillauraHack = new TillauraHack();
