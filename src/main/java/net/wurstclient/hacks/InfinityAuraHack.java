@@ -73,7 +73,6 @@ public final class InfinityAuraHack extends Hack implements UpdateListener
     	private final SliderSetting fov = new SliderSetting("FOV", 360, 1, 360, 1, ValueDisplay.DEGREES);
 	private final PauseAttackOnContainersSetting pauseOnContainers = new PauseAttackOnContainersSetting(false);
     	private final CheckboxSetting checkLOS = new CheckboxSetting("Check line of sight", false);
-    	private final CheckboxSetting crit = new CheckboxSetting("Critical hits", "Do critical hits", true);
 
     	private double iX,iY,iZ;
     	private Entity target;
@@ -92,7 +91,6 @@ public final class InfinityAuraHack extends Hack implements UpdateListener
         	addSetting(fov);
 		addSetting(pauseOnContainers);
         	addSetting(checkLOS);
-        	addSetting(crit);
 		
 		entityFilters.forEach(this::addSetting);
 	}
@@ -167,11 +165,6 @@ public final class InfinityAuraHack extends Hack implements UpdateListener
 		}
 
 		if(entities.isEmpty()) return;
-
-        	if (crit.isChecked())
-        	{
-            		WURST.getHax().criticalsHack.doCritical();
-        	}
 
         	if(mode.getSelected() == Mode.SINGLE)
         	{
