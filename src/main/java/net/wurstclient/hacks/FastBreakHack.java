@@ -90,7 +90,6 @@ public final class FastBreakHack extends Hack
 	public void onBlockBreakingProgress(BlockBreakingProgressEvent event)
 	{
 		BlockPos blockPos = event.getBlockPos();
-		Action action = PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK;
 		Direction direction = event.getDirection();
 		float bProgress = breakProgress.getValueF();
 		// Ignore unbreakable blocks to avoid slowdown issue
@@ -111,9 +110,11 @@ public final class FastBreakHack extends Hack
 			if (MC.interactionManager.currentBreakingProgress >= bProgress)
 				MC.interactionManager.currentBreakingProgress = 1F;
 		}
+		
 		if(mode.getSelected() == Mode.PACKET)
 		{
-			IMC.getInteractionManager().sendPlayerActionC2SPacket(action, blockPos, direction);
+			IMC.getInteractionManager().sendPlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, blockPos, direction);
+			IMC.getInteractionManager().sendPlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, blockPos, direction);
 		}	
 	}
 	
