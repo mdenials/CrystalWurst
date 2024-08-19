@@ -13,6 +13,7 @@ import net.wurstclient.SearchTags;
 import net.wurstclient.events.KnockbackListener;
 import net.wurstclient.events.PacketInputListener;
 import net.wurstclient.hack.Hack;
+import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
