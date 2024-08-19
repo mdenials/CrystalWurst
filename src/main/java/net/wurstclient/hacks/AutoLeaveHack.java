@@ -112,6 +112,7 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 		
 		private final String name;
 		private final Runnable leave;
+		public static char = invalidChar.getValue()
 		
 		private Mode(String name, Runnable leave)
 		{
