@@ -30,6 +30,9 @@ public final class FlightHack extends Hack
 		"Vertical Speed",
 		"\u00a7c\u00a7lWARNING:\u00a7r Setting this too high can cause fall damage, even with NoFall.",
 		1, 0.05, 5, 0.05, ValueDisplay.DECIMAL);
+
+	public final SliderSetting hpower = new SliderSetting("Horizontal Power", 1, 1, 38, 1, ValueDisplay.INTEGER);
+    	public final SliderSetting vpower = new SliderSetting("Vertical Power", 1, 1, 38, 1, ValueDisplay.INTEGER);
 	
 	private final CheckboxSetting slowSneaking = new CheckboxSetting(
 		"Slow sneaking",
@@ -44,14 +47,14 @@ public final class FlightHack extends Hack
 		new SliderSetting("Anti-Kick Interval",
 			"How often Anti-Kick should prevent you from getting kicked.\n"
 				+ "Most servers will kick you after 80 ticks.",
-			30, 5, 80, 1,
+			30, 0, 1200, 1,
 			ValueDisplay.INTEGER.withSuffix(" ticks").withLabel(1, "1 tick"));
 	
 	private final SliderSetting antiKickDistance = new SliderSetting(
 		"Anti-Kick Distance",
 		"How far Anti-Kick should make you fall.\n"
 			+ "Most servers require at least 0.032m to stop you from getting kicked.",
-		0.07, 0.01, 0.2, 0.001, ValueDisplay.DECIMAL.withSuffix("m"));
+		0.07, 0, 512, 0.001, ValueDisplay.DECIMAL.withSuffix("m"));
 	
 	private int tickCounter = 0;
 	
@@ -61,6 +64,8 @@ public final class FlightHack extends Hack
 		setCategory(Category.MOVEMENT);
 		addSetting(horizontalSpeed);
 		addSetting(verticalSpeed);
+		addSetting(hpower);
+        	addSetting(vpower);
 		addSetting(slowSneaking);
 		addSetting(antiKick);
 		addSetting(antiKickInterval);
@@ -97,14 +102,14 @@ public final class FlightHack extends Hack
 		
 		player.setVelocity(0, 0, 0);
 		Vec3d velocity = player.getVelocity();
+
+		double speed = (double)Math.pow(verticalSpeed.getValue(), vpower.getValueI());
 		
 		if(MC.options.jumpKey.isPressed())
-			player.setVelocity(velocity.x, verticalSpeed.getValue(),
-				velocity.z);
+			player.setVelocity(velocity.x, speed, velocity.z);
 		
 		if(MC.options.sneakKey.isPressed())
-			player.setVelocity(velocity.x, -verticalSpeed.getValue(),
-				velocity.z);
+			player.setVelocity(velocity.x, -speed, velocity.z);
 		
 		if(antiKick.isChecked())
 			doAntiKick(velocity);
@@ -113,7 +118,7 @@ public final class FlightHack extends Hack
 	@Override
 	public void onGetAirStrafingSpeed(AirStrafingSpeedEvent event)
 	{
-		float speed = horizontalSpeed.getValueF();
+		float speed = (float)Math.pow(horizontalSpeed.getValueF(), hpower.getValueI());
 		
 		if(MC.options.sneakKey.isPressed() && slowSneaking.isChecked())
 			speed = Math.min(speed, 0.85F);
