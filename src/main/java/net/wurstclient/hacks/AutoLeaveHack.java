@@ -107,12 +107,12 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 	public static enum Mode
 	{
 		QUIT("Quit", () -> MC.world.disconnect()),
-		CHARS("Chars", () -> MC.getNetworkHandler().sendChatMessage(char)),
+		CHARS("Chars", () -> MC.getNetworkHandler().sendChatMessage(chars)),
 		SELFHURT("SelfHurt", () -> MC.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack(MC.player, MC.player.isSneaking())));
 		
 		private final String name;
 		private final Runnable leave;
-		static String char = invalidChar.getValue();
+		static String chars = invalidChar.getValue();
 		
 		private Mode(String name, Runnable leave)
 		{
