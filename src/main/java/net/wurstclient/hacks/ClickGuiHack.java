@@ -33,19 +33,19 @@ public final class ClickGuiHack extends Hack
 		new ColorSetting("Text", "Text color", new Color(0xF0F0F0));
 	
 	private final SliderSetting opacity = new SliderSetting("Opacity", 0.5,
-		0.15, 0.85, 0.01, ValueDisplay.PERCENTAGE);
+		0, 1, 0.01, ValueDisplay.PERCENTAGE);
 	
 	private final SliderSetting ttOpacity = new SliderSetting("Tooltip opacity",
-		0.75, 0.15, 1, 0.01, ValueDisplay.PERCENTAGE);
+		0.75, 0, 1, 0.01, ValueDisplay.PERCENTAGE);
 	
 	private final SliderSetting maxHeight = new SliderSetting("Max height",
-		"Maximum window height\n" + "0 = no limit", 200, 0, 1000, 50,
+		"Maximum window height\n" + "0 = no limit", 200, 0, 1000, 1,
 		ValueDisplay.INTEGER);
 	
 	private final SliderSetting maxSettingsHeight =
 		new SliderSetting("Max settings height",
 			"Maximum height for settings windows\n" + "0 = no limit", 200, 0,
-			1000, 50, ValueDisplay.INTEGER);
+			1000, 1, ValueDisplay.INTEGER);
 	
 	public ClickGuiHack()
 	{
