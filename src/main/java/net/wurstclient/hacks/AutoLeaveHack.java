@@ -13,6 +13,7 @@ import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.events.UpdateListener;
 import net.wurstclient.hack.Hack;
+import net.wurstclient.settings.TextFieldSetting;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.EnumSetting;
 import net.wurstclient.settings.SliderSetting;
@@ -25,7 +26,7 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 {
 	private final SliderSetting health = new SliderSetting("Health",
 		"Leaves the server when your health reaches this value or falls below it.",
-		4, 0.5, 9.5, 0.5, ValueDisplay.DECIMAL.withSuffix(" hearts"));
+		4, 0, 20, 0.000001, ValueDisplay.DECIMAL.withSuffix(" hearts"));
 	
 	public final EnumSetting<Mode> mode = new EnumSetting<>("Mode",
 		"\u00a7lQuit\u00a7r mode just quits the game normally.\n"
@@ -38,6 +39,8 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 			+ " target, causing the server to kick you.\n"
 			+ "Bypasses both CombatLog and NoCheat+.",
 		Mode.values(), Mode.QUIT);
+
+	private final TextFieldSetting invalidChar = new TextFieldSetting("InvalidCharField", "\u00a7");
 	
 	private final CheckboxSetting disableAutoReconnect = new CheckboxSetting(
 		"Disable AutoReconnect", "Automatically turns off AutoReconnect when"
@@ -48,8 +51,7 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 		"Won't leave the server until the number of totems you have reaches"
 			+ " this value or falls below it.\n\n"
 			+ "11 = always able to leave",
-		11, 0, 11, 1, ValueDisplay.INTEGER.withSuffix(" totems")
-			.withLabel(1, "1 totem").withLabel(11, "ignore"));
+		11, 0, 36, 1, ValueDisplay.INTEGER.withSuffix(" totems"));
 	
 	public AutoLeaveHack()
 	{
@@ -57,6 +59,7 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 		setCategory(Category.COMBAT);
 		addSetting(health);
 		addSetting(mode);
+		addSetting(invalidChar);
 		addSetting(disableAutoReconnect);
 		addSetting(totems);
 	}
@@ -84,26 +87,18 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 	
 	@Override
 	public void onUpdate()
-	{
-		// check gamemode
-		if(MC.player.getAbilities().creativeMode)
-			return;
-		
+	{		
 		// check health
 		float currentHealth = MC.player.getHealth();
-		if(currentHealth <= 0F || currentHealth > health.getValueF() * 2F)
+		if(currentHealth <= 0F || currentHealth > health.getValueF())
 			return;
 		
 		// check totems
-		if(totems.getValueI() < 11 && InventoryUtils
-			.count(Items.TOTEM_OF_UNDYING, 40, true) > totems.getValueI())
+		if(InventoryUtils.count(Items.TOTEM_OF_UNDYING, 40, true) > totems.getValueI())
 			return;
 		
 		// leave server
 		mode.getSelected().leave.run();
-		
-		// disable
-		setEnabled(false);
 		
 		if(disableAutoReconnect.isChecked())
 			WURST.getHax().autoReconnectHack.setEnabled(false);
@@ -112,13 +107,8 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 	public static enum Mode
 	{
 		QUIT("Quit", () -> MC.world.disconnect()),
-		
-		CHARS("Chars", () -> MC.getNetworkHandler().sendChatMessage("\u00a7")),
-		
-		SELFHURT("SelfHurt",
-			() -> MC.getNetworkHandler()
-				.sendPacket(PlayerInteractEntityC2SPacket.attack(MC.player,
-					MC.player.isSneaking())));
+		CHARS("Chars", () -> MC.getNetworkHandler().sendChatMessage(invalidChar.getValue())),
+		SELFHURT("SelfHurt", () -> MC.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack(MC.player, MC.player.isSneaking())));
 		
 		private final String name;
 		private final Runnable leave;
