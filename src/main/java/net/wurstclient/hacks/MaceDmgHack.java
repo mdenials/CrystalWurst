@@ -15,15 +15,19 @@ import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.events.PlayerAttacksEntityListener;
 import net.wurstclient.hack.Hack;
+import net.wurstclient.settings.SliderSetting;
+import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 @SearchTags({"mace dmg", "MaceDamage", "mace damage"})
-public final class MaceDmgHack extends Hack
-	implements PlayerAttacksEntityListener
+public final class MaceDmgHack extends Hack implements PlayerAttacksEntityListener
 {
+	private final SliderSetting strength = new SliderSetting("Strength", 10, 0, 2147483647, 1, ValueDisplay.INTEGER);
+	
 	public MaceDmgHack()
 	{
 		super("MaceDMG");
 		setCategory(Category.COMBAT);
+		addSetting(strength);
 	}
 	
 	@Override
@@ -41,8 +45,7 @@ public final class MaceDmgHack extends Hack
 	@Override
 	public void onPlayerAttacksEntity(Entity target)
 	{
-		if(MC.crosshairTarget == null
-			|| MC.crosshairTarget.getType() != HitResult.Type.ENTITY)
+		if(MC.crosshairTarget == null || MC.crosshairTarget.getType() != HitResult.Type.ENTITY)
 			return;
 		
 		if(!MC.player.getMainHandStack().isOf(Items.MACE))
@@ -52,15 +55,13 @@ public final class MaceDmgHack extends Hack
 		// for why it's using these numbers.
 		// Also, let me know if you find a way to bypass that check in 1.21.
 		for(int i = 0; i < 4; i++)
-			sendFakeY(0);
-		sendFakeY(Math.sqrt(500));
+		sendFakeY(0);
+		sendFakeY(strength.getValueI());
 		sendFakeY(0);
 	}
 	
 	private void sendFakeY(double offset)
 	{
-		MC.player.networkHandler
-			.sendPacket(new PositionAndOnGround(MC.player.getX(),
-				MC.player.getY() + offset, MC.player.getZ(), false));
+		MC.player.networkHandler.sendPacket(new PositionAndOnGround(MC.player.getX(), MC.player.getY() + offset, MC.player.getZ(), false));
 	}
 }
