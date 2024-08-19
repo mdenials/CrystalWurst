@@ -65,8 +65,7 @@ public class EntityFilterList
 			FilterSleepingSetting.genericCombat(false),
 			FilterFlyingSetting.genericCombat(0),
 			FilterHostileSetting.genericCombat(false),
-			FilterNeutralSetting
-				.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
+			FilterNeutralSetting.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
 			FilterPassiveSetting.genericCombat(false),
 			FilterPassiveWaterSetting.genericCombat(false),
 			FilterBabiesSetting.genericCombat(false),
@@ -76,17 +75,15 @@ public class EntityFilterList
 			FilterVillagersSetting.genericCombat(false),
 			FilterZombieVillagersSetting.genericCombat(false),
 			FilterGolemsSetting.genericCombat(false),
-			FilterPiglinsSetting
-				.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
-			FilterZombiePiglinsSetting
-				.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
-			FilterEndermenSetting
-				.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
+			FilterPiglinsSetting.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
+			FilterZombiePiglinsSetting.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
+			FilterEndermenSetting.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
 			FilterShulkersSetting.genericCombat(false),
 			FilterAllaysSetting.genericCombat(false),
 			FilterInvisibleSetting.genericCombat(false),
 			FilterNamedSetting.genericCombat(false),
 			FilterShulkerBulletSetting.genericCombat(false),
+			FilterFireballSetting.genericCombat(false),
 			FilterArmorStandsSetting.genericCombat(false),
 			FilterCrystalsSetting.genericCombat(false));
 	}
