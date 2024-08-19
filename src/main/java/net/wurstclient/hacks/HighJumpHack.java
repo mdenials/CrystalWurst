@@ -19,7 +19,7 @@ public final class HighJumpHack extends Hack
 	private final SliderSetting height = new SliderSetting("Height",
 		"Jump height in blocks.\n"
 			+ "This gets very inaccurate at higher values.",
-		6, 1, 100, 1, ValueDisplay.INTEGER);
+		6, 1, 2147483647, 1, ValueDisplay.INTEGER);
 	
 	public HighJumpHack()
 	{
