@@ -8,6 +8,7 @@
 package net.wurstclient.hacks;
 
 import java.util.Random;
+import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.events.KnockbackListener;
