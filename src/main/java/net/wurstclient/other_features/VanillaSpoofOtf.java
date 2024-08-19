@@ -14,6 +14,7 @@ import net.wurstclient.SearchTags;
 import net.wurstclient.events.ConnectionPacketOutputListener;
 import net.wurstclient.other_feature.OtherFeature;
 import net.wurstclient.settings.CheckboxSetting;
+import net.wurstclient.settings.TextFieldSetting;
 
 @DontBlock
 @SearchTags({"vanilla spoof", "AntiFabric", "anti fabric", "LibHatesMods",
@@ -21,6 +22,9 @@ import net.wurstclient.settings.CheckboxSetting;
 public final class VanillaSpoofOtf extends OtherFeature
 	implements ConnectionPacketOutputListener
 {
+	private final TextFieldSetting stringSetup =
+		new TextFieldSetting("Spoof string", "vanilla");
+	
 	private final CheckboxSetting spoof =
 		new CheckboxSetting("Spoof Vanilla", false);
 	
@@ -28,6 +32,7 @@ public final class VanillaSpoofOtf extends OtherFeature
 	{
 		super("VanillaSpoof",
 			"Bypasses anti-Fabric plugins by pretending to be a vanilla client.");
+		addSetting(stringSetup);
 		addSetting(spoof);
 		
 		EVENTS.add(ConnectionPacketOutputListener.class, this);
@@ -44,8 +49,7 @@ public final class VanillaSpoofOtf extends OtherFeature
 		
 		// change client brand "fabric" back to "vanilla"
 		if(packet.payload() instanceof BrandCustomPayload)
-			event.setPacket(
-				new CustomPayloadC2SPacket(new BrandCustomPayload("vanilla")));
+			event.setPacket(new CustomPayloadC2SPacket(new BrandCustomPayload(stringSetup.getValue())));
 			
 		// cancel Fabric's "c:version", "c:register" and
 		// "fabric:custom_ingredient_sync" packets
