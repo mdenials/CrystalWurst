@@ -49,6 +49,9 @@ public final class FreecamHack extends Hack implements UpdateListener,
 	IsPlayerInLavaListener, CameraTransformViewBobbingListener,
 	IsNormalCubeListener, SetOpaqueCubeListener, RenderListener
 {
+	public final SliderSetting horizontalSpeed = new SliderSetting("Horizontal Speed", 1, 0, 20, 0.000001, ValueDisplay.DECIMAL);
+	public final SliderSetting verticalSpeed = new SliderSetting("Vertical Speed", 1, 0, 20, 0.000001, ValueDisplay.DECIMAL);
+	
 	private final SliderSetting speed =
 		new SliderSetting("Speed", 1, 0.05, 10, 0.05, ValueDisplay.DECIMAL);
 	
@@ -65,6 +68,8 @@ public final class FreecamHack extends Hack implements UpdateListener,
 		super("Freecam");
 		setCategory(Category.RENDER);
 		addSetting(speed);
+		addSetting(horizontalSpeed);
+		addSetting(verticalSpeed);
 		addSetting(tracer);
 		addSetting(color);
 	}
@@ -125,16 +130,16 @@ public final class FreecamHack extends Hack implements UpdateListener,
 		Vec3d velocity = player.getVelocity();
 		
 		if(MC.options.jumpKey.isPressed())
-			player.setVelocity(velocity.add(0, speed.getValue(), 0));
+			player.setVelocity(velocity.add(0, verticalSpeed.getValue(), 0));
 		
 		if(MC.options.sneakKey.isPressed())
-			player.setVelocity(velocity.subtract(0, speed.getValue(), 0));
+			player.setVelocity(velocity.subtract(0, verticalSpeed.getValue(), 0));
 	}
 	
 	@Override
 	public void onGetAirStrafingSpeed(AirStrafingSpeedEvent event)
 	{
-		event.setSpeed(speed.getValueF());
+		event.setSpeed(horizontalSpeed.getValueF());
 	}
 	
 	@Override
