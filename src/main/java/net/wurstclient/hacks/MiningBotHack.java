@@ -86,16 +86,26 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 			+ " This is the most legit option.");
 
     public final BlockListSetting oresList = new BlockListSetting("Ores List", "The types of blocks to break", 
-    "minecraft:oak_log", 
-    "minecraft:birch_log", 
-    "minecraft:spruce_log", 
-    "minecraft:mangrove_log",
-    "minecraft:jungle_log",
-    "minecraft:acacia_log",
-    "minecraft:dark_oak_log",
-    "minecraft:cherry_log");
+    	"minecraft:oak_log", 
+    	"minecraft:birch_log", 
+    	"minecraft:spruce_log", 
+    	"minecraft:mangrove_log",
+    	"minecraft:jungle_log",
+    	"minecraft:acacia_log",
+    	"minecraft:dark_oak_log",
+    	"minecraft:cherry_log");
 
-    public final BlockListSetting filterList = new BlockListSetting("Filter List", "The types of blocks to be filtered", "minecraft:air");
+    public final BlockListSetting filterList = new BlockListSetting("Leaves List", "The types of blocks to be leaves",
+	"minecraft:oak_leaves",
+	"minecraft:birch_leaves",
+	"minecraft:spruce_leaves",
+	"minecraft:mangrove_leaves",
+	"minecraft:jungle_leaves",
+	"minecraft:acacia_leaves",
+	"minecraft:dark_oak_leaves",
+	"minecraft:cherry_leaves",
+	"minecraft:azalea_leaves",
+	"minecraft:flowering_azalea_leaves");
 
 	private MiningFinder miningFinder;
 	private AngleFinder angleFinder;
