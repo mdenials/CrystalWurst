@@ -13,7 +13,6 @@ import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.events.UpdateListener;
 import net.wurstclient.hack.Hack;
-import net.wurstclient.settings.TextFieldSetting;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.EnumSetting;
 import net.wurstclient.settings.SliderSetting;
@@ -39,8 +38,6 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 			+ " target, causing the server to kick you.\n"
 			+ "Bypasses both CombatLog and NoCheat+.",
 		Mode.values(), Mode.QUIT);
-
-	private final TextFieldSetting invalidChar = new TextFieldSetting("InvalidCharField", "\u00a7");
 	
 	private final CheckboxSetting disableAutoReconnect = new CheckboxSetting(
 		"Disable AutoReconnect", "Automatically turns off AutoReconnect when"
@@ -59,7 +56,6 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 		setCategory(Category.COMBAT);
 		addSetting(health);
 		addSetting(mode);
-		addSetting(invalidChar);
 		addSetting(disableAutoReconnect);
 		addSetting(totems);
 	}
@@ -107,12 +103,10 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 	public static enum Mode
 	{
 		QUIT("Quit", () -> MC.world.disconnect()),
-		CHARS("Chars", () -> MC.getNetworkHandler().sendChatMessage(chars)),
 		SELFHURT("SelfHurt", () -> MC.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack(MC.player, MC.player.isSneaking())));
-		
+
 		private final String name;
 		private final Runnable leave;
-		static String chars = invalidChar.getValue();
 		
 		private Mode(String name, Runnable leave)
 		{
