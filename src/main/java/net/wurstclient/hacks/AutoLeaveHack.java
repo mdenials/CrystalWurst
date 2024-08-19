@@ -52,7 +52,8 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 			+ " this value or falls below it.\n\n"
 			+ "11 = always able to leave",
 		11, 0, 36, 1, ValueDisplay.INTEGER.withSuffix(" totems"));
-	
+
+	private static String char = invalidChar.getValue();
 	public AutoLeaveHack()
 	{
 		super("AutoLeave");
@@ -112,7 +113,6 @@ public final class AutoLeaveHack extends Hack implements UpdateListener
 		
 		private final String name;
 		private final Runnable leave;
-		static String char = invalidChar.getValue();
 		
 		private Mode(String name, Runnable leave)
 		{
