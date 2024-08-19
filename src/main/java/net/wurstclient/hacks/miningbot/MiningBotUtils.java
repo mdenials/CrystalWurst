@@ -19,12 +19,12 @@ public enum MiningBotUtils
 	
 	public static boolean isLog(BlockPos pos)
 	{
-        return WurstClient.INSTANCE.getHax().miningBotHack.oresList.getBlockNames().contains(BlockUtils.getName(pos)); 
+        	return WurstClient.INSTANCE.getHax().miningBotHack.oresList.getBlockNames().contains(BlockUtils.getName(pos)); 
 	}
 
-    public static boolean isLeaves(BlockPos pos)
+    	public static boolean isLeaves(BlockPos pos)
 	{
-        //BlockState state = BlockUtils.getState(pos); return !state.isAir();
-        return !WurstClient.INSTANCE.getHax().miningBotHack.filterList.getBlockNames().contains(BlockUtils.getName(pos)); 
+        	//BlockState state = BlockUtils.getState(pos); return !state.isAir();
+        	return WurstClient.INSTANCE.getHax().miningBotHack.filterList.getBlockNames().contains(BlockUtils.getName(pos)); 
 	}
 }
