@@ -7,16 +7,18 @@
  */
 package net.wurstclient.hacks;
 
+import java.util.Random;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.events.KnockbackListener;
+import net.wurstclient.events.PacketInputListener;
 import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 @SearchTags({"anti knockback", "AntiVelocity", "anti velocity", "NoKnockback",
 	"no knockback", "AntiKB", "anti kb"})
-public final class AntiKnockbackHack extends Hack implements KnockbackListener
+public final class AntiKnockbackHack extends Hack implements KnockbackListener, PacketInputListener
 {
 	private final SliderSetting hStrength =
 		new SliderSetting("Horizontal Strength",
@@ -30,25 +32,33 @@ public final class AntiKnockbackHack extends Hack implements KnockbackListener
 				+ ">100% = reverse knockback",
 			1, 0.01, 2, 0.01, ValueDisplay.PERCENTAGE);
 	
+	private final SliderSetting activationChance = new SliderSetting("Activation chance", 1, 0, 1, 0.000001, ValueDisplay.PERCENTAGE);
+	private final CheckboxSetting explosionBypass = new CheckboxSetting("Explosion Bypass", "Bypass explosions. => No knockback\n\nBut no particle and no sound.", true);
+	
+	private final Random random = new Random();
+	
 	public AntiKnockbackHack()
 	{
 		super("AntiKnockback");
-		
 		setCategory(Category.COMBAT);
 		addSetting(hStrength);
 		addSetting(vStrength);
+		addSetting(activationChance);
+		addSetting(explosionBypass);
 	}
 	
 	@Override
 	protected void onEnable()
 	{
 		EVENTS.add(KnockbackListener.class, this);
+		EVENTS.add(PacketInputListener.class, this);
 	}
 	
 	@Override
 	protected void onDisable()
 	{
 		EVENTS.remove(KnockbackListener.class, this);
+		EVENTS.remove(PacketInputListener.class, this);
 	}
 	
 	@Override
@@ -57,8 +67,21 @@ public final class AntiKnockbackHack extends Hack implements KnockbackListener
 		double verticalMultiplier = 1 - vStrength.getValue();
 		double horizontalMultiplier = 1 - hStrength.getValue();
 		
+		if (!(random.nextDouble() <= activationChance.getValue()))
+			return;
+		
 		event.setX(event.getDefaultX() * horizontalMultiplier);
 		event.setY(event.getDefaultY() * verticalMultiplier);
 		event.setZ(event.getDefaultZ() * horizontalMultiplier);
+	}
+
+	@Override
+	public void onReceivedPacket(PacketInputEvent event)
+	{
+		if (!(random.nextDouble() <= activationChance.getValue()))
+			return;
+		
+		if (event.getPacket() instanceof ExplosionS2CPacket && explosionBypass.isChecked())
+			event.cancel();
 	}
 }
