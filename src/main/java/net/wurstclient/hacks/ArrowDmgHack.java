@@ -27,7 +27,7 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 public final class ArrowDmgHack extends Hack implements StopUsingItemListener
 {
 	private final SliderSetting strength = new SliderSetting("Strength",
-		"description.wurst.setting.arrowdmg.strength", 10, 0.1, 10, 0.1,
+		"description.wurst.setting.arrowdmg.strength", 10, 0, 2147, 0.000001,
 		ValueDisplay.DECIMAL);
 	
 	private final CheckboxSetting yeetTridents =
@@ -63,8 +63,7 @@ public final class ArrowDmgHack extends Hack implements StopUsingItemListener
 		if(!isValidItem(player.getMainHandStack().getItem()))
 			return;
 		
-		netHandler.sendPacket(
-			new ClientCommandC2SPacket(player, Mode.START_SPRINTING));
+		netHandler.sendPacket(new ClientCommandC2SPacket(player, Mode.START_SPRINTING));
 		
 		double x = player.getX();
 		double y = player.getY();
@@ -76,8 +75,8 @@ public final class ArrowDmgHack extends Hack implements StopUsingItemListener
 		double adjustedStrength = strength.getValue() / 10.0 * Math.sqrt(500);
 		Vec3d lookVec = player.getRotationVec(1).multiply(adjustedStrength);
 		for(int i = 0; i < 4; i++)
-			sendPos(x, y, z, true);
-		sendPos(x - lookVec.x, y, z - lookVec.z, true);
+		sendPos(x, y, z, true);
+		sendPos(x - lookVec.x, y - lookVec.y, z - lookVec.z, true);
 		sendPos(x, y, z, false);
 	}
 	
