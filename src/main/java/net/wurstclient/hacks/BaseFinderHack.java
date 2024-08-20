@@ -46,8 +46,8 @@ import net.wurstclient.util.RenderUtils;
 public final class BaseFinderHack extends Hack
 	implements UpdateListener, RenderListener
 {
-	public final SliderSetting XZrange = new SliderSetting("Search Range","Max search range", 100, 0, 512, 1, ValueDisplay.INTEGER);
-	public final SliderSetting Yrange = new SliderSetting("Search Range","Max search range", 100, 0, 512, 1, ValueDisplay.INTEGER);
+	public final SliderSetting XZrange = new SliderSetting("XZ Search Range","Max search range", 100, 0, 512, 1, ValueDisplay.INTEGER);
+	public final SliderSetting Yrange = new SliderSetting("Y Search Range","Max search range", 100, 0, 512, 1, ValueDisplay.INTEGER);
 	
 	private final BlockListSetting naturalBlocks = new BlockListSetting(
 		"Natural Blocks",
