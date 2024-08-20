@@ -44,6 +44,9 @@ import net.wurstclient.util.RenderUtils;
 public final class BaseFinderHack extends Hack
 	implements UpdateListener, RenderListener
 {
+	public final SliderSetting XZrange = new SliderSetting("Search Range","Max search range", 100, 0, 512, 1, ValueDisplay.INTEGER);
+	public final SliderSetting Yrange = new SliderSetting("Search Range","Max search range", 100, 0, 512, 1, ValueDisplay.INTEGER);
+	
 	private final BlockListSetting naturalBlocks = new BlockListSetting(
 		"Natural Blocks",
 		"These blocks will be considered part of natural generation.\n\n"
@@ -111,6 +114,8 @@ public final class BaseFinderHack extends Hack
 	{
 		super("BaseFinder");
 		setCategory(Category.RENDER);
+		addSetting(XZrange);
+		addSetting(Yrange);
 		addSetting(naturalBlocks);
 		addSetting(limit);
 		addSetting(color);
@@ -232,26 +237,22 @@ public final class BaseFinderHack extends Hack
 		}
 		
 		// reset matching blocks
-		if(modulo == 0)
-			matchingBlocks.clear();
-
+		if(modulo == 0) matchingBlocks.clear();
+		int hdist = XZrange.getValueI();
+		int vdist = Yrange.getValueI();
 		int lim = limit.getValueLog();
-		int stepSize = MC.world.getHeight() / 64;
-		int startY = MC.world.getTopY() - 1 - modulo * stepSize;
-		int endY = startY - stepSize;
 		BlockPos playerPos = BlockPos.ofFloored(MC.player.getX(), 0, MC.player.getZ());
 		
 		
 		// search matching blocks
-		loop: for(int y = startY; y > endY; y--)
-			for(int x = 64; x > -64; x--)
-				for(int z = 64; z > -64; z--)
+		loop: for(int x = hdist; x > -hdist; x--)
+			for(int z = hdist; z > -hdist; z--)
+				for(int y = vdist; y > -vdist; y--)
 				{
 					if(matchingBlocks.size() >= lim)
 						break loop;
 					
-					BlockPos pos = new BlockPos(playerPos.getX() + x, y,
-						playerPos.getZ() + z);
+					BlockPos pos = new BlockPos(playerPos.getX() + x, y, playerPos.getZ() + z);
 					
 					if(Collections.binarySearch(blockNames,
 						BlockUtils.getName(pos)) >= 0)
