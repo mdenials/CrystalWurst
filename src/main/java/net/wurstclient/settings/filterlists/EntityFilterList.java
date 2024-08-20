@@ -63,7 +63,6 @@ public class EntityFilterList
 	{
 		return new EntityFilterList(FilterPlayersSetting.genericCombat(false),
 			FilterSleepingSetting.genericCombat(false),
-			FilterFlyingSetting.genericCombat(0),
 			FilterHostileSetting.genericCombat(false),
 			FilterNeutralSetting.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
 			FilterPassiveSetting.genericCombat(false),
