@@ -29,6 +29,7 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -40,13 +41,14 @@ import net.wurstclient.events.UpdateListener;
 import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.EspBoxSizeSetting;
 import net.wurstclient.settings.EspStyleSetting;
-import net.wurstclient.settings.ColorSetting;
 import net.wurstclient.settings.filterlists.EntityFilterList;
 import net.wurstclient.settings.filters.*;
 import net.wurstclient.util.EntityUtils;
 import net.wurstclient.util.RegionPos;
 import net.wurstclient.util.RenderUtils;
 import net.wurstclient.util.RotationUtils;
+import net.wurstclient.settings.CheckboxSetting;
+import net.wurstclient.settings.ColorSetting;
 
 @SearchTags({"mob esp", "MobTracers", "mob tracers"})
 public final class MobEspHack extends Hack implements UpdateListener,
@@ -54,10 +56,20 @@ public final class MobEspHack extends Hack implements UpdateListener,
 {
 	private final EspStyleSetting style = new EspStyleSetting();
 	
+	private final CheckboxSetting damageIndicator = new CheckboxSetting(
+		"Damage indicator",
+		"Renders a colored box within the target, inversely proportional to its remaining health.",
+		true);
+	
+	private final CheckboxSetting monocromeColor = new CheckboxSetting(
+		"Monochrome color",
+		"Renders all mobs in the selected color",
+		false);
+	
 	private final EspBoxSizeSetting boxSize = new EspBoxSizeSetting(
 		"\u00a7lAccurate\u00a7r mode shows the exact hitbox of each mob.\n"
 			+ "\u00a7lFancy\u00a7r mode shows slightly larger boxes that look better.");
-
+	
 	private final ColorSetting color = new ColorSetting("Color",
 		"Mobs will be highlighted in this color.", Color.YELLOW);
 	
@@ -72,7 +84,9 @@ public final class MobEspHack extends Hack implements UpdateListener,
 		setCategory(Category.RENDER);
 		addSetting(style);
 		addSetting(boxSize);
+		addSetting(damageIndicator);
 		addSetting(color);
+		addSetting(monocromeColor);
 		entityFilters.forEach(this::addSetting);
 	}
 	
@@ -107,6 +121,7 @@ public final class MobEspHack extends Hack implements UpdateListener,
 		Stream<LivingEntity> stream = StreamSupport
 			.stream(MC.world.getEntities().spliterator(), false)
 			.filter(LivingEntity.class::isInstance).map(e -> (LivingEntity)e)
+			.filter(e -> !(e instanceof PlayerEntity))
 			.filter(e -> !e.isRemoved() && e.getHealth() > 0);
 		
 		stream = entityFilters.applyTo(stream);
@@ -125,6 +140,7 @@ public final class MobEspHack extends Hack implements UpdateListener,
 	@Override
 	public void onRender(MatrixStack matrixStack, float partialTicks)
 	{
+		
 		// GL settings
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -152,17 +168,32 @@ public final class MobEspHack extends Hack implements UpdateListener,
 	private void renderBoxes(MatrixStack matrixStack, float partialTicks,
 		RegionPos region)
 	{
+		float p = 1;	
 		float extraSize = boxSize.getExtraSize();
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
 		for(LivingEntity e : mobs)
 		{
+			
+		if(damageIndicator.isChecked()) {	
+		p = (e.getMaxHealth() - e.getHealth()) / e.getMaxHealth();
+		float red = p * 2F;
+		float green = 2 - red;	
+		RenderSystem.setShaderColor(red, green, 0, 0.5F);
+		}
+		else {
+		float[] colorF = color.getColorF();	
+		RenderSystem.setShaderColor(colorF[0], colorF[1], colorF[2], 0.5F);
+		}
+			
 			matrixStack.push();
 			
-			Vec3d lerpedPos = EntityUtils.getLerpedPos(e, partialTicks).subtract(region.toVec3d());
+			Vec3d lerpedPos = EntityUtils.getLerpedPos(e, partialTicks)
+				.subtract(region.toVec3d());
 			matrixStack.translate(lerpedPos.x, lerpedPos.y, lerpedPos.z);
-			matrixStack.scale(e.getWidth() + extraSize, e.getHeight() + extraSize, e.getWidth() + extraSize);
-			color.setAsShaderColor(0.5F);
+			
+			matrixStack.scale(e.getWidth() + extraSize,
+			e.getHeight() + extraSize, e.getWidth() + extraSize);
 			
 			Matrix4f viewMatrix = matrixStack.peek().getPositionMatrix();
 			Matrix4f projMatrix = RenderSystem.getProjectionMatrix();
@@ -175,20 +206,23 @@ public final class MobEspHack extends Hack implements UpdateListener,
 		}
 	}
 	
-	private void renderTracers(MatrixStack matrixStack, float partialTicks,
-		RegionPos region)
+	private void renderTracers(MatrixStack matrixStack, float partialTicks, RegionPos region)
 	{
-		if(mobs.isEmpty())
-			return;
-		
+        if(mobs.isEmpty()) return;
+
 		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-		RenderSystem.setShaderColor(1, 1, 1, 1);
+        	RenderSystem.setShaderColor(1, 1, 1, 1);
+		float[] colorF = color.getColorF();
 		
+		if(monocromeColor.isChecked())
+        {
+		    RenderSystem.setShaderColor(colorF[0], colorF[1], colorF[2], 1);
+		}
+                
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
-		BufferBuilder bufferBuilder = tessellator.begin(
-			VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
+        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
 		
 		Vec3d regionVec = region.toVec3d();
 		Vec3d start = RotationUtils.getClientLookVec(partialTicks).add(RenderUtils.getCameraPos()).subtract(regionVec);
@@ -196,11 +230,14 @@ public final class MobEspHack extends Hack implements UpdateListener,
 		for(LivingEntity e : mobs)
 		{
 			Vec3d end = EntityUtils.getLerpedBox(e, partialTicks).getCenter().subtract(regionVec);
-			color.setAsShaderColor(0.5F);
-			bufferBuilder.vertex(matrix, (float)start.x, (float)start.y, (float)start.z);
-			bufferBuilder.vertex(matrix, (float)end.x, (float)end.y, (float)end.z);
+			
+			float f = MC.player.distanceTo(e) / 20F;
+			float r = MathHelper.clamp(2 - f, 0, 1);
+			float g = MathHelper.clamp(f, 0, 1);
+			
+			bufferBuilder.vertex(matrix, (float)start.x, (float)start.y, (float)start.z).color(r, g, 0, 0.5F);
+			bufferBuilder.vertex(matrix, (float)end.x, (float)end.y, (float)end.z).color(r, g, 0, 0.5F);
 		}
-		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
 }
