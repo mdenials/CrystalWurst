@@ -105,7 +105,6 @@ public final class MobEspHack extends Hack implements UpdateListener,
 		Stream<LivingEntity> stream = StreamSupport
 			.stream(MC.world.getEntities().spliterator(), false)
 			.filter(LivingEntity.class::isInstance).map(e -> (LivingEntity)e)
-			.filter(e -> !(e instanceof PlayerEntity))
 			.filter(e -> !e.isRemoved() && e.getHealth() > 0);
 		
 		stream = entityFilters.applyTo(stream);
@@ -158,13 +157,9 @@ public final class MobEspHack extends Hack implements UpdateListener,
 		{
 			matrixStack.push();
 			
-			Vec3d lerpedPos = EntityUtils.getLerpedPos(e, partialTicks)
-				.subtract(region.toVec3d());
+			Vec3d lerpedPos = EntityUtils.getLerpedPos(e, partialTicks).subtract(region.toVec3d());
 			matrixStack.translate(lerpedPos.x, lerpedPos.y, lerpedPos.z);
-			
-			matrixStack.scale(e.getWidth() + extraSize,
-				e.getHeight() + extraSize, e.getWidth() + extraSize);
-			
+			matrixStack.scale(e.getWidth() + extraSize, e.getHeight() + extraSize, e.getWidth() + extraSize);
 			color.setAsShaderColor(0.5F);
 			
 			Matrix4f viewMatrix = matrixStack.peek().getPositionMatrix();
@@ -194,25 +189,14 @@ public final class MobEspHack extends Hack implements UpdateListener,
 			VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
 		
 		Vec3d regionVec = region.toVec3d();
-		Vec3d start = RotationUtils.getClientLookVec(partialTicks)
-			.add(RenderUtils.getCameraPos()).subtract(regionVec);
+		Vec3d start = RotationUtils.getClientLookVec(partialTicks).add(RenderUtils.getCameraPos()).subtract(regionVec);
 		
 		for(LivingEntity e : mobs)
 		{
-			Vec3d end = EntityUtils.getLerpedBox(e, partialTicks).getCenter()
-				.subtract(regionVec);
-			
-			float f = MC.player.distanceTo(e) / 20F;
-			float r = MathHelper.clamp(2 - f, 0, 1);
-			float g = MathHelper.clamp(f, 0, 1);
-			
-			bufferBuilder
-				.vertex(matrix, (float)start.x, (float)start.y, (float)start.z)
-				.color(r, g, 0, 0.5F);
-			
-			bufferBuilder
-				.vertex(matrix, (float)end.x, (float)end.y, (float)end.z)
-				.color(r, g, 0, 0.5F);
+			Vec3d end = EntityUtils.getLerpedBox(e, partialTicks).getCenter().subtract(regionVec);
+			color.setAsShaderColor(0.5F);
+			bufferBuilder.vertex(matrix, (float)start.x, (float)start.y, (float)start.z);
+			bufferBuilder.vertex(matrix, (float)end.x, (float)end.y, (float)end.z);
 		}
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
