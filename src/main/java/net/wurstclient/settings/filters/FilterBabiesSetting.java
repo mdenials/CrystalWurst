@@ -45,4 +45,10 @@ public final class FilterBabiesSetting extends EntityFilterCheckbox
 		return new FilterBabiesSetting(
 			"Won't attack baby pigs, baby villagers, etc.", checked);
 	}
+
+	public static FilterBabiesSetting genericVision(boolean checked)
+	{
+		return new FilterBabiesSetting(
+			"description.wurst.setting.generic.filter_babies_vision", checked);
+	}
 }
