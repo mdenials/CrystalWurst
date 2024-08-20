@@ -113,8 +113,9 @@ public final class FastBreakHack extends Hack
 		
 		if(mode.getSelected() == Mode.PACKET)
 		{
-			IMC.getInteractionManager().sendPlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, blockPos, direction);
 			IMC.getInteractionManager().sendPlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, blockPos, direction);
+			IMC.getInteractionManager().sendPlayerActionC2SPacket(PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, blockPos, direction);
+			IMC.getInteractionManager().sendPlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, blockPos, direction);
 		}	
 	}
 	
