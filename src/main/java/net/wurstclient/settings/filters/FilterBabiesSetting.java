@@ -48,7 +48,6 @@ public final class FilterBabiesSetting extends EntityFilterCheckbox
 
 	public static FilterBabiesSetting genericVision(boolean checked)
 	{
-		return new FilterBabiesSetting(
-			"description.wurst.setting.generic.filter_babies_vision", checked);
+		return new FilterBabiesSetting("Won't show babies and any other", checked);
 	}
 }
