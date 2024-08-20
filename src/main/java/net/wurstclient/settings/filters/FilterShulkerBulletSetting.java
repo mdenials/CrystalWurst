@@ -29,4 +29,10 @@ public final class FilterShulkerBulletSetting extends EntityFilterCheckbox
 			"description.wurst.setting.generic.filter_shulker_bullets_combat",
 			checked);
 	}
+
+	public static FilterShulkerBulletSetting genericVision(boolean checked)
+	{
+		return new FilterShulkerBulletSetting(
+			"description.wurst.setting.generic.filter_shulkerbullet_vision", checked);
+	}
 }
