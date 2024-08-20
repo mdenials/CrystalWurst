@@ -145,8 +145,6 @@ public final class BaseFinderHack extends Hack
 	@Override
 	protected void onEnable()
 	{
-		// reset timer
-		messageTimer = 0;
 		blockNames = new ArrayList<>(naturalBlocks.getBlockNames());
 		
 		EVENTS.add(UpdateListener.class, this);
