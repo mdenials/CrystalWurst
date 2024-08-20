@@ -87,6 +87,34 @@ public class EntityFilterList
 			FilterArmorStandsSetting.genericCombat(false),
 			FilterCrystalsSetting.genericCombat(false));
 	}
+	public static EntityFilterList genericVision()
+	{
+		return new EntityFilterList(FilterPlayersSetting.genericVision(false),
+			FilterSleepingSetting.genericVision(false),
+			FilterFlyingSetting.genericVision(0),
+			FilterHostileSetting.genericVision(false),
+			FilterNeutralSetting.genericVision(AttackDetectingEntityFilter.Mode.OFF),
+			FilterPassiveSetting.genericVision(false),
+			FilterPassiveWaterSetting.genericVision(false),
+			FilterBabiesSetting.genericVision(false),
+			FilterBatsSetting.genericVision(false),
+			FilterSlimesSetting.genericVision(false),
+			FilterPetsSetting.genericVision(false),
+			FilterVillagersSetting.genericVision(false),
+			FilterZombieVillagersSetting.genericVision(false),
+			FilterGolemsSetting.genericVision(false),
+			FilterPiglinsSetting.genericVision(AttackDetectingEntityFilter.Mode.OFF),
+			FilterZombiePiglinsSetting.genericVision(AttackDetectingEntityFilter.Mode.OFF),
+			FilterEndermenSetting.genericVision(AttackDetectingEntityFilter.Mode.OFF),
+			FilterShulkersSetting.genericVision(false),
+			FilterAllaysSetting.genericVision(false),
+			FilterInvisibleSetting.genericVision(false),
+			FilterNamedSetting.genericVision(false),
+			FilterShulkerBulletSetting.genericVision(false),
+			FilterFireballSetting.genericVision(false),
+			FilterArmorStandsSetting.genericVision(false),
+			FilterCrystalsSetting.genericVision(false));
+	}
 	
 	public static interface EntityFilter extends Predicate<Entity>
 	{
