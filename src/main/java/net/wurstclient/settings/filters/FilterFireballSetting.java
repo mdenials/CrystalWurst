@@ -20,4 +20,9 @@ public final class FilterFireballSetting extends EntityFilterCheckbox
 	{
 		return new FilterFireballSetting("Won't attack fireballs.", checked);
 	}
+
+	public static FilterFireballSetting genericVision(boolean checked)
+	{
+		return new FilterFireballSetting("Won't show fireballs and any other", checked);
+	}
 }
