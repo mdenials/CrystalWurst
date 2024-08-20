@@ -43,12 +43,18 @@ import net.wurstclient.util.RegionPos;
 import net.wurstclient.util.RenderUtils;
 
 @SearchTags({"base finder", "factions"})
-public final class BaseFinderHack extends Hack
-	implements UpdateListener, RenderListener
+public final class BaseFinderHack extends Hack implements UpdateListener, RenderListener
 {
-	public final SliderSetting XZrange = new SliderSetting("XZ Search Range","Max search range", 100, 0, 512, 1, ValueDisplay.INTEGER);
-	public final SliderSetting Yrange = new SliderSetting("Y Search Range","Max search range", 100, 0, 512, 1, ValueDisplay.INTEGER);
-	
+    private final SliderSetting range = new SliderSetting("Size", "Box Size", 1, 0, 256, 1, ValueDisplay.INTEGER);
+
+    private final SliderSetting limit = new SliderSetting("Limit",
+		"The maximum number of blocks to display.\n"
+			+ "Higher values require a faster computer.",
+		5, 1, 6, 1, ValueDisplay.LOGARITHMIC);
+
+    private final ColorSetting color = new ColorSetting("Color",
+		"Man-made blocks will be highlighted in this color.", Color.RED);
+
 	private final BlockListSetting naturalBlocks = new BlockListSetting(
 		"Natural Blocks",
 		"These blocks will be considered part of natural generation.\n\n"
@@ -93,21 +99,14 @@ public final class BaseFinderHack extends Hack
 		"minecraft:spruce_log", "minecraft:stone", "minecraft:sunflower",
 		"minecraft:tall_grass", "minecraft:tall_seagrass", "minecraft:tuff",
 		"minecraft:vine", "minecraft:water", "minecraft:white_tulip");
-
-	private final SliderSetting limit = new SliderSetting("Limit",
-		"The maximum number of blocks to display.\n"
-			+ "Higher values require a faster computer.",
-		5, 0, 6, 1, ValueDisplay.LOGARITHMIC);
 	
-	private final ColorSetting color = new ColorSetting("Color",
-		"Man-made blocks will be highlighted in this color.", Color.RED);
+	
 	
 	private ArrayList<String> blockNames;
 	
 	private final HashSet<BlockPos> matchingBlocks = new HashSet<>();
 	private ArrayList<int[]> vertices = new ArrayList<>();
 	private VertexBuffer vertexBuffer;
-	
 	private int counter;
 	
 	private RegionPos lastRegion;
@@ -116,35 +115,24 @@ public final class BaseFinderHack extends Hack
 	{
 		super("BaseFinder");
 		setCategory(Category.RENDER);
-		addSetting(XZrange);
-		addSetting(Yrange);
+        	addSetting(range);
+        	addSetting(limit);
+        	addSetting(color);
 		addSetting(naturalBlocks);
-		addSetting(limit);
-		addSetting(color);
+		
 	}
 	
 	@Override
 	public String getRenderName()
 	{
-		String name = getName() + " [";
-		
-		// counter
-		if(counter >= 10000)
-			name += "10000+ blocks";
-		else if(counter == 1)
-			name += "1 block";
-		else if(counter == 0)
-			name += "nothing";
-		else
-			name += counter + " blocks";
-		
-		name += " found]";
+		String name = getName() + " [" + counter + "]";
 		return name;
 	}
 	
 	@Override
 	protected void onEnable()
 	{
+		// reset timer
 		blockNames = new ArrayList<>(naturalBlocks.getBlockNames());
 		
 		EVENTS.add(UpdateListener.class, this);
@@ -179,9 +167,8 @@ public final class BaseFinderHack extends Hack
 		
 		matrixStack.push();
 		RenderUtils.applyRegionalRenderOffset(matrixStack, region);
-		
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
-		color.setAsShaderColor(0.15F);
+        	color.setAsShaderColor(0.5F);
 		
 		if(vertexBuffer != null)
 		{
@@ -210,44 +197,49 @@ public final class BaseFinderHack extends Hack
 		if(modulo == 0 || !region.equals(lastRegion))
 		{
 			if(vertexBuffer != null)
-			{
-				vertexBuffer.close();
-				vertexBuffer = null;
-			}
+            {
+                vertexBuffer.close();
+                vertexBuffer = null;
+            }
+				
 			
-			if(!vertices.isEmpty())
+            if(!vertices.isEmpty())
 			{
 				Tessellator tessellator = RenderSystem.renderThreadTesselator();
 				BufferBuilder bufferBuilder = tessellator
 					.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-				
+
 				for(int[] vertex : vertices)
 					bufferBuilder.vertex(vertex[0] - region.x(), vertex[1],
 						vertex[2] - region.z());
-				
+
 				BuiltBuffer buffer = bufferBuilder.end();
-				
+
 				vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
 				vertexBuffer.bind();
 				vertexBuffer.upload(buffer);
 				VertexBuffer.unbind();
 			}
-			
+
 			lastRegion = region;
 		}
 		
 		// reset matching blocks
-		if(modulo == 0) matchingBlocks.clear();
-		int hdist = XZrange.getValueI();
-		int vdist = Yrange.getValueI();
-		int lim = limit.getValueLog();
+		if(modulo == 0)
+			matchingBlocks.clear();
+		
+		int stepSize = MC.world.getHeight() / 64;
+		int startY = MC.world.getTopY() - 1 - modulo * stepSize;
+		int endY = startY - stepSize;
+		int sz = range.getValueI();
+        	int lim = limit.getValueLog();
+
 		BlockPos playerPos = BlockPos.ofFloored(MC.player.getX(), 0, MC.player.getZ());
-		
-		
+
 		// search matching blocks
-		loop: for(int x = hdist; x > -hdist; x--)
-			for(int z = hdist; z > -hdist; z--)
-				for(int y = vdist; y > -vdist; y--)
+		loop: for(int y = startY; y > endY; y--)
+			for(int x = sz; x > -sz; x--)
+				for(int z = sz; z > -sz; z--)
 				{
 					if(matchingBlocks.size() >= lim)
 						break loop;
