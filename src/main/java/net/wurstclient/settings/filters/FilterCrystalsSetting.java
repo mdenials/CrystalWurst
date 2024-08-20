@@ -29,4 +29,9 @@ public final class FilterCrystalsSetting extends EntityFilterCheckbox
 			"description.wurst.setting.generic.filter_crystals_combat",
 			checked);
 	}
+
+	public static FilterCrystalsSetting genericVision(boolean checked)
+	{
+		return new FilterCrystalsSetting("Won't show crystals and any other", checked);
+	}
 }
