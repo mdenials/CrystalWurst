@@ -88,6 +88,11 @@ public final class BaseFinderHack extends Hack
 		"minecraft:spruce_log", "minecraft:stone", "minecraft:sunflower",
 		"minecraft:tall_grass", "minecraft:tall_seagrass", "minecraft:tuff",
 		"minecraft:vine", "minecraft:water", "minecraft:white_tulip");
+
+	private final SliderSetting limit = new SliderSetting("Limit",
+		"The maximum number of blocks to display.\n"
+			+ "Higher values require a faster computer.",
+		5, 0, 6, 1, ValueDisplay.LOGARITHMIC);
 	
 	private final ColorSetting color = new ColorSetting("Color",
 		"Man-made blocks will be highlighted in this color.", Color.RED);
@@ -98,7 +103,6 @@ public final class BaseFinderHack extends Hack
 	private ArrayList<int[]> vertices = new ArrayList<>();
 	private VertexBuffer vertexBuffer;
 	
-	private int messageTimer = 0;
 	private int counter;
 	
 	private RegionPos lastRegion;
@@ -108,6 +112,7 @@ public final class BaseFinderHack extends Hack
 		super("BaseFinder");
 		setCategory(Category.RENDER);
 		addSetting(naturalBlocks);
+		addSetting(limit);
 		addSetting(color);
 	}
 	
@@ -229,20 +234,20 @@ public final class BaseFinderHack extends Hack
 		// reset matching blocks
 		if(modulo == 0)
 			matchingBlocks.clear();
-		
+
+		int lim = limit.getValueLog();
 		int stepSize = MC.world.getHeight() / 64;
 		int startY = MC.world.getTopY() - 1 - modulo * stepSize;
 		int endY = startY - stepSize;
+		BlockPos playerPos = BlockPos.ofFloored(MC.player.getX(), 0, MC.player.getZ());
 		
-		BlockPos playerPos =
-			BlockPos.ofFloored(MC.player.getX(), 0, MC.player.getZ());
 		
 		// search matching blocks
 		loop: for(int y = startY; y > endY; y--)
 			for(int x = 64; x > -64; x--)
 				for(int z = 64; z > -64; z--)
 				{
-					if(matchingBlocks.size() >= 10000)
+					if(matchingBlocks.size() >= lim)
 						break loop;
 					
 					BlockPos pos = new BlockPos(playerPos.getX() + x, y,
@@ -257,24 +262,6 @@ public final class BaseFinderHack extends Hack
 			
 		if(modulo != 63)
 			return;
-		
-		// update timer
-		if(matchingBlocks.size() < 10000)
-			messageTimer--;
-		else
-		{
-			// show message
-			if(messageTimer <= 0)
-			{
-				ChatUtils
-					.warning("BaseFinder found \u00a7lA LOT\u00a7r of blocks.");
-				ChatUtils.message(
-					"To prevent lag, it will only show the first 10000 blocks.");
-			}
-			
-			// reset timer
-			messageTimer = 3;
-		}
 		
 		// update counter
 		counter = matchingBlocks.size();
