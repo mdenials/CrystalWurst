@@ -37,19 +37,11 @@ public final class RadarHack extends Hack implements UpdateListener
 	private final ArrayList<Entity> entities = new ArrayList<>();
 	
 	private final SliderSetting radius = new SliderSetting("Radius",
-		"Radius in blocks.", 100, 1, 100, 1, ValueDisplay.INTEGER);
+		"Radius in blocks.", 100, 0, 512, 1, ValueDisplay.INTEGER);
 	private final CheckboxSetting rotate =
 		new CheckboxSetting("Rotate with player", true);
 	
-	private final EntityFilterList entityFilters =
-		new EntityFilterList(FilterPlayersSetting.genericVision(false),
-			FilterSleepingSetting.genericVision(false),
-			FilterHostileSetting.genericVision(false),
-			FilterPassiveSetting.genericVision(false),
-			FilterPassiveWaterSetting.genericVision(false),
-			FilterBatsSetting.genericVision(true),
-			FilterSlimesSetting.genericVision(false),
-			FilterInvisibleSetting.genericVision(false));
+	private final EntityFilterList entityFilters = EntityFilterList.genericVision();
 	
 	public RadarHack()
 	{
