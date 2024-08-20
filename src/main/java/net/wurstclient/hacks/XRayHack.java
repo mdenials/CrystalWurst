@@ -79,6 +79,13 @@ public final class XRayHack extends Hack implements UpdateListener,
 			+ " anti-X-Ray plugins.\n\n"
 			+ "Remember to restart X-Ray when changing this setting.",
 		false);
+
+	private final CheckboxSetting Up = new CheckboxSetting("Up", true);
+    	private final CheckboxSetting Down = new CheckboxSetting("Down", true);
+    	private final CheckboxSetting North = new CheckboxSetting("North", true);
+    	private final CheckboxSetting South = new CheckboxSetting("South", true);
+    	private final CheckboxSetting West = new CheckboxSetting("West", true);
+    	private final CheckboxSetting East = new CheckboxSetting("East", true);
 	
 	private final String optiFineWarning;
 	private final String renderName =
@@ -92,6 +99,12 @@ public final class XRayHack extends Hack implements UpdateListener,
 		setCategory(Category.RENDER);
 		addSetting(ores);
 		addSetting(onlyExposed);
+		addSetting(Up);
+        	addSetting(Down);
+        	addSetting(North);
+        	addSetting(South);
+        	addSetting(West);
+        	addSetting(East);
 		optiFineWarning = checkOptiFine();
 	}
 	
@@ -181,15 +194,15 @@ public final class XRayHack extends Hack implements UpdateListener,
 	{
 		String name = BlockUtils.getName(block);
 		int index = Collections.binarySearch(oreNamesCache, name);
-		boolean visible = index >= 0;
+		boolean visible = (index >= 0);
 		
 		if(visible && onlyExposed.isChecked() && pos != null)
-			return !BlockUtils.isOpaqueFullCube(pos.up())
-				|| !BlockUtils.isOpaqueFullCube(pos.down())
-				|| !BlockUtils.isOpaqueFullCube(pos.east())
-				|| !BlockUtils.isOpaqueFullCube(pos.west())
-				|| !BlockUtils.isOpaqueFullCube(pos.north())
-				|| !BlockUtils.isOpaqueFullCube(pos.south());
+			return !BlockUtils.isOpaqueFullCube(pos.up()) && Up.isChecked()
+         		|| !BlockUtils.isOpaqueFullCube(pos.down()) && Down.isChecked()
+         		|| !BlockUtils.isOpaqueFullCube(pos.north()) && North.isChecked()
+			|| !BlockUtils.isOpaqueFullCube(pos.south()) && South.isChecked()
+         		|| !BlockUtils.isOpaqueFullCube(pos.west()) && West.isChecked()
+         		|| !BlockUtils.isOpaqueFullCube(pos.east()) && East.isChecked();
 		
 		return visible;
 	}
