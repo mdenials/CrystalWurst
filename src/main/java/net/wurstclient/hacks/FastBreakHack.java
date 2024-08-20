@@ -61,7 +61,7 @@ public final class FastBreakHack extends Hack
 	public String getRenderName()
 	{
 		if(zeroDelay.isChecked())
-			return getName() + "ZeroDelay";
+			return getName() + ":ZeroDelay";
 		return getName();
 	}
 	
