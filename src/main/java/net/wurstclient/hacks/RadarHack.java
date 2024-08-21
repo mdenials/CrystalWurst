@@ -42,6 +42,7 @@ public final class RadarHack extends Hack implements UpdateListener
 		"Radius in blocks.", 100, 0, 512, 1, ValueDisplay.INTEGER);
 	private final CheckboxSetting rotate =
 		new CheckboxSetting("Rotate with player", true);
+	
 	private final ColorSetting radarColor = new ColorSetting("Color",
 		"radar will be highlighted in this color.", Color.BLACK);
 	
@@ -116,6 +117,21 @@ public final class RadarHack extends Hack implements UpdateListener
 	public double getRadius()
 	{
 		return radius.getValue();
+	}
+	
+	public float getRadar()
+	{
+		return radarColor.getColorF();
+	}
+	
+	public float getLiving()
+	{
+		return livingColor.getColorF();
+	}
+
+	public float getOther()
+	{
+		return otherColor.getColorF();
 	}
 	
 	public boolean isRotateEnabled()
