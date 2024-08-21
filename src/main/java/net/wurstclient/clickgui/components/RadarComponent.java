@@ -154,16 +154,16 @@ public final class RadarComponent extends Component
 			if(Math.abs(renderX) > getWidth() / 2.0 || Math.abs(renderY) > getHeight() / 2.0)
 				continue;
 			
-			int color[];
+			int color;
    			int colorLivingI = hack.getLiving();
    			int colorOtherI = hack.getOther();
    
    			if (e instanceof LivingEntity) color = colorLivingI;
 			else color = colorOtherI;
 			
-			float red = (color[0] >> 16 & 255) / 255F;
-			float green = (color[1] >> 8 & 255) / 255F;
-			float blue = (color[2] & 255) / 255F;
+			float red = (color >> 16 & 255) / 255F;
+			float green = (color >> 8 & 255) / 255F;
+			float blue = (color & 255) / 255F;
 			float alpha = 1;
 			bufferBuilder
 				.vertex(matrix, middleX + (float)renderX - 0.5F, middleY + (float)renderY - 0.5F, 0)
