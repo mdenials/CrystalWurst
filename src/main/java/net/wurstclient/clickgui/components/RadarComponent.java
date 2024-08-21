@@ -23,6 +23,7 @@ import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.WaterCreatureEntity;
@@ -154,8 +155,8 @@ public final class RadarComponent extends Component
 				continue;
 			
 			int color[];
-   			int[] colorLivingI = hack.getLiving();
-   			int[] colorOtherI = hack.getOther();
+   			int colorLivingI = hack.getLiving();
+   			int colorOtherI = hack.getOther();
    
    			if (e instanceof LivingEntity) color = colorLivingI;
 			else color = colorOtherI;
