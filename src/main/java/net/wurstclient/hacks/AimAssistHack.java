@@ -37,6 +37,8 @@ public final class AimAssistHack extends Hack
 	private final SliderSetting rotationSpeed =
 		new SliderSetting("Rotation Speed", 600, 10, 3600, 10,
 			ValueDisplay.DEGREES.withSuffix("/s"));
+
+	private final SliderSetting allowance = new SliderSetting("Allowance", 1, 0, 360, 0.000001, ValueDisplay.DECIMAL);
 	
 	private final SliderSetting fov =
 		new SliderSetting("FOV", "description.wurst.setting.aimassist.fov", 120,
@@ -49,6 +51,8 @@ public final class AimAssistHack extends Hack
 		new SliderSetting("Ignore mouse input",
 			"description.wurst.setting.aimassist.ignore_mouse_input", 0, 0, 1,
 			0.01, ValueDisplay.PERCENTAGE);
+
+	private final SliderSetting sensitivity = new SliderSetting("Sensitivity", 1, 0, 3600, 0.000001, ValueDisplay.DECIMAL);
 	
 	private final CheckboxSetting checkLOS =
 		new CheckboxSetting("Check line of sight",
@@ -58,34 +62,7 @@ public final class AimAssistHack extends Hack
 		new CheckboxSetting("Aim while blocking",
 			"description.wurst.setting.aimassist.aim_while_blocking", false);
 	
-	private final EntityFilterList entityFilters =
-		new EntityFilterList(FilterPlayersSetting.genericCombat(false),
-			FilterSleepingSetting.genericCombat(false),
-			FilterFlyingSetting.genericCombat(0),
-			FilterHostileSetting.genericCombat(false),
-			FilterNeutralSetting
-				.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
-			FilterPassiveSetting.genericCombat(true),
-			FilterPassiveWaterSetting.genericCombat(true),
-			FilterBabiesSetting.genericCombat(true),
-			FilterBatsSetting.genericCombat(true),
-			FilterSlimesSetting.genericCombat(true),
-			FilterPetsSetting.genericCombat(true),
-			FilterVillagersSetting.genericCombat(true),
-			FilterZombieVillagersSetting.genericCombat(true),
-			FilterGolemsSetting.genericCombat(false),
-			FilterPiglinsSetting
-				.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
-			FilterZombiePiglinsSetting
-				.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
-			FilterEndermenSetting
-				.genericCombat(AttackDetectingEntityFilter.Mode.OFF),
-			FilterShulkersSetting.genericCombat(false),
-			FilterInvisibleSetting.genericCombat(true),
-			FilterNamedSetting.genericCombat(false),
-			FilterShulkerBulletSetting.genericCombat(false),
-			FilterArmorStandsSetting.genericCombat(true),
-			FilterCrystalsSetting.genericCombat(true));
+	private final EntityFilterList entityFilters  = EntityFilterList.genericCombat();
 	
 	private Entity target;
 	private float nextYaw;
@@ -98,9 +75,11 @@ public final class AimAssistHack extends Hack
 		
 		addSetting(range);
 		addSetting(rotationSpeed);
+		addSetting(allowance);
 		addSetting(fov);
 		addSetting(aimAt);
 		addSetting(ignoreMouseInput);
+		addSetting(sensivity);
 		addSetting(checkLOS);
 		addSetting(aimWhileBlocking);
 		
@@ -211,7 +190,7 @@ public final class AimAssistHack extends Hack
 		int mouseInputX = (int)(event.getDefaultDeltaX() * inputFactor);
 		int mouseInputY = (int)(event.getDefaultDeltaY() * inputFactor);
 		
-		event.setDeltaX(mouseInputX + diffYaw);
-		event.setDeltaY(mouseInputY + diffPitch);
+		event.setDeltaX(mouseInputX + diffYaw * sensitivity.getValue());
+		event.setDeltaY(mouseInputY + diffPitch * sensitivity.getValue());
 	}
 }
