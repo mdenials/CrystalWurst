@@ -141,53 +141,40 @@ public final class RadarComponent extends Component
 			Vec3d lerpedEntityPos = EntityUtils.getLerpedPos(e, partialTicks);
 			double diffX = lerpedEntityPos.x - lerpedPlayerPos.x;
 			double diffZ = lerpedEntityPos.z - lerpedPlayerPos.z;
-			double distance = Math.sqrt(diffX * diffX + diffZ * diffZ)
-				* (getWidth() * 0.5 / hack.getRadius());
+			double distance = Math.sqrt(diffX * diffX + diffZ * diffZ) * (getWidth() * 0.5 / hack.getRadius());
 			double neededRotation = Math.toDegrees(Math.atan2(diffZ, diffX));
 			double angle;
-			if(hack.isRotateEnabled())
-				angle = Math.toRadians(player.getYaw() - neededRotation - 90);
-			else
-				angle = Math.toRadians(180 - neededRotation - 90);
+			if(hack.isRotateEnabled()) angle = Math.toRadians(player.getYaw() - neededRotation - 90);
+			else angle = Math.toRadians(180 - neededRotation - 90);
+			
 			double renderX = Math.sin(angle) * distance;
 			double renderY = Math.cos(angle) * distance;
 			
-			if(Math.abs(renderX) > getWidth() / 2.0
-				|| Math.abs(renderY) > getHeight() / 2.0)
+			if(Math.abs(renderX) > getWidth() / 2.0 || Math.abs(renderY) > getHeight() / 2.0)
 				continue;
 			
-			int color;
-			if(WurstClient.INSTANCE.getFriends().isFriend(e))
-				color = 0x0000FF;
-			else if(e instanceof PlayerEntity)
-				color = 0xFF0000;
-			else if(e instanceof Monster)
-				color = 0xFF8000;
-			else if(e instanceof AnimalEntity || e instanceof AmbientEntity
-				|| e instanceof WaterCreatureEntity)
-				color = 0x00FF00;
-			else
-				color = 0x808080;
+			int color[];
+   			int[] colorLivingI = hack.getLiving();
+   			int[] colorOtherI = hack.getOther();
+   
+   			if (e instanceof LivingEntity) color = colorLivingI;
+			else color = colorOtherI;
 			
-			float red = (color >> 16 & 255) / 255F;
-			float green = (color >> 8 & 255) / 255F;
-			float blue = (color & 255) / 255F;
+			float red = (color[0] >> 16 & 255) / 255F;
+			float green = (color[1] >> 8 & 255) / 255F;
+			float blue = (color[2] & 255) / 255F;
 			float alpha = 1;
 			bufferBuilder
-				.vertex(matrix, middleX + (float)renderX - 0.5F,
-					middleY + (float)renderY - 0.5F, 0)
+				.vertex(matrix, middleX + (float)renderX - 0.5F, middleY + (float)renderY - 0.5F, 0)
 				.color(red, green, blue, alpha);
 			bufferBuilder
-				.vertex(matrix, middleX + (float)renderX + 0.5F,
-					middleY + (float)renderY - 0.5F, 0)
+				.vertex(matrix, middleX + (float)renderX + 0.5F, middleY + (float)renderY - 0.5F, 0)
 				.color(red, green, blue, alpha);
 			bufferBuilder
-				.vertex(matrix, middleX + (float)renderX + 0.5F,
-					middleY + (float)renderY + 0.5F, 0)
+				.vertex(matrix, middleX + (float)renderX + 0.5F, middleY + (float)renderY + 0.5F, 0)
 				.color(red, green, blue, alpha);
 			bufferBuilder
-				.vertex(matrix, middleX + (float)renderX - 0.5F,
-					middleY + (float)renderY + 0.5F, 0)
+				.vertex(matrix, middleX + (float)renderX - 0.5F, middleY + (float)renderY + 0.5F, 0)
 				.color(red, green, blue, alpha);
 		}
 		BuiltBuffer buffer = bufferBuilder.endNullable();
