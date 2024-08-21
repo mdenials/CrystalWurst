@@ -21,12 +21,12 @@ public final class ParkourHack extends Hack implements UpdateListener
 		"Won't jump over a pit if it isn't at least this deep.\n"
 			+ "Increase to stop Parkour from jumping down stairs.\n"
 			+ "Decrease to make Parkour jump at the edge of carpets.",
-		0.5, 0.05, 10, 0.05, ValueDisplay.DECIMAL.withSuffix("m"));
+		0.5, 0, 20, 0.000001, ValueDisplay.DECIMAL.withSuffix("m"));
 	
 	private final SliderSetting edgeDistance =
 		new SliderSetting("Edge distance",
 			"How close Parkour will let you get to the edge before jumping.",
-			0.001, 0.001, 0.25, 0.001, ValueDisplay.DECIMAL.withSuffix("m"));
+			0.001, 0, 1, 0.000001, ValueDisplay.DECIMAL.withSuffix("m"));
 	
 	private final CheckboxSetting sneak = new CheckboxSetting(
 		"Jump while sneaking",
