@@ -26,6 +26,7 @@ import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
+import net.wurstclient.settings.ColorSetting;
 import net.wurstclient.settings.filterlists.EntityFilterList;
 import net.wurstclient.settings.filters.*;
 import net.wurstclient.util.FakePlayerEntity;
@@ -40,6 +41,14 @@ public final class RadarHack extends Hack implements UpdateListener
 		"Radius in blocks.", 100, 0, 512, 1, ValueDisplay.INTEGER);
 	private final CheckboxSetting rotate =
 		new CheckboxSetting("Rotate with player", true);
+	private final ColorSetting radarColor = new ColorSetting("Color",
+		"radar will be highlighted in this color.", Color.BLACK);
+	
+	private final ColorSetting livingColor = new ColorSetting("Color",
+		"Living entities will be highlighted in this color.", Color.RED);
+	
+	private final ColorSetting otherColor = new ColorSetting("Color",
+		"Other entities will be highlighted in this color.", Color.GREEN);
 	
 	private final EntityFilterList entityFilters = EntityFilterList.genericVision();
 	
@@ -50,6 +59,9 @@ public final class RadarHack extends Hack implements UpdateListener
 		setCategory(Category.RENDER);
 		addSetting(radius);
 		addSetting(rotate);
+		addSetting(radarColor);
+		addSetting(livingColor);
+		addSetting(otherColor);
 		entityFilters.forEach(this::addSetting);
 		
 		window = new Window("Radar");
@@ -83,8 +95,7 @@ public final class RadarHack extends Hack implements UpdateListener
 			StreamSupport.stream(world.getEntities().spliterator(), true)
 				.filter(e -> !e.isRemoved() && e != player)
 				.filter(e -> !(e instanceof FakePlayerEntity))
-				.filter(LivingEntity.class::isInstance)
-				.filter(e -> ((LivingEntity)e).getHealth() > 0);
+				.filter(Entity.class::isInstance);
 		
 		stream = entityFilters.applyTo(stream);
 		
