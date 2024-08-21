@@ -79,6 +79,11 @@ public enum RotationUtils
 	{
 		return getAngleToLastReportedLookVec(rotation) <= 1.0;
 	}
+
+	public static boolean isAlreadyFacingMod(Rotation rotation, double allowance)
+	{
+		return getAngleToLastReportedLookVec(rotation) <= allowance;
+	}
 	
 	public static double getAngleToLastReportedLookVec(Vec3d vec)
 	{
