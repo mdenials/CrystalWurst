@@ -275,25 +275,4 @@ public abstract class ShulkerBoxScreenMixin
 	private boolean mustCancelOperation(int mode) {
 		return this.mode != mode || client.currentScreen == null;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
 }
