@@ -24,12 +24,12 @@ public final class FlightHack extends Hack
 	implements UpdateListener, IsPlayerInWaterListener, AirStrafingSpeedListener
 {
 	public final SliderSetting horizontalSpeed = new SliderSetting(
-		"Horizontal Speed", 1, 0.05, 20, 0.05, ValueDisplay.DECIMAL);
+		"Horizontal Speed", 1, 0, 20, 0.000001, ValueDisplay.DECIMAL);
 	
 	public final SliderSetting verticalSpeed = new SliderSetting(
 		"Vertical Speed",
 		"\u00a7c\u00a7lWARNING:\u00a7r Setting this too high can cause fall damage, even with NoFall.",
-		1, 0.05, 20, 0.05, ValueDisplay.DECIMAL);
+		1, 0, 20, 0.000001, ValueDisplay.DECIMAL);
 
 	public final SliderSetting hpower = new SliderSetting("Horizontal Power", 1, 1, 38, 1, ValueDisplay.INTEGER);
     	public final SliderSetting vpower = new SliderSetting("Vertical Power", 1, 1, 38, 1, ValueDisplay.INTEGER);
