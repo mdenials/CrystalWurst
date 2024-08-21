@@ -79,7 +79,7 @@ public final class AimAssistHack extends Hack
 		addSetting(fov);
 		addSetting(aimAt);
 		addSetting(ignoreMouseInput);
-		addSetting(sensivity);
+		addSetting(sensitivity);
 		addSetting(checkLOS);
 		addSetting(aimWhileBlocking);
 		
