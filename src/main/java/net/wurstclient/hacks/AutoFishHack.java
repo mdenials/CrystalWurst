@@ -11,6 +11,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
+import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.wurstclient.Category;
@@ -168,12 +170,11 @@ public final class AutoFishHack extends Hack
 	public void onReceivedPacket(PacketInputEvent event)
 	{
 		// check packet type
-		if(!(event.getPacket() instanceof PlaySoundS2CPacket sound))
+		if(!(event.getPacket() instanceof PlaySoundS2CPacket sound) || !(event.getPacket() instanceof EntityTrackerUpdateS2CPacket update))
 			return;
 		
 		// check sound type
-		if(!SoundEvents.ENTITY_FISHING_BOBBER_SPLASH
-			.equals(sound.getSound().value()))
+		if(!SoundEvents.ENTITY_FISHING_BOBBER_SPLASH.equals(sound.getSound().value()) || !(MC.world.getEntityById(update.id()) instanceof FishingBobberEntity bobber)) 
 			return;
 		
 		// check if player is fishing
