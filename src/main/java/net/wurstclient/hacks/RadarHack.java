@@ -35,21 +35,16 @@ import net.wurstclient.util.FakePlayerEntity;
 @SearchTags({"MiniMap", "mini map"})
 public final class RadarHack extends Hack implements UpdateListener
 {
+	private final SliderSetting radius = new SliderSetting("Radius", "Radius in blocks.", 100, 0, 512, 1, ValueDisplay.INTEGER);
+	private final SliderSetting width = new SliderSetting("Width", "Width value.", 96, 1, 2147483647, 1, ValueDisplay.INTEGER);
+	private final SliderSetting height = new SliderSetting("Height", "Height value.", 96, 1, 2147483647, 1, ValueDisplay.INTEGER);
+	private final CheckboxSetting rotate = new CheckboxSetting("Rotate with player", true);
+	private final ColorSetting livingColor = new ColorSetting("Living Color", "Living entities will be highlighted in this color.", Color.RED);
+	private final ColorSetting otherColor = new ColorSetting("Other Color", "Other entities will be highlighted in this color.", Color.GREEN);
+
 	private final Window window;
-	private final ArrayList<Entity> entities = new ArrayList<>();
-	
-	private final SliderSetting radius = new SliderSetting("Radius",
-		"Radius in blocks.", 100, 0, 512, 1, ValueDisplay.INTEGER);
-	private final CheckboxSetting rotate =
-		new CheckboxSetting("Rotate with player", true);
-	
-	private final ColorSetting livingColor = new ColorSetting("Living Color",
-		"Living entities will be highlighted in this color.", Color.RED);
-	
-	private final ColorSetting otherColor = new ColorSetting("Other Color",
-		"Other entities will be highlighted in this color.", Color.GREEN);
-	
 	private final EntityFilterList entityFilters = EntityFilterList.genericVision();
+	private final ArrayList<Entity> entities = new ArrayList<>();
 	
 	public RadarHack()
 	{
@@ -57,6 +52,8 @@ public final class RadarHack extends Hack implements UpdateListener
 		
 		setCategory(Category.RENDER);
 		addSetting(radius);
+		addSetting(width)
+		addSetting(height);
 		addSetting(rotate);
 		addSetting(livingColor);
 		addSetting(otherColor);
@@ -109,12 +106,22 @@ public final class RadarHack extends Hack implements UpdateListener
 	{
 		return Collections.unmodifiableList(entities);
 	}
-	
+
 	public double getRadius()
 	{
 		return radius.getValue();
 	}
 	
+	public int getWidth()
+	{
+		return width.getValue();
+	}
+
+	public int getHeight()
+	{
+		return height.getValue();
+	}
+
 	public int getLiving()
 	{
 		return livingColor.getColorI();
