@@ -10,6 +10,7 @@ package net.wurstclient.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.ShulkerBoxScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
