@@ -332,10 +332,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
         	int sz = boxRange.getValueI();
 		BlockPos mp = pos.add(-sz,-sz,-sz);
 		BlockPos MP = pos.add(sz, sz, sz);
-		return BlockUtils.getAllInBoxStream(mp, MP)
-			.filter(MiningBotUtils::isLog)
-			.filter(pos -> isVisible(BlockUtils.getBlock(pos), pos))
-			.collect(Collectors.toList());
+		return BlockUtils.getAllInBoxStream(mp, MP).filter(MiningBotUtils::isLog).collect(Collectors.toList());
 	}
 
 	private boolean isVisible(Block block, BlockPos pos)
@@ -461,7 +458,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		
 		private boolean isMiningStump(BlockPos pos)
 		{
-			if(!MiningBotUtils.isLog(pos)) return false;
+			if(!MiningBotUtils.isLog(pos) && !isVisible(BlockUtils.getBlock(pos), pos)) return false;
 			analyzeMining(pos);
 				 
                		return true;
