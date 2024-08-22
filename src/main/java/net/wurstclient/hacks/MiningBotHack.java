@@ -333,7 +333,8 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		BlockPos mp = pos.add(-sz,-sz,-sz);
 		BlockPos MP = pos.add(sz, sz, sz);
 		return BlockUtils.getAllInBoxStream(mp, MP)
-			.filter(MiningBotUtils::isLog).filter(isVisible(BlockUtils.getBlock(pos), pos))
+			.filter(MiningBotUtils::isLog)
+			.filter(pos -> isVisible(BlockUtils.getBlock(pos), pos))
 			.collect(Collectors.toList());
 	}
 
