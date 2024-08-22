@@ -81,14 +81,14 @@ private final TextFieldSetting zpos = new TextFieldSetting("Z", "0");
 		
 		matrixStack.push();
 		RenderUtils.applyRenderOffset(matrixStack);
-		color.setAsShaderColor();
+		color.setAsShaderColor(0.5F);
 		
 		// box
 		matrixStack.push();
 		matrixStack.translate(spawn.getX(), spawn.getY(), spawn.getZ());
 		RenderUtils.drawOutlinedBox(matrixStack);
 		
-		color.setAsShaderColor();
+		color.setAsShaderColor(0.5F);
 		RenderUtils.drawSolidBox(matrixStack);
 		matrixStack.pop();
 		
