@@ -26,7 +26,6 @@ public abstract class RenderTickCounterDynamicMixin
 	@Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/RenderTickCounter$Dynamic;prevTimeMillis:J", opcode = Opcodes.PUTFIELD, ordinal = 0), method = "beginRenderTick(J)I")
 	public void onBeginRenderTick(long timeMillis, CallbackInfoReturnable<Integer> cir)
 	{
-		private final TimerHack hack;
 		lastFrameDuration *= WurstClient.INSTANCE.getHax().timerHack.getTimerSpeed();
 	}
 }
