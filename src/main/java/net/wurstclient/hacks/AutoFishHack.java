@@ -169,18 +169,23 @@ public final class AutoFishHack extends Hack
 	@Override
 	public void onReceivedPacket(PacketInputEvent event)
 	{
+		ClientPlayerEntity player = MC.player;
+		
 		// check packet type
 		if(!(event.getPacket() instanceof PlaySoundS2CPacket sound) || !(event.getPacket() instanceof EntityTrackerUpdateS2CPacket update))
 			return;
 		
 		// check sound type
-		if(!SoundEvents.ENTITY_FISHING_BOBBER_SPLASH.equals(sound.getSound().value()) || !(MC.world.getEntityById(update.id()) instanceof FishingBobberEntity bobber)) 
+		if(!SoundEvents.ENTITY_FISHING_BOBBER_SPLASH.equals(sound.getSound().value()) || !(MC.world.getEntityById(update.id()) instanceof FishingBobberEntity bobberEntity)) 
+			return;
+
+		if(bobberEntity != player.fishHook)
 			return;
 		
 		// check if player is fishing
 		if(!isFishing())
 			return;
-		
+
 		// register sound position
 		debugDraw.updateSoundPos(sound);
 		
