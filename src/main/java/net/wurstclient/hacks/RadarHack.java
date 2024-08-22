@@ -115,11 +115,6 @@ public final class RadarHack extends Hack implements UpdateListener
 		return radius.getValue();
 	}
 	
-	public int getRadar()
-	{
-		return radarColor.getColorI();
-	}
-	
 	public int getLiving()
 	{
 		return livingColor.getColorI();
