@@ -134,12 +134,12 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
         	addSetting(arraySize);
         	addSetting(queueSize);
         	addSetting(height);
-        	addSetting(checkAngleLOS);
-        	addSetting(checkBreakLOS);
+		addSetting(oresList);
+        	addSetting(filterList);
 		addSetting(facing);
 		addSetting(swingHand);
-        	addSetting(oresList);
-        	addSetting(filterList);
+        	addSetting(checkAngleLOS);
+        	addSetting(checkBreakLOS);
 		addSetting(onlyExposed);
 		addSetting(Up);
         	addSetting(Down);
