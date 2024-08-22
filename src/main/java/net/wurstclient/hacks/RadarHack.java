@@ -43,13 +43,10 @@ public final class RadarHack extends Hack implements UpdateListener
 	private final CheckboxSetting rotate =
 		new CheckboxSetting("Rotate with player", true);
 	
-	private final ColorSetting radarColor = new ColorSetting("Color",
-		"radar will be highlighted in this color.", Color.BLACK);
-	
-	private final ColorSetting livingColor = new ColorSetting("Color",
+	private final ColorSetting livingColor = new ColorSetting("Living Color",
 		"Living entities will be highlighted in this color.", Color.RED);
 	
-	private final ColorSetting otherColor = new ColorSetting("Color",
+	private final ColorSetting otherColor = new ColorSetting("Other Color",
 		"Other entities will be highlighted in this color.", Color.GREEN);
 	
 	private final EntityFilterList entityFilters = EntityFilterList.genericVision();
@@ -61,7 +58,6 @@ public final class RadarHack extends Hack implements UpdateListener
 		setCategory(Category.RENDER);
 		addSetting(radius);
 		addSetting(rotate);
-		addSetting(radarColor);
 		addSetting(livingColor);
 		addSetting(otherColor);
 		entityFilters.forEach(this::addSetting);
