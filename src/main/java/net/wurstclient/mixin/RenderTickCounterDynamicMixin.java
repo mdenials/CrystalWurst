@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.client.render.RenderTickCounter;
 import net.wurstclient.WurstClient;
-import net.wurstclient.hacks.TimerHack;
 
 @Mixin(RenderTickCounter.Dynamic.class)
 public abstract class RenderTickCounterDynamicMixin
@@ -28,6 +27,6 @@ public abstract class RenderTickCounterDynamicMixin
 	public void onBeginRenderTick(long timeMillis, CallbackInfoReturnable<Integer> cir)
 	{
 		private final TimerHack hack;
-		lastFrameDuration *= hack.getTimerSpeed();
+		lastFrameDuration *= WurstClient.INSTANCE.getHax().timerHack.getTimerSpeed();
 	}
 }
