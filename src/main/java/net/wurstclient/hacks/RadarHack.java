@@ -52,7 +52,7 @@ public final class RadarHack extends Hack implements UpdateListener
 		
 		setCategory(Category.RENDER);
 		addSetting(radius);
-		addSetting(width)
+		addSetting(width);
 		addSetting(height);
 		addSetting(rotate);
 		addSetting(livingColor);
