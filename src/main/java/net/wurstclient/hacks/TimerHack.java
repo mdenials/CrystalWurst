@@ -14,8 +14,8 @@ import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 public final class TimerHack extends Hack
 {
-	private final SliderSetting speed =
-		new SliderSetting("Speed", 2, 0.1, 20, 0.1, ValueDisplay.DECIMAL);
+	private final SliderSetting speed = new SliderSetting("Speed", 2, 0, 20, 0.000001, ValueDisplay.DECIMAL);
+	public final SliderSetting power = new SliderSetting("Power", 1, 0, 38, 1, ValueDisplay.INTEGER);
 	
 	public TimerHack()
 	{
@@ -32,6 +32,6 @@ public final class TimerHack extends Hack
 	
 	public float getTimerSpeed()
 	{
-		return isEnabled() ? speed.getValueF() : 1;
+		return (float)Math.pow(speed.getValueF(), power.getValueI());
 	}
 }
