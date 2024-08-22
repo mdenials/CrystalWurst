@@ -22,6 +22,7 @@ public final class TimerHack extends Hack
 		super("Timer");
 		setCategory(Category.OTHER);
 		addSetting(speed);
+		addSetting(power);
 	}
 	
 	@Override
@@ -32,6 +33,6 @@ public final class TimerHack extends Hack
 	
 	public float getTimerSpeed()
 	{
-		return (float)Math.pow(speed.getValueF(), power.getValueI());
+		return isEnabled() ? (float)Math.pow(speed.getValueF(), power.getValueI()) : 1;
 	}
 }
