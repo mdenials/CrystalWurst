@@ -186,12 +186,12 @@ public final class RadarComponent extends Component
 	@Override
 	public int getDefaultWidth()
 	{
-		return 96;
+		return (int)hack.getWidth();
 	}
 	
 	@Override
 	public int getDefaultHeight()
 	{
-		return 96;
+		return (int)hack.getHeight();
 	}
 }
