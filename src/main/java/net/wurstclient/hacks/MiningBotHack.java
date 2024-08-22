@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.Deque;
+import java.util.Collections;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,6 +29,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.block.Block;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.WurstClient;
@@ -107,12 +109,21 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	"minecraft:azalea_leaves",
 	"minecraft:flowering_azalea_leaves");
 
+	private final CheckboxSetting onlyExposed = new CheckboxSetting("Only show exposed", false);
+	private final CheckboxSetting Up = new CheckboxSetting("Up", true);
+    	private final CheckboxSetting Down = new CheckboxSetting("Down", true);
+    	private final CheckboxSetting North = new CheckboxSetting("North", true);
+    	private final CheckboxSetting South = new CheckboxSetting("South", true);
+    	private final CheckboxSetting West = new CheckboxSetting("West", true);
+    	private final CheckboxSetting East = new CheckboxSetting("East", true);
+	
 	private MiningFinder miningFinder;
 	private AngleFinder angleFinder;
 	private MiningBotPathProcessor processor;
     	private MiningBotPathFinder pathFinder;
 	private Mining mining;
 	private BlockPos currentBlock;
+	private List<String> oreNamesCache;
 
 	public MiningBotHack()
 	{
@@ -129,6 +140,13 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		addSetting(swingHand);
         	addSetting(oresList);
         	addSetting(filterList);
+		addSetting(onlyExposed);
+		addSetting(Up);
+        	addSetting(Down);
+        	addSetting(North);
+        	addSetting(South);
+        	addSetting(West);
+        	addSetting(East);
 	}
 	
 	@Override
@@ -150,6 +168,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	@Override
 	protected void onEnable()
 	{
+		oreNamesCache = new ArrayList<>(oresList.getBlockNames());
 		EVENTS.add(UpdateListener.class, this);
 		EVENTS.add(RenderListener.class, this);
         	miningFinder = new MiningFinder();
@@ -313,9 +332,28 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
         	int sz = boxRange.getValueI();
 		BlockPos mp = pos.add(-sz,-sz,-sz);
 		BlockPos MP = pos.add(sz, sz, sz);
-		return BlockUtils.getAllInBoxStream(mp, MP).filter(MiningBotUtils::isLog).collect(Collectors.toList());
+		return BlockUtils.getAllInBoxStream(mp, MP)
+			.filter(MiningBotUtils::isLog).filter(isVisible(BlockUtils.getBlock(pos), pos))
+			.collect(Collectors.toList());
 	}
-	
+
+	private boolean isVisible(Block block, BlockPos pos)
+	{
+		String name = BlockUtils.getName(block);
+		int index = Collections.binarySearch(oreNamesCache, name);
+		boolean visible = (index >= 0);
+		
+		if(visible && onlyExposed.isChecked() && pos != null)
+			return !BlockUtils.isOpaqueFullCube(pos.up()) && Up.isChecked()
+         		|| !BlockUtils.isOpaqueFullCube(pos.down()) && Down.isChecked()
+         		|| !BlockUtils.isOpaqueFullCube(pos.north()) && North.isChecked()
+			|| !BlockUtils.isOpaqueFullCube(pos.south()) && South.isChecked()
+         		|| !BlockUtils.isOpaqueFullCube(pos.west()) && West.isChecked()
+         		|| !BlockUtils.isOpaqueFullCube(pos.east()) && East.isChecked();
+		
+		return visible;
+	}
+
 	private abstract class MiningBotPathFinder extends PathFinder
 	{
         	public MiningBotPathFinder(MiningBotPathFinder pathFinder)
