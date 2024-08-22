@@ -114,12 +114,12 @@ public final class RadarHack extends Hack implements UpdateListener
 	
 	public int getWidth()
 	{
-		return width.getValue();
+		return (int)width.getValueI();
 	}
 
 	public int getHeight()
 	{
-		return height.getValue();
+		return (int)height.getValueI();
 	}
 
 	public int getLiving()
