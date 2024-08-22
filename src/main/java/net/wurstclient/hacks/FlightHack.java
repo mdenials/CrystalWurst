@@ -96,10 +96,7 @@ public final class FlightHack extends Hack
 	@Override
 	public void onUpdate()
 	{
-		ClientPlayerEntity player = MC.player;
-		
-		player.getAbilities().flying = false;
-		
+		ClientPlayerEntity player = MC.player;		
 		player.setVelocity(0, 0, 0);
 		Vec3d velocity = player.getVelocity();
 
