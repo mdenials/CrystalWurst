@@ -59,21 +59,36 @@ public final class MassCraftHack extends Hack implements UpdateListener
 		MinecraftClient client = MinecraftClient.getInstance();
     		ClientPlayerEntity ply = client.player;
     		ClientPlayerInteractionManager im = client.interactionManager;
-		PlayerInventory inv = ply.getInventory();
+    		PlayerInventory inv = ply.getInventory();
     		if (im == null || ply == null) 
-			return;
-    		
-    		// Check if the current screen handler is an instance of CraftingScreenHandler
-    		if (!(ply.currentScreenHandler instanceof CraftingScreenHandler))
-			return;
-		
-    		CraftingScreenHandler rsh = (CraftingScreenHandler) ply.currentScreenHandler;
-    		int resultSlotIndex = rsh.getCraftingResultSlotIndex();
-    		ItemStack outStack = rsh.getSlot(resultSlotIndex).getStack();
-    		if (Screen.hasAltDown() || !hasSpace(inv, outStack)) 
-			ply.dropSelectedItem(true);
-		int syncID = ply.currentScreenHandler.syncId;
-    		im.clickSlot(syncID, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
+        		return;
+    		// Check if the current screen handler is an instance of CraftingScreenHandler or PlayerScreenHandler
+    		if (!(ply.currentScreenHandler instanceof CraftingScreenHandler) || !(ply.currentScreenHandler instanceof PlayerScreenHandler))
+        		return;
+    		if (ply.currentScreenHandler instanceof CraftingScreenHandler)
+    		{
+        		CraftingScreenHandler rsh = (CraftingScreenHandler) ply.currentScreenHandler;
+        		int resultSlotIndex = rsh.getCraftingResultSlotIndex();
+        		ItemStack outStack = rsh.getSlot(resultSlotIndex).getStack();
+			int syncID = ply.currentScreenHandler.syncId;
+			
+        		if (Screen.hasAltDown() || !hasSpace(inv, outStack)) 
+            			ply.dropSelectedItem(true);
+			
+        		im.clickSlot(syncID, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
+    		} 
+    		else if (ply.currentScreenHandler instanceof PlayerScreenHandler)
+    		{
+        		PlayerScreenHandler psh = (PlayerScreenHandler) ply.currentScreenHandler;
+        		int resultSlotIndex = psh.getCraftingResultSlotIndex();
+        		ItemStack outStack = psh.getSlot(resultSlotIndex).getStack();
+			int syncID = ply.currentScreenHandler.syncId;
+			
+        		if (Screen.hasAltDown() || !hasSpace(inv, outStack)) 
+            			ply.dropSelectedItem(true);
+			
+        		im.clickSlot(syncID, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
+    		}		
 	}
 
 	public static boolean hasSpace(PlayerInventory inv, ItemStack outStack)
