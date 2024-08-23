@@ -66,9 +66,11 @@ public final class MassCraftHack extends Hack implements UpdateListener
 		if (MC.player == null || MC.interactionManager == null)
 			return;
 		
+		ClientPlayerEntity ply = MC.player;
     		ClientPlayerInteractionManager im = MC.interactionManager;
     		PlayerInventory inv = MC.player.getInventory();
-    		if (im == null || inv == null) 
+		
+    		if (im == null || inv == null || ply == null) 
         		return;
     		// Check if the current screen handler is an instance of CraftingScreenHandler or PlayerScreenHandler
     		if (!(ply.currentScreenHandler instanceof CraftingScreenHandler) && !(ply.currentScreenHandler instanceof PlayerScreenHandler))
