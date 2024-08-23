@@ -25,15 +25,30 @@ import net.wurstclient.hacks.autofish.AutoFishDebugDraw;
 import net.wurstclient.hacks.autofish.AutoFishRodSelector;
 import net.wurstclient.hacks.autofish.FishingSpotManager;
 import net.wurstclient.hacks.autofish.ShallowWaterWarningCheckbox;
+import net.wurstclient.settings.EnumSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 @SearchTags({"AutoFishing", "auto fishing", "AutoFisher", "auto fisher",
 	"AFKFishBot", "afk fish bot", "AFKFishingBot", "afk fishing bot",
 	"AFKFisherBot", "afk fisher bot"})
-public final class AutoFishHack extends Hack
-	implements UpdateListener, PacketInputListener, RenderListener
+public final class AutoFishHack extends Hack implements UpdateListener, PacketInputListener, RenderListener
 {
+	private final EnumSetting<AutoFishHack.Mode> biteMode = new EnumSetting<>(
+		"Bite mode",
+		"\u00a7lSound\u00a7r mode detects bites by listening for the bite sound.\n"
+			+ "This method is less accurate, but is more resilient against anti-cheats.\n"
+			+ "See the \"Valid range\" setting.\n\n"
+			+ "\u00a7lEntity\u00a7r mode detects bites by listening for fishing hook's entity update packet.\n"
+			+ "It's more accurate than the sound method, but is less resilient against anti-cheats.",
+		AutoFishHack.Mode.values(), AutoFishHack.Mode.SOUND);
+
+	private final SliderSetting validRange = new SliderSetting("Valid range",
+		"Any bites that occur outside of this range will be ignored.\n\n"
+			+ "Increase your range if bites are not being detected, decrease it"
+			+ " if other people's bites are being detected as yours.\n\n"
+			+ "This setting has effect only when \"Mode\" is set to \"Sound\".",
+		1.5, 0.25, 8, 0.25, ValueDisplay.DECIMAL);
 	private final SliderSetting validRange = new SliderSetting("Valid range",
 		"Any bites that occur outside of this range will be ignored.\n\n"
 			+ "Increase your range if bites are not being detected, decrease it"
@@ -58,10 +73,8 @@ public final class AutoFishHack extends Hack
 		new ShallowWaterWarningCheckbox();
 	
 	private final FishingSpotManager fishingSpots = new FishingSpotManager();
-	private final AutoFishDebugDraw debugDraw =
-		new AutoFishDebugDraw(validRange, fishingSpots);
-	private final AutoFishRodSelector rodSelector =
-		new AutoFishRodSelector(this);
+	private final AutoFishDebugDraw debugDraw = new AutoFishDebugDraw(validRange, fishingSpots);
+	private final AutoFishRodSelector rodSelector = new AutoFishRodSelector(this);
 	
 	private int castRodTimer;
 	private int reelInTimer;
@@ -71,6 +84,7 @@ public final class AutoFishHack extends Hack
 	{
 		super("AutoFish");
 		setCategory(Category.OTHER);
+		addSetting(biteMode);
 		addSetting(validRange);
 		addSetting(catchDelay);
 		addSetting(retryDelay);
@@ -169,23 +183,27 @@ public final class AutoFishHack extends Hack
 	@Override
 	public void onReceivedPacket(PacketInputEvent event)
 	{
-		ClientPlayerEntity player = MC.player;
-		
+		switch(biteMode.getSelected())
+		{
+			case SOUND -> processSoundUpdate(event);
+			case ENTITY -> processEntityUpdate(event);
+		}
+	}
+
+	private void processSoundUpdate(PacketInputEvent event)
+	{
 		// check packet type
-		if(!(event.getPacket() instanceof PlaySoundS2CPacket sound) || !(event.getPacket() instanceof EntityTrackerUpdateS2CPacket update))
+		if(!(event.getPacket() instanceof PlaySoundS2CPacket sound))
 			return;
 		
 		// check sound type
-		if(!SoundEvents.ENTITY_FISHING_BOBBER_SPLASH.equals(sound.getSound().value()) || !(MC.world.getEntityById(update.id()) instanceof FishingBobberEntity bobberEntity)) 
-			return;
-
-		if(bobberEntity != player.fishHook)
+		if(!SoundEvents.ENTITY_FISHING_BOBBER_SPLASH.equals(sound.getSound().value()))
 			return;
 		
 		// check if player is fishing
 		if(!isFishing())
 			return;
-
+		
 		// register sound position
 		debugDraw.updateSoundPos(sound);
 		
@@ -199,6 +217,27 @@ public final class AutoFishHack extends Hack
 		biteDetected = true;
 	}
 	
+	private void processEntityUpdate(PacketInputEvent event)
+	{
+		// check packet type
+		if(!(event.getPacket() instanceof EntityTrackerUpdateS2CPacket update))
+			return;
+		
+		// check if the entity is a bobber
+		if(!(MC.world.getEntityById(update.id()) instanceof FishingBobberEntity bobber))
+			return;
+		
+		// check if it's our bobber
+		if(bobber != MC.player.fishHook)
+			return;
+		
+		// check if player is fishing
+		if(!isFishing())
+			return;
+		
+		biteDetected = true;
+	}
+
 	@Override
 	public void onRender(MatrixStack matrixStack, float partialTicks)
 	{
@@ -211,5 +250,24 @@ public final class AutoFishHack extends Hack
 		return player != null && player.fishHook != null
 			&& !player.fishHook.isRemoved()
 			&& player.getMainHandStack().isOf(Items.FISHING_ROD);
+	}
+
+	private enum Mode
+	{
+		SOUND("Sound"),
+		ENTITY("Entity");
+		
+		private final String name;
+		
+		private Mode(String name)
+		{
+			this.name = name;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return name;
+		}
 	}
 }
