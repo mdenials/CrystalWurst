@@ -70,7 +70,7 @@ public final class MassCraftHack extends Hack implements UpdateListener
 	}
 
 
-	public static AbstractRecipeScreenHandler<CraftingScreenHandler, 0> getRecipeScreenHandler()
+	public static AbstractRecipeScreenHandler<CraftingScreenHandler, Integer> getRecipeScreenHandler()
 	{
 		ClientPlayerEntity ply = MinecraftClient.getInstance().player;
     		return ply == null 
