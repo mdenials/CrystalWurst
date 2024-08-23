@@ -56,12 +56,12 @@ public final class MassCraftHack extends Hack implements UpdateListener
 
 	public static void craft()
 	{
-    		MinecraftClient client = MinecraftClient.getInstance();
-    		ClientPlayerEntity ply = client.player;
+		MinecraftClient client = MinecraftClient.getInstance();
+   		ClientPlayerEntity ply = client.player;
     		ClientPlayerInteractionManager im = client.interactionManager;
     		if (im == null || ply == null) return;
     		PlayerInventory inv = ply.getInventory();
-    		AbstractRecipeScreenHandler<CraftingScreenHandler, 0> rsh = getRecipeScreenHandler();
+    		AbstractRecipeScreenHandler<CraftingScreenHandler, Integer> rsh = getRecipeScreenHandler();
     		if (rsh == null) return;
     		int resultSlotIndex = rsh.getCraftingResultSlotIndex();
     		ItemStack outStack = rsh.slots.get(resultSlotIndex).getStack();
@@ -72,9 +72,10 @@ public final class MassCraftHack extends Hack implements UpdateListener
 
 	public static AbstractRecipeScreenHandler<CraftingScreenHandler, 0> getRecipeScreenHandler()
 	{
-    		ClientPlayerEntity ply = MinecraftClient.getInstance().player;
-    		return ply == null ? null : ply.currentScreenHandler instanceof CraftingScreenHandler || ply.currentScreenHandler instanceof PlayerScreenHandler 
-			? (AbstractRecipeScreenHandler<CraftingScreenHandler, 0>) ply.currentScreenHandler : null;
+		ClientPlayerEntity ply = MinecraftClient.getInstance().player;
+    		return ply == null 
+		? null : ply.currentScreenHandler instanceof CraftingScreenHandler || ply.currentScreenHandler instanceof PlayerScreenHandler 
+	    	? (AbstractRecipeScreenHandler<CraftingScreenHandler, Integer>) ply.currentScreenHandler : null;
 	}
 
 	public static boolean hasSpace(PlayerInventory inv, ItemStack outStack)
