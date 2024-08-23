@@ -56,16 +56,22 @@ public final class MassCraftHack extends Hack implements UpdateListener
 
 	public static void craft()
 	{
-    		MinecraftClient client = MinecraftClient.getInstance();
+		MinecraftClient client = MinecraftClient.getInstance();
     		ClientPlayerEntity ply = client.player;
     		ClientPlayerInteractionManager im = client.interactionManager;
-    		if (im == null || ply == null) return;
-    		PlayerInventory inv = ply.getInventory();
+		PlayerInventory inv = ply.getInventory();
+    		if (im == null || ply == null) 
+			return;
+    		
+    		// Check if the current screen handler is an instance of CraftingScreenHandler
+    		if (!(ply.currentScreenHandler instanceof CraftingScreenHandler))
+			return;
+		
     		CraftingScreenHandler rsh = (CraftingScreenHandler) ply.currentScreenHandler;
-    		if (rsh == null) return;
     		int resultSlotIndex = rsh.getCraftingResultSlotIndex();
     		ItemStack outStack = rsh.getSlot(resultSlotIndex).getStack();
-    		if (Screen.hasAltDown() || !hasSpace(inv, outStack)) ply.dropSelectedItem(true);
+    		if (Screen.hasAltDown() || !hasSpace(inv, outStack)) 
+			ply.dropSelectedItem(true);
     		im.clickSlot(0, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
 	}
 
