@@ -19,7 +19,6 @@ import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.world.item.crafting.RecipeInput;
 
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
