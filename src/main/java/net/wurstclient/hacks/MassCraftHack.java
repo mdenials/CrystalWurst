@@ -57,30 +57,21 @@ public final class MassCraftHack extends Hack implements UpdateListener
 
 	public static void craft()
 	{
-		MinecraftClient client = MinecraftClient.getInstance();
-   		ClientPlayerEntity ply = client.player;
+    		MinecraftClient client = MinecraftClient.getInstance();
+    		ClientPlayerEntity ply = client.player;
     		ClientPlayerInteractionManager im = client.interactionManager;
     		if (im == null || ply == null) return;
     		PlayerInventory inv = ply.getInventory();
-    		AbstractRecipeScreenHandler<RecipeInput, Integer> rsh = getRecipeScreenHandler();
+    		CraftingScreenHandler rsh = (CraftingScreenHandler) ply.currentScreenHandler;
     		if (rsh == null) return;
     		int resultSlotIndex = rsh.getCraftingResultSlotIndex();
-    		ItemStack outStack = rsh.slots.get(resultSlotIndex).getStack();
+    		ItemStack outStack = rsh.getSlot(resultSlotIndex).getStack();
     		if (Screen.hasAltDown() || !hasSpace(inv, outStack)) ply.dropSelectedItem(true);
     		im.clickSlot(0, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
 	}
 
-
-	public static AbstractRecipeScreenHandler<RecipeInput, Integer> getRecipeScreenHandler()
-	{
-		ClientPlayerEntity ply = MinecraftClient.getInstance().player;
-    		return ply == null 
-		? null : ply.currentScreenHandler instanceof CraftingScreenHandler || ply.currentScreenHandler instanceof PlayerScreenHandler 
-	    	? (AbstractRecipeScreenHandler<RecipeInput, Integer>) ply.currentScreenHandler : null;
-	}
-
 	public static boolean hasSpace(PlayerInventory inv, ItemStack outStack)
 	{
-    		return outStack.isEmpty() || inv.getEmptySlot() >= 0 || inv.getOccupiedSlotWithRoomForStack(outStack) >= 0;
+    		return outStack.isEmpty() || inv.getEmptySlot() >= 0 || inv.canAddItem(outStack);
 	}
 }
