@@ -62,7 +62,10 @@ public final class MassCraftHack extends Hack implements UpdateListener
 	}
 
 	public void craft()
-	{
+	{ 
+		if (MC.player == null || MC.interactionManager == null)
+			return;
+		
     		ClientPlayerInteractionManager im = MC.interactionManager;
     		PlayerInventory inv = MC.player.getInventory();
     		if (im == null || inv == null) 
