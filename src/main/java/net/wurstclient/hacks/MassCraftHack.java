@@ -72,7 +72,8 @@ public final class MassCraftHack extends Hack implements UpdateListener
     		ItemStack outStack = rsh.getSlot(resultSlotIndex).getStack();
     		if (Screen.hasAltDown() || !hasSpace(inv, outStack)) 
 			ply.dropSelectedItem(true);
-    		im.clickSlot(0, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
+		int syncID = ply.currentScreenHandler.syncId;
+    		im.clickSlot(syncID, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
 	}
 
 	public static boolean hasSpace(PlayerInventory inv, ItemStack outStack)
