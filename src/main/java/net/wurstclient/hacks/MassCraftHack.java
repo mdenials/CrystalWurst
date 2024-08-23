@@ -58,16 +58,10 @@ public final class MassCraftHack extends Hack implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
-		if(timer > 0)
-		{
-			timer--;
-			return;
-		}
-		timer = delay.getValueI();
 		ClientTickEvents.START_CLIENT_TICK.register((MinecraftClient minecraftClient)-> {craft();});
 	}
 
-	public static void craft()
+	public void craft()
 	{
 		MinecraftClient client = MinecraftClient.getInstance();
     		ClientPlayerEntity ply = client.player;
@@ -80,7 +74,12 @@ public final class MassCraftHack extends Hack implements UpdateListener
         		return;
 
 		// wait for timer
-		
+		if(timer > 0)
+		{
+			timer--;
+			return;
+		}
+		timer = delay.getValueI();
 		
     		if (ply.currentScreenHandler instanceof CraftingScreenHandler)
     		{
@@ -108,7 +107,7 @@ public final class MassCraftHack extends Hack implements UpdateListener
     		}		
 	}
 
-	public static boolean hasSpace(PlayerInventory inv, ItemStack outStack)
+	public boolean hasSpace(PlayerInventory inv, ItemStack outStack)
 	{
     		if (outStack.isEmpty()) return true;
     		for (int i = 0; i < inv.size(); i++)
