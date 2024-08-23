@@ -57,14 +57,7 @@ public final class MassCraftHack extends Hack implements UpdateListener
 
 	@Override
 	public void onUpdate()
-	{
-		// wait for timer
-		if(timer > 0)
-		{
-			timer--;
-			return;
-		}
-		timer = delay.getValueI();
+	{		
 		ClientTickEvents.START_CLIENT_TICK.register((MinecraftClient minecraftClient)-> {craft();});
 	}
 
@@ -79,6 +72,15 @@ public final class MassCraftHack extends Hack implements UpdateListener
     		// Check if the current screen handler is an instance of CraftingScreenHandler or PlayerScreenHandler
     		if (!(ply.currentScreenHandler instanceof CraftingScreenHandler) && !(ply.currentScreenHandler instanceof PlayerScreenHandler))
         		return;
+
+		// wait for timer
+		if(timer > 0)
+		{
+			timer--;
+			return;
+		}
+		timer = delay.getValueI();
+		
     		if (ply.currentScreenHandler instanceof CraftingScreenHandler)
     		{
         		CraftingScreenHandler rsh = (CraftingScreenHandler) ply.currentScreenHandler;
