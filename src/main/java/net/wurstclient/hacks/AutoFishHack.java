@@ -48,12 +48,7 @@ public final class AutoFishHack extends Hack implements UpdateListener, PacketIn
 			+ "Increase your range if bites are not being detected, decrease it"
 			+ " if other people's bites are being detected as yours.\n\n"
 			+ "This setting has effect only when \"Mode\" is set to \"Sound\".",
-		1.5, 0.25, 8, 0.25, ValueDisplay.DECIMAL);
-	private final SliderSetting validRange = new SliderSetting("Valid range",
-		"Any bites that occur outside of this range will be ignored.\n\n"
-			+ "Increase your range if bites are not being detected, decrease it"
-			+ " if other people's bites are being detected as yours.",
-		1.5, 0.25, 8, 0.25, ValueDisplay.DECIMAL);
+		1.5, 0, 20, 0.000001, ValueDisplay.DECIMAL);
 	
 	private final SliderSetting catchDelay = new SliderSetting("Catch delay",
 		"How long AutoFish will wait after a bite before reeling in.", 0, 0, 60,
