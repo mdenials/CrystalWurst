@@ -63,10 +63,8 @@ public final class MassCraftHack extends Hack implements UpdateListener
 
 	public void craft()
 	{
-		MinecraftClient client = MinecraftClient.getInstance();
-    		ClientPlayerEntity ply = client.player;
-    		ClientPlayerInteractionManager im = client.interactionManager;
-    		PlayerInventory inv = ply.getInventory();
+    		ClientPlayerInteractionManager im = MC.player.interactionManager;
+    		PlayerInventory inv = MC.player.getInventory();
     		if (im == null || ply == null || inv == null) 
         		return;
     		// Check if the current screen handler is an instance of CraftingScreenHandler or PlayerScreenHandler
