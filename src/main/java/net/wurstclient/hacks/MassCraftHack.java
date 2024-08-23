@@ -77,7 +77,7 @@ public final class MassCraftHack extends Hack implements UpdateListener
     		if (im == null || ply == null) 
         		return;
     		// Check if the current screen handler is an instance of CraftingScreenHandler or PlayerScreenHandler
-    		if (!(ply.currentScreenHandler instanceof CraftingScreenHandler) || !(ply.currentScreenHandler instanceof PlayerScreenHandler))
+    		if (!(ply.currentScreenHandler instanceof CraftingScreenHandler) && !(ply.currentScreenHandler instanceof PlayerScreenHandler))
         		return;
     		if (ply.currentScreenHandler instanceof CraftingScreenHandler)
     		{
