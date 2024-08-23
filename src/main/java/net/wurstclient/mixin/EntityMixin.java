@@ -122,12 +122,12 @@ public abstract class EntityMixin implements Nameable, EntityLike, CommandOutput
     if (WurstClient.INSTANCE.getHax().hitboxHack.shouldBeExpand((Entity)(Object)this))
     {
 	cir.setReturnValue(new Box(
-	this.boundingBox.minX - hax.hitboxHack.sv.getValue()/2f,
-	this.boundingBox.minY - hax.hitboxHack.hv.getValue()/2f,
-	this.boundingBox.minZ - hax.hitboxHack.sv.getValue()/2f,
-	this.boundingBox.maxX + hax.hitboxHack.sv.getValue()/2f,
-	this.boundingBox.maxY + hax.hitboxHack.hv.getValue()/2f,
-	this.boundingBox.maxZ + hax.hitboxHack.sv.getValue()/2f));
+	this.boundingBox.minX - hax.hitboxHack.sv.getValue(),
+	this.boundingBox.minY - hax.hitboxHack.hv.getValue(),
+	this.boundingBox.minZ - hax.hitboxHack.sv.getValue(),
+	this.boundingBox.maxX + hax.hitboxHack.sv.getValue(),
+	this.boundingBox.maxY + hax.hitboxHack.hv.getValue(),
+	this.boundingBox.maxZ + hax.hitboxHack.sv.getValue()));
         }
     }
 	
