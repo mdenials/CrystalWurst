@@ -57,7 +57,13 @@ public final class MassCraftHack extends Hack implements UpdateListener
 
 	@Override
 	public void onUpdate()
-	{		
+	{
+		if(timer > 0)
+		{
+			timer--;
+			return;
+		}
+		timer = delay.getValueI();
 		ClientTickEvents.START_CLIENT_TICK.register((MinecraftClient minecraftClient)-> {craft();});
 	}
 
@@ -74,12 +80,7 @@ public final class MassCraftHack extends Hack implements UpdateListener
         		return;
 
 		// wait for timer
-		if(timer > 0)
-		{
-			timer--;
-			return;
-		}
-		timer = delay.getValueI();
+		
 		
     		if (ply.currentScreenHandler instanceof CraftingScreenHandler)
     		{
