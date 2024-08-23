@@ -71,11 +71,6 @@ public final class MassCraftHack extends Hack implements UpdateListener
 
 	public static boolean hasSpace(PlayerInventory inv, ItemStack outStack)
 	{
-    		return outStack.isEmpty() || inv.getEmptySlot() >= 0 || inv.canAddItem(outStack);
-	}
-
-	public static boolean hasSpace(PlayerInventory inv, ItemStack outStack)
-	{
     		if (outStack.isEmpty()) return true;
     		for (int i = 0; i < inv.size(); i++)
 		{
