@@ -28,16 +28,21 @@ import net.wurstclient.events.UpdateListener;
 @SearchTags({"quickcraft", "mass craft"})
 public final class MassCraftHack extends Hack implements UpdateListener
 {
+	private final SliderSetting delay = new SliderSetting("Delay", "Masscrafter delay. ", 5, 0, 20, 1, ValueDisplay.INTEGER);
+	
+	private int timer;
 	public MassCraftHack()
 	{
 		super("MassCraft");
 		setCategory(Category.ITEMS);
+		addSetting(delay);
 	}
 
 
 	@Override
 	public void onEnable()
 	{
+		timer = 0;
 		EVENTS.add(UpdateListener.class, this);
 	}
 	
@@ -51,6 +56,13 @@ public final class MassCraftHack extends Hack implements UpdateListener
 	@Override
 	public void onUpdate()
 	{
+		// wait for timer
+		if(timer > 0)
+		{
+			timer--;
+			return;
+		}
+		timer = delay.getValueI();
 		ClientTickEvents.START_CLIENT_TICK.register((MinecraftClient minecraftClient)-> {craft();});
 	}
 
