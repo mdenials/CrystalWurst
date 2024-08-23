@@ -63,7 +63,7 @@ public final class MassCraftHack extends Hack implements UpdateListener
 		if(im == null || ply == null)
 			return;
 		PlayerInventory inv = ply.getInventory();
-		AbstractRecipeScreenHandler<?> rsh = getRecipeScreenHandler();
+		AbstractRecipeScreenHandler<first, last> rsh = getRecipeScreenHandler();
 		if(rsh != null)
 		{
 			int resultSlotIndex = rsh.getCraftingResultSlotIndex();
@@ -79,7 +79,7 @@ public final class MassCraftHack extends Hack implements UpdateListener
 	// crafting table result
 	public static ItemStack getResultStack()
 	{ 
-		AbstractRecipeScreenHandler<?> rsh = getRecipeScreenHandler();
+		AbstractRecipeScreenHandler<first, last> rsh = getRecipeScreenHandler();
 		if(rsh == null)
 			return null;
 		int resultSlotIndex = rsh.getCraftingResultSlotIndex();
@@ -88,14 +88,14 @@ public final class MassCraftHack extends Hack implements UpdateListener
 
 
 	// get crafting area screen handler (table/player)
-	public static AbstractRecipeScreenHandler<?> getRecipeScreenHandler()
+	public static AbstractRecipeScreenHandler<first, last> getRecipeScreenHandler()
 	{	
 		ClientPlayerEntity ply = MinecraftClient.getInstance().player;
 		if(ply == null)
 			return null;
 		ScreenHandler csh = ply.currentScreenHandler;
 		if(csh instanceof CraftingScreenHandler || csh instanceof PlayerScreenHandler)
-			return ((AbstractRecipeScreenHandler<?>) csh);
+			return ((AbstractRecipeScreenHandler<first, last>) csh);
 		return null;
 	}
 
