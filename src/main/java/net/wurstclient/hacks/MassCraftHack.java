@@ -54,54 +54,31 @@ public final class MassCraftHack extends Hack implements UpdateListener
 		ClientTickEvents.START_CLIENT_TICK.register((MinecraftClient minecraftClient)-> {craft();});
 	}
 
-	// craft the item on the crafting table
 	public static void craft()
-	{	
-		MinecraftClient client = MinecraftClient.getInstance();
-		ClientPlayerEntity ply = client.player;
-		ClientPlayerInteractionManager im = client.interactionManager;
-		if(im == null || ply == null)
-			return;
-		PlayerInventory inv = ply.getInventory();
-		AbstractRecipeScreenHandler<CraftingScreenHandler, 0> rsh = getRecipeScreenHandler();
-		if(rsh != null)
-		{
-			int resultSlotIndex = rsh.getCraftingResultSlotIndex();
-			ItemStack outStack = getResultStack();
-			if(Screen.hasAltDown() || (outStack != null && !hasSpace(inv, outStack)))
-			{
-				ply.dropSelectedItem(true);
-			}
-			im.clickSlot(0, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
-		}
-	}
-
-	// crafting table result
-	public static ItemStack getResultStack()
-	{ 
-		AbstractRecipeScreenHandler<CraftingScreenHandler, 0> rsh = getRecipeScreenHandler();
-		if(rsh == null)
-			return null;
-		int resultSlotIndex = rsh.getCraftingResultSlotIndex();
-		return rsh.slots.get(resultSlotIndex).getStack();
+	{
+    		MinecraftClient client = MinecraftClient.getInstance();
+    		ClientPlayerEntity ply = client.player;
+    		ClientPlayerInteractionManager im = client.interactionManager;
+    		if (im == null || ply == null) return;
+    		PlayerInventory inv = ply.getInventory();
+    		AbstractRecipeScreenHandler<CraftingScreenHandler, 0> rsh = getRecipeScreenHandler();
+    		if (rsh == null) return;
+    		int resultSlotIndex = rsh.getCraftingResultSlotIndex();
+    		ItemStack outStack = rsh.slots.get(resultSlotIndex).getStack();
+    		if (Screen.hasAltDown() || !hasSpace(inv, outStack)) ply.dropSelectedItem(true);
+    		im.clickSlot(0, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
 	}
 
 
-	// get crafting area screen handler (table/player)
 	public static AbstractRecipeScreenHandler<CraftingScreenHandler, 0> getRecipeScreenHandler()
-	{	
-		ClientPlayerEntity ply = MinecraftClient.getInstance().player;
-		if(ply == null)
-			return null;
-		ScreenHandler csh = ply.currentScreenHandler;
-		if(csh instanceof CraftingScreenHandler || csh instanceof PlayerScreenHandler)
-			return ((AbstractRecipeScreenHandler<CraftingScreenHandler, 0>) csh);
-		return null;
+	{
+    		ClientPlayerEntity ply = MinecraftClient.getInstance().player;
+    		return ply == null ? null : ply.currentScreenHandler instanceof CraftingScreenHandler || ply.currentScreenHandler instanceof PlayerScreenHandler 
+			? (AbstractRecipeScreenHandler<CraftingScreenHandler, 0>) ply.currentScreenHandler : null;
 	}
 
-	// player inventory has space for items
-	protected static boolean hasSpace(PlayerInventory inv, ItemStack outStack)
-	{	
-		return outStack.isEmpty() || inv.getEmptySlot() >= 0 || inv.getOccupiedSlotWithRoomForStack(outStack) >= 0;
+	public static boolean hasSpace(PlayerInventory inv, ItemStack outStack)
+	{
+    		return outStack.isEmpty() || inv.getEmptySlot() >= 0 || inv.getOccupiedSlotWithRoomForStack(outStack) >= 0;
 	}
 }
