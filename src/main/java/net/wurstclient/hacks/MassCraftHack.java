@@ -24,6 +24,8 @@ import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.hack.Hack;
 import net.wurstclient.events.UpdateListener;
+import net.wurstclient.settings.SliderSetting;
+import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 @SearchTags({"quickcraft", "mass craft"})
 public final class MassCraftHack extends Hack implements UpdateListener
