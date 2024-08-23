@@ -25,15 +25,21 @@ import net.wurstclient.events.PacketOutputListener;
 import net.wurstclient.events.UpdateListener;
 import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.CheckboxSetting;
+import net.wurstclient.settings.SliderSetting;
+import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.util.BlockUtils;
 
 @SearchTags({"WaterWalking", "water walking"})
-public final class JesusHack extends Hack
-	implements UpdateListener, PacketOutputListener
+public final class JesusHack extends Hack implements UpdateListener, PacketOutputListener
 {
-	private final CheckboxSetting bypass =
-		new CheckboxSetting("NoCheat+ bypass",
-			"Bypasses NoCheat+ but slows down your movement.", false);
+	private final SliderSetting liquidVelocity = new SliderSetting("Water velocity", "Water up velocity.\n", 0.005, 0, 20, 0.000001, ValueDisplay.DECIMAL);
+	private final SliderSetting waterJump = new SliderSetting("Water jump", "Water jump simulate value.\n", 0.3, 0, 20, 0.000001, ValueDisplay.DECIMAL);
+	private final SliderSetting playerOffset = new SliderSetting("PlayerOffset", "Sets the player offset.\n", -0.5, -20, 20, 0.000001, ValueDisplay.DECIMAL);
+	private final SliderSetting tick = new SliderSetting("Timer", "Jesus tick timer.\n", 10, 0, 20, 1, ValueDisplay.INTEGER);
+	private final SliderSetting packetT = new SliderSetting("Packet Timer", "Packet timer.\n", 4, 0, 20, 1, ValueDisplay.INTEGER);
+	private final SliderSetting dst = new SliderSetting("Distance", "Water bypass distance.\n", 0.05, 0, 20, 0.000001, ValueDisplay.DECIMAL);
+	private final CheckboxSetting solidliquid = new CheckboxSetting("Solid liquid", "Make liquid is solid.", false);
+	private final CheckboxSetting bypass = new CheckboxSetting("NoCheat+ bypass", "Bypasses NoCheat+ but slows down your movement.", false);
 	
 	private int tickTimer = 10;
 	private int packetTimer = 0;
@@ -42,6 +48,13 @@ public final class JesusHack extends Hack
 	{
 		super("Jesus");
 		setCategory(Category.MOVEMENT);
+		addSetting(liquidVelocity);
+        	addSetting(waterJump);
+        	addSetting(playerOffset);
+        	addSetting(tick);
+        	addSetting(packetT);
+        	addSetting(dst);
+        	addSetting(solidliquid);
 		addSetting(bypass);
 	}
 	
@@ -72,7 +85,7 @@ public final class JesusHack extends Hack
 		if(player.isTouchingWater() || player.isInLava())
 		{
 			Vec3d velocity = player.getVelocity();
-			player.setVelocity(velocity.x, 0.11, velocity.z);
+			player.setVelocity(velocity.x, (double)(liquidVelocity.getValue()), velocity.z);
 			tickTimer = 0;
 			return;
 		}
@@ -80,7 +93,7 @@ public final class JesusHack extends Hack
 		// simulate jumping out of water
 		Vec3d velocity = player.getVelocity();
 		if(tickTimer == 0)
-			player.setVelocity(velocity.x, 0.30, velocity.z);
+			player.setVelocity(velocity.x, (double)(waterJump.getValue()), velocity.z);
 		else if(tickTimer == 1)
 			player.setVelocity(velocity.x, 0, velocity.z);
 		
@@ -122,7 +135,7 @@ public final class JesusHack extends Hack
 		
 		// wait for timer
 		packetTimer++;
-		if(packetTimer < 4)
+		if(packetTimer < packetT.getValueI())
 			return;
 		
 		// cancel old packet
@@ -135,9 +148,9 @@ public final class JesusHack extends Hack
 		
 		// offset y
 		if(bypass.isChecked() && MC.player.age % 2 == 0)
-			y -= 0.05;
+			y -= (double)(dst.getValue());
 		else
-			y += 0.05;
+			y += (double)(dst.getValue());
 		
 		// create new packet
 		Packet<?> newPacket;
@@ -156,7 +169,7 @@ public final class JesusHack extends Hack
 	{
 		boolean foundLiquid = false;
 		boolean foundSolid = false;
-		Box box = MC.player.getBoundingBox().offset(0, -0.5, 0);
+		Box box = MC.player.getBoundingBox().offset(0, (double)(playerOffset.getValue()), 0);
 		
 		// check collision boxes below player
 		ArrayList<Block> blockCollisions = BlockUtils.getBlockCollisions(box)
@@ -176,6 +189,6 @@ public final class JesusHack extends Hack
 	{
 		return isEnabled() && MC.player != null && MC.player.fallDistance <= 3
 			&& !MC.options.sneakKey.isPressed() && !MC.player.isTouchingWater()
-			&& !MC.player.isInLava();
+			&& !MC.player.isInLava() && solidliquid.isChecked();
 	}
 }
