@@ -137,6 +137,11 @@ public final class AimAssistHack extends Hack
 		
 		// get needed rotation
 		Rotation needed = RotationUtils.getNeededRotations(hitVec);
+		
+		// turn towards center of boundingBox
+		Rotation next = RotationUtils.slowlyTurnTowards(needed, rotationSpeed.getValueI() / 20F);
+		nextYaw = next.yaw();
+		nextPitch = next.pitch();
 
 		// check if facing in the allowed range
 		if (RotationUtils.isAlreadyFacingMod(needed, allowance.getValue()))
@@ -167,12 +172,17 @@ public final class AimAssistHack extends Hack
 	{
 		if(target == null || MC.player == null)
 			return;
+
+		float curYaw = MC.player.getYaw();
+		float curPitch = MC.player.getPitch();
+		int diffYaw = (int)(nextYaw - curYaw);
+		int diffPitch = (int)(nextPitch - curPitch);
 		
 		double inputFactor = 1 - ignoreMouseInput.getValue();
 		int mouseInputX = (int)(event.getDefaultDeltaX() * inputFactor);
 		int mouseInputY = (int)(event.getDefaultDeltaY() * inputFactor);
 		
-		event.setDeltaX(mouseInputX + sensitivity.getValue());
-		event.setDeltaY(mouseInputY + sensitivity.getValue());
+		event.setDeltaX(mouseInputX + diffYaw * sensitivity.getValue());
+		event.setDeltaY(mouseInputY + diffPitch * sensitivity.getValue());
 	}
 }
