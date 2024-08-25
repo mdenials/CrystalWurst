@@ -124,7 +124,6 @@ public final class KillauraHack extends Hack implements UpdateListener, HandleIn
 		speed.resetTimer(speedRandMS.getValue());
 		EVENTS.add(UpdateListener.class, this);
 		EVENTS.add(HandleInputListener.class, this);
-		EVENTS.add(RenderListener.class, this);
 	}
 	
 	@Override
@@ -132,7 +131,6 @@ public final class KillauraHack extends Hack implements UpdateListener, HandleIn
 	{
 		EVENTS.remove(UpdateListener.class, this);
 		EVENTS.remove(HandleInputListener.class, this);
-		EVENTS.remove(RenderListener.class, this);
 		target = null;
 	}
 	
