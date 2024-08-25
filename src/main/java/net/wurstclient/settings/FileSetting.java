@@ -33,14 +33,11 @@ public final class FileSetting extends Setting
 {
 	private final Path folder;
 	private String selectedFile = "";
-	private final Consumer<Path> createDefaultFiles;
 	
-	public FileSetting(String name, String description, String folderName,
-		Consumer<Path> createDefaultFiles)
+	public FileSetting(String name, String description, String folderName)
 	{
 		super(name, description);
 		folder = WurstClient.INSTANCE.getWurstFolder().resolve(folderName);
-		this.createDefaultFiles = createDefaultFiles;
 		setSelectedFileToDefault();
 	}
 	
@@ -75,31 +72,7 @@ public final class FileSetting extends Setting
 	{
 		ArrayList<Path> files = listFiles();
 		
-		if(files.isEmpty())
-			files = createDefaultFiles();
-		
 		selectedFile = "" + files.get(0).getFileName();
-	}
-	
-	private ArrayList<Path> createDefaultFiles()
-	{
-		try
-		{
-			Files.createDirectories(folder);
-			
-		}catch(IOException e)
-		{
-			throw new RuntimeException(e);
-		}
-		
-		createDefaultFiles.accept(folder);
-		
-		ArrayList<Path> files = listFiles();
-		if(files.isEmpty())
-			throw new IllegalStateException(
-				"Created default files but folder is still empty!");
-		
-		return files;
 	}
 	
 	public void resetFolder()
@@ -120,15 +93,13 @@ public final class FileSetting extends Setting
 	
 	public ArrayList<Path> listFiles()
 	{
-		if(!Files.isDirectory(folder))
-			return new ArrayList<>();
+		if(!Files.isDirectory(folder)) return new ArrayList<>();
 		
 		try(Stream<Path> files = Files.list(folder))
 		{
-			return files.filter(Files::isRegularFile)
-				.collect(Collectors.toCollection(ArrayList::new));
-			
-		}catch(IOException e)
+			return files.filter(Files::isRegularFile).collect(Collectors.toCollection(ArrayList::new));
+		}
+		catch(IOException e)
 		{
 			throw new RuntimeException(e);
 		}
