@@ -26,7 +26,6 @@ import net.minecraft.util.math.Vec3d;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.events.HandleInputListener;
-import net.wurstclient.events.RenderListener;
 import net.wurstclient.events.UpdateListener;
 import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.AttackSpeedSliderSetting;
@@ -46,8 +45,7 @@ import net.wurstclient.util.RotationUtils;
 
 @SearchTags({"kill aura", "ForceField", "force field", "CrystalAura",
 	"crystal aura", "AutoCrystal", "auto crystal"})
-public final class KillauraHack extends Hack
-	implements UpdateListener, HandleInputListener, RenderListener
+public final class KillauraHack extends Hack implements UpdateListener, HandleInputListener
 {
 	private final SliderSetting range = new SliderSetting("Range",
 		"Determines how far Killaura will reach to attack entities.\n"
@@ -80,11 +78,6 @@ public final class KillauraHack extends Hack
 		"How Killaura should swing your hand when attacking.",
 		SwingHand.CLIENT);
 	
-	private final CheckboxSetting damageIndicator = new CheckboxSetting(
-		"Damage indicator",
-		"Renders a colored box within the target, inversely proportional to its remaining health.",
-		true);
-	
 	private final PauseAttackOnContainersSetting pauseOnContainers =
 		new PauseAttackOnContainersSetting(true);
 	
@@ -94,24 +87,20 @@ public final class KillauraHack extends Hack
 				+ "Slower but can help with anti-cheat plugins.",
 			false);
 	
-	private final EntityFilterList entityFilters =
-		EntityFilterList.genericCombat();
+	private final EntityFilterList entityFilters = EntityFilterList.genericCombat();
 	
 	private Entity target;
-	private Entity renderTarget;
 	
 	public KillauraHack()
 	{
 		super("Killaura");
 		setCategory(Category.COMBAT);
-		
 		addSetting(range);
 		addSetting(speed);
 		addSetting(speedRandMS);
 		addSetting(priority);
 		addSetting(fov);
 		addSetting(swingHand);
-		addSetting(damageIndicator);
 		addSetting(pauseOnContainers);
 		addSetting(checkLOS);
 		
@@ -144,9 +133,7 @@ public final class KillauraHack extends Hack
 		EVENTS.remove(UpdateListener.class, this);
 		EVENTS.remove(HandleInputListener.class, this);
 		EVENTS.remove(RenderListener.class, this);
-		
 		target = null;
-		renderTarget = null;
 	}
 	
 	@Override
@@ -164,17 +151,13 @@ public final class KillauraHack extends Hack
 		stream = stream.filter(e -> MC.player.squaredDistanceTo(e) <= rangeSq);
 		
 		if(fov.getValue() < 360.0)
-			stream = stream.filter(e -> RotationUtils.getAngleToLookVec(
-				e.getBoundingBox().getCenter()) <= fov.getValue() / 2.0);
+			stream = stream.filter(e -> RotationUtils.getAngleToLookVec(e.getBoundingBox().getCenter()) <= fov.getValue() / 2.0);
 		
 		stream = entityFilters.applyTo(stream);
 		
 		target = stream.min(priority.getSelected().comparator).orElse(null);
-		renderTarget = target;
 		if(target == null)
 			return;
-		
-		WURST.getHax().autoSwordHack.setSlot(target);
 		
 		Vec3d hitVec = target.getBoundingBox().getCenter();
 		if(checkLOS.isChecked() && !BlockUtils.hasLineOfSight(hitVec))
@@ -199,72 +182,11 @@ public final class KillauraHack extends Hack
 		speed.resetTimer(speedRandMS.getValue());
 	}
 	
-	@Override
-	public void onRender(MatrixStack matrixStack, float partialTicks)
-	{
-		if(renderTarget == null || !damageIndicator.isChecked())
-			return;
-		
-		// GL settings
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		
-		matrixStack.push();
-		
-		RegionPos region = RenderUtils.getCameraRegion();
-		RenderUtils.applyRegionalRenderOffset(matrixStack, region);
-		
-		Box box = new Box(BlockPos.ORIGIN);
-		float p = 1;
-		if(renderTarget instanceof LivingEntity le)
-			p = (le.getMaxHealth() - le.getHealth()) / le.getMaxHealth();
-		float red = p * 2F;
-		float green = 2 - red;
-		
-		Vec3d lerpedPos = EntityUtils.getLerpedPos(renderTarget, partialTicks)
-			.subtract(region.toVec3d());
-		matrixStack.translate(lerpedPos.x, lerpedPos.y, lerpedPos.z);
-		
-		matrixStack.translate(0, 0.05, 0);
-		matrixStack.scale(renderTarget.getWidth(), renderTarget.getHeight(),
-			renderTarget.getWidth());
-		matrixStack.translate(-0.5, 0, -0.5);
-		
-		if(p < 1)
-		{
-			matrixStack.translate(0.5, 0.5, 0.5);
-			matrixStack.scale(p, p, p);
-			matrixStack.translate(-0.5, -0.5, -0.5);
-		}
-		
-		RenderSystem.setShader(GameRenderer::getPositionProgram);
-		
-		RenderSystem.setShaderColor(red, green, 0, 0.25F);
-		RenderUtils.drawSolidBox(box, matrixStack);
-		
-		RenderSystem.setShaderColor(red, green, 0, 0.5F);
-		RenderUtils.drawOutlinedBox(box, matrixStack);
-		
-		matrixStack.pop();
-		
-		// GL resets
-		RenderSystem.setShaderColor(1, 1, 1, 1);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_BLEND);
-	}
-	
 	private enum Priority
 	{
 		DISTANCE("Distance", e -> MC.player.squaredDistanceTo(e)),
-		
-		ANGLE("Angle",
-			e -> RotationUtils
-				.getAngleToLookVec(e.getBoundingBox().getCenter())),
-		
-		HEALTH("Health", e -> e instanceof LivingEntity
-			? ((LivingEntity)e).getHealth() : Integer.MAX_VALUE);
+		ANGLE("Angle", e -> RotationUtils.getAngleToLookVec(e.getBoundingBox().getCenter())),
+		HEALTH("Health", e -> e instanceof LivingEntity ? ((LivingEntity)e).getHealth() : Integer.MAX_VALUE);
 		
 		private final String name;
 		private final Comparator<Entity> comparator;
