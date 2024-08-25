@@ -100,11 +100,6 @@ public final class ZoomOtf extends OtherFeature implements MouseScrollListener
 		if(currentLevel == null)
 			currentLevel = level.getValue();
 		
-		if(amount > 0)
-			currentLevel *= 1.1;
-		else if(amount < 0)
-			currentLevel *= 0.9;
-		
 		currentLevel = MathUtils.clamp(currentLevel, level.getMinimum(),
 			level.getMaximum());
 	}
