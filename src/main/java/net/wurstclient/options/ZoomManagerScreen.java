@@ -42,10 +42,8 @@ public class ZoomManagerScreen extends Screen implements PressAKeyCallback
 			.build());
 		
 		addDrawableChild(ButtonWidget
-			.builder(
-				Text.literal("Zoom Key: ")
-					.append(zoom.getTranslatedKeybindName()),
-				b -> client.setScreen(new PressAKeyScreen(this)))
+			.builder(Text.literal("Zoom Key: ")
+			.append(zoom.getTranslatedKeybindName()), b -> client.setScreen(new PressAKeyScreen(this)))
 			.dimensions(width / 2 - 79, height / 4 + 24 - 16, 158, 20).build());
 		
 		addDrawableChild(ButtonWidget
@@ -57,18 +55,12 @@ public class ZoomManagerScreen extends Screen implements PressAKeyCallback
 			.dimensions(width / 2 - 25, height / 4 + 72 - 16, 50, 20).build());
 		
 		addDrawableChild(ButtonWidget
-			.builder(Text.literal("Default"),
-				b -> level.setValue(level.getDefaultValue()))
+			.builder(Text.literal("Default"), b -> level.setValue(level.getDefaultValue()))
 			.dimensions(width / 2 + 29, height / 4 + 72 - 16, 50, 20).build());
 		
-		addDrawableChild(
-			scrollButton = ButtonWidget
-				.builder(
-					Text.literal(
-						"Use Mouse Wheel: " + onOrOff(scroll.isChecked())),
-					b -> toggleScroll())
-				.dimensions(width / 2 - 79, height / 4 + 96 - 16, 158, 20)
-				.build());
+		addDrawableChild(scrollButton = ButtonWidget
+			.builder(Text.literal("Use Mouse Wheel: " + onOrOff(scroll.isChecked())), b -> toggleScroll())
+			.dimensions(width / 2 - 79, height / 4 + 96 - 16, 158, 20).build());
 	}
 	
 	private void toggleScroll()
@@ -77,8 +69,7 @@ public class ZoomManagerScreen extends Screen implements PressAKeyCallback
 		CheckboxSetting scroll = zoom.getScrollSetting();
 		
 		scroll.setChecked(!scroll.isChecked());
-		scrollButton.setMessage(
-			Text.literal("Use Mouse Wheel: " + onOrOff(scroll.isChecked())));
+		scrollButton.setMessage(Text.literal("Use Mouse Wheel: " + onOrOff(scroll.isChecked())));
 	}
 	
 	private String onOrOff(boolean on)
@@ -100,11 +91,8 @@ public class ZoomManagerScreen extends Screen implements PressAKeyCallback
 		SliderSetting level = zoom.getLevelSetting();
 		
 		renderBackground(context, mouseX, mouseY, partialTicks);
-		context.drawCenteredTextWithShadow(textRenderer, "Zoom Manager",
-			width / 2, 40, 0xffffff);
-		context.drawTextWithShadow(textRenderer,
-			"Zoom Level: " + level.getValueString(), width / 2 - 75,
-			height / 4 + 44, 0xcccccc);
+		context.drawCenteredTextWithShadow(textRenderer, "Zoom Manager", width / 2, 40, 0xffffff);
+		context.drawTextWithShadow(textRenderer, "Zoom Level: " + level.getValueString(), width / 2 - 75, height / 4 + 44, 0xcccccc);
 		
 		for(Drawable drawable : drawables)
 			drawable.render(context, mouseX, mouseY, partialTicks);
