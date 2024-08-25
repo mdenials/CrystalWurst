@@ -45,8 +45,7 @@ public final class AutoBuildHack extends Hack
 	private final FileSetting templateSetting = new FileSetting("Template",
 		"Determines what to build.\n\n"
 			+ "Templates are just JSON files. Feel free to add your own or to edit / delete the default templates.\n\n"
-			+ "If you mess up, simply press the 'Reset to Defaults' button or delete the folder.",
-		"autobuild", DefaultAutoBuildTemplates::createFiles);
+			+ "If you mess up, simply press the 'Reset to Defaults' button or delete the folder.", "autobuild");
 	
 	private final SliderSetting range = new SliderSetting("Range",
 		"How far to reach when placing blocks.\n" + "Recommended values:\n"
