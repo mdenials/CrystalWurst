@@ -135,20 +135,12 @@ public final class AimAssistHack extends Hack
 			return;
 		}
 		
-		WURST.getHax().autoSwordHack.setSlot(target);
-		
 		// get needed rotation
 		Rotation needed = RotationUtils.getNeededRotations(hitVec);
 
 		// check if facing in the allowed range
 		if (RotationUtils.isAlreadyFacingMod(needed, allowance.getValue()))
 			return;
-
-		// turn towards center of boundingBox
-		Rotation next = RotationUtils.slowlyTurnTowards(needed,
-			rotationSpeed.getValueI() / 20F);
-		nextYaw = next.yaw();
-		nextPitch = next.pitch();
 	}
 	
 	private void chooseTarget()
@@ -176,25 +168,11 @@ public final class AimAssistHack extends Hack
 		if(target == null || MC.player == null)
 			return;
 		
-		float curYaw = MC.player.getYaw();
-		float curPitch = MC.player.getPitch();
-		int diffYaw = (int)(nextYaw - curYaw);
-		int diffPitch = (int)(nextPitch - curPitch);
-		
-		// If we are <1 degree off but still missing the hitbox,
-		// slightly exaggerate the difference to fix that.
-		if(diffYaw == 0 && diffPitch == 0 && !RotationUtils
-			.isFacingBox(target.getBoundingBox(), range.getValue()))
-		{
-			diffYaw = nextYaw < curYaw ? -1 : 1;
-			diffPitch = nextPitch < curPitch ? -1 : 1;
-		}
-		
 		double inputFactor = 1 - ignoreMouseInput.getValue();
 		int mouseInputX = (int)(event.getDefaultDeltaX() * inputFactor);
 		int mouseInputY = (int)(event.getDefaultDeltaY() * inputFactor);
 		
-		event.setDeltaX(mouseInputX + diffYaw * sensitivity.getValue());
-		event.setDeltaY(mouseInputY + diffPitch * sensitivity.getValue());
+		event.setDeltaX(mouseInputX * sensitivity.getValue());
+		event.setDeltaY(mouseInputY * sensitivity.getValue());
 	}
 }
