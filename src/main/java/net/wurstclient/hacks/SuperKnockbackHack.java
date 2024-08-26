@@ -24,35 +24,35 @@ import net.wurstclient.SearchTags;
 
 public final class SuperKnockbackHack extends Hack implements LeftClickListener
 {
-    private final EnumSetting<Mode> mode = new EnumSetting<>("Mode",
+    	private final EnumSetting<Mode> mode = new EnumSetting<>("Mode",
 		"\u00a7lPacket\u00a7r mode sends packets to server without actually moving you at all.\n\n"
 			+ "\u00a7lSprint Tap\u00a7r mode press a sprint that is just enough to get a extended knockback.\n\n",
 		Mode.values(), Mode.PACKET);
 
-    private final SliderSetting activationChance = new SliderSetting("Activation chance",
+    	private final SliderSetting activationChance = new SliderSetting("Activation chance",
 		"Only activate superknockback with the given chance",
 		1, 0, 1, 0.000001, ValueDisplay.PERCENTAGE);
 
-    private final SliderSetting delay = new SliderSetting("Delay", 0, 0, 20, 1, ValueDisplay.INTEGER);
+    	private final SliderSetting delay = new SliderSetting("Delay", 0, 0, 20, 1, ValueDisplay.INTEGER);
 
-    private final Random random = new Random();
-    private boolean chance;
-    private int timer;
+    	private final Random random = new Random();
+    	private boolean chance;
+    	private int timer;
 
-    public SuperKnockbackHack()
+    	public SuperKnockbackHack()
 	{
 		super("SuperKnockback");
 		setCategory(Category.COMBAT);
-        addSetting(mode);
+        	addSetting(mode);
 		addSetting(activationChance);
-        addSetting(delay);
+        	addSetting(delay);
 	}
 
 
-    @Override
+    	@Override
 	protected void onEnable()
 	{
-        timer = 0;
+        	timer = 0;
 		EVENTS.add(LeftClickListener.class, this);
 	}
 	
@@ -62,7 +62,7 @@ public final class SuperKnockbackHack extends Hack implements LeftClickListener
 		EVENTS.remove(LeftClickListener.class, this);
 	}
 
-    @Override
+	@Override
 	public void onLeftClick(LeftClickEvent event)
 	{
 		if(MC.crosshairTarget == null
@@ -71,19 +71,19 @@ public final class SuperKnockbackHack extends Hack implements LeftClickListener
 			return;
 
 
-        // wait for timer
+        	// wait for timer
 		if(timer > 0)
 		{
 			timer--;
 			return;
 		}
-        timer = delay.getValueI();
+        	timer = delay.getValueI();
 
-        chance = random.nextDouble() <= activationChance.getValue();
-        if (chance) doKnockback();			
+        	chance = random.nextDouble() <= activationChance.getValue();
+        	if (chance) doKnockback();			
 	}
 
-    public void doKnockback()
+    	public void doKnockback()
 	{
 		if(!isEnabled())
 			return;
@@ -100,17 +100,17 @@ public final class SuperKnockbackHack extends Hack implements LeftClickListener
 		}
 	}
 
-    private void doPacket()
+    	private void doPacket()
 	{
-        MC.player.networkHandler.sendPacket(new ClientCommandC2SPacket(MC.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
+        	MC.player.networkHandler.sendPacket(new ClientCommandC2SPacket(MC.player, ClientCommandC2SPacket.Mode.START_SPRINTING));
 	}
 
 	private void doSprintTap()
 	{   
-        MC.player.setSprinting(true);
+        	MC.player.setSprinting(true);
 	}
 
-    private enum Mode
+    	private enum Mode
 	{
 		PACKET("Packet"),
 		SPRINTTAP("Sprint");
