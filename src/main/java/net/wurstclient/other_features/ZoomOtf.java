@@ -25,7 +25,10 @@ import net.wurstclient.util.MathUtils;
 public final class ZoomOtf extends OtherFeature implements MouseScrollListener
 {
 	private final SliderSetting level = new SliderSetting("Zoom level", 3, 1,
-		2147, 0.000001, ValueDisplay.DECIMAL.withSuffix("x"));
+		2000, 0.000001, ValueDisplay.DECIMAL.withSuffix("x"));
+
+	private final SliderSetting precision = new SliderSetting("Precision", 3, 0,
+		20, 0.000001, ValueDisplay.DECIMAL.withSuffix("x"));
 	
 	private final CheckboxSetting scroll = new CheckboxSetting(
 		"Use mouse wheel", "If enabled, you can use the mouse wheel while"
@@ -52,6 +55,7 @@ public final class ZoomOtf extends OtherFeature implements MouseScrollListener
 			+ "By default, the zoom is activated by pressing the \u00a7lV\u00a7r key.\n"
 			+ "Go to Wurst Options -> Zoom to change this keybind.");
 		addSetting(level);
+		addSetting(precision);
 		addSetting(scroll);
 		addSetting(zoomInScreens);
 		addSetting(keybind);
@@ -85,8 +89,7 @@ public final class ZoomOtf extends OtherFeature implements MouseScrollListener
 		// Adjust mouse sensitivity in relation to zoom level.
 		// 1.0 / currentLevel is a value between 0.02 (50x zoom)
 		// and 1 (no zoom).
-		mouseSensitivitySetting
-			.setValue(defaultMouseSensitivity * (1.0 / currentLevel));
+		mouseSensitivitySetting.setValue(defaultMouseSensitivity * (1.0 / currentLevel));
 		
 		return fov / currentLevel;
 	}
@@ -99,9 +102,17 @@ public final class ZoomOtf extends OtherFeature implements MouseScrollListener
 		
 		if(currentLevel == null)
 			currentLevel = level.getValue();
+
+		if(amount != 0)
+		{ 
+			currentLevel *= precision.getValue(); 
+		}
+		else
+		{
+			currentLevel *= precision.getValue();
+		}
 		
-		currentLevel = MathUtils.clamp(currentLevel, level.getMinimum(),
-			level.getMaximum());
+		currentLevel = MathUtils.clamp(currentLevel, level.getMinimum(), level.getMaximum());
 	}
 	
 	public boolean shouldPreventHotbarScrolling()
