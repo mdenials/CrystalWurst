@@ -65,6 +65,8 @@ public final class AimAssistHack extends Hack
 	private final EntityFilterList entityFilters  = EntityFilterList.genericCombat();
 	
 	private Entity target;
+	private float curYaw;
+	private float curPitch;
 	private float nextYaw;
 	private float nextPitch;
 	
@@ -115,6 +117,9 @@ public final class AimAssistHack extends Hack
 	@Override
 	public void onUpdate()
 	{
+		if(MC.player == null)
+			return;
+		
 		target = null;
 		
 		// don't aim when a container/inventory screen is open
@@ -142,6 +147,8 @@ public final class AimAssistHack extends Hack
 		Rotation next = RotationUtils.slowlyTurnTowards(needed, rotationSpeed.getValueI() / 20F);
 		nextYaw = next.yaw();
 		nextPitch = next.pitch();
+		curYaw = MC.player.getYaw();
+		curPitch = MC.player.getPitch();
 
 		// check if facing in the allowed range
 		if (RotationUtils.isAlreadyFacingMod(needed, allowance.getValue()))
@@ -170,11 +177,6 @@ public final class AimAssistHack extends Hack
 	@Override
 	public void onMouseUpdate(MouseUpdateEvent event)
 	{
-		if(target == null || MC.player == null)
-			return;
-
-		float curYaw = MC.player.getYaw();
-		float curPitch = MC.player.getPitch();
 		int diffYaw = (int)(nextYaw - curYaw);
 		int diffPitch = (int)(nextPitch - curPitch);
 		
