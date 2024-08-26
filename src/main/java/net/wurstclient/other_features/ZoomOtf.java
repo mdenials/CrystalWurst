@@ -85,11 +85,6 @@ public final class ZoomOtf extends OtherFeature implements MouseScrollListener
 		
 		if(defaultMouseSensitivity == null)
 			defaultMouseSensitivity = mouseSensitivitySetting.getValue();
-			
-		// Adjust mouse sensitivity in relation to zoom level.
-		// 1.0 / currentLevel is a value between 0.02 (50x zoom)
-		// and 1 (no zoom).
-		mouseSensitivitySetting.setValue(defaultMouseSensitivity * (1.0 / currentLevel));
 		
 		return fov / currentLevel;
 	}
