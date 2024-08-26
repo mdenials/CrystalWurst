@@ -428,7 +428,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		
     			return path.subList(processor.getIndex(), path.size()).stream()
             		.flatMap(pos -> Stream.of(pos, pos.up(height.getValueI()))).distinct()
-            		.filter(MiningBotUtils::isLeaves).map(PathPos::getBlockPos).collect(Collectors.toList());
+            		.filter(MiningBotUtils::isLeaves).map(pos -> pos.getBlockPos()).collect(Collectors.toList());
 		}
 
 		public boolean isDone()
