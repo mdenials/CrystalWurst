@@ -177,6 +177,7 @@ public final class AimAssistHack extends Hack
 	@Override
 	public void onMouseUpdate(MouseUpdateEvent event)
 	{
+		if(target == null) return;
 		int diffYaw = (int)(nextYaw - curYaw);
 		int diffPitch = (int)(nextPitch - curPitch);
 		
