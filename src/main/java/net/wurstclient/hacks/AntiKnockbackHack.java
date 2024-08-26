@@ -32,7 +32,7 @@ public final class AntiKnockbackHack extends Hack implements KnockbackListener, 
 		new SliderSetting("Vertical Strength",
 			"How far to reduce vertical knockback.\n" + "100% = no knockback\n"
 				+ ">100% = reverse knockback",
-			1, 0.01, 2, 0.01, ValueDisplay.PERCENTAGE);
+			1, 0, 2, 0.000001, ValueDisplay.PERCENTAGE);
 	
 	private final SliderSetting activationChance = new SliderSetting("Activation chance", 1, 0, 1, 0.000001, ValueDisplay.PERCENTAGE);
 	private final CheckboxSetting explosionBypass = new CheckboxSetting("Explosion Bypass", "Bypass explosions. => No knockback\n\nBut no particle and no sound.", true);
@@ -79,10 +79,7 @@ public final class AntiKnockbackHack extends Hack implements KnockbackListener, 
 
 	@Override
 	public void onReceivedPacket(PacketInputEvent event)
-	{
-		if (!(random.nextDouble() <= activationChance.getValue()))
-			return;
-		
+	{		
 		if (event.getPacket() instanceof ExplosionS2CPacket && explosionBypass.isChecked())
 			event.cancel();
 	}
