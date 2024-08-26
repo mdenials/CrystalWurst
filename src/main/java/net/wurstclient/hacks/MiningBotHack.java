@@ -409,7 +409,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
             		processor.process();
 		 }
 
-        	private List<BlockPos> getLeavesOnPath() //changed
+        	/* private List<BlockPos> getLeavesOnPath() //changed
 		{
 			List<PathPos> path = pathFinder.getPath();
 			path = path.subList(processor.getIndex(), path.size());
@@ -417,6 +417,18 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 			return path.stream().flatMap(pos -> Stream.of(pos, pos.up(height.getValueI())))
 				.distinct().filter(MiningBotUtils::isLeaves)
 				.collect(Collectors.toList());
+		} */
+
+		private List<BlockPos> getLeavesOnPath()
+		{
+    			List<PathPos> path = pathFinder.getPath();
+			
+    			if (path == null)
+				return Collections.emptyList();
+		
+    			return path.subList(processor.getIndex(), path.size()).stream()
+            		.flatMap(pos -> Stream.of(pos, pos.up(height.getValueI()))).distinct()
+            		.filter(MiningBotUtils::isLeaves).map(PathPos::getBlockPos).collect(Collectors.toList());
 		}
 
 		public boolean isDone()
@@ -451,9 +463,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 
 		private boolean isNextToMiningStump(PathPos pos)
 		{
-			return isMiningStump(pos.north()) || isMiningStump(pos.south()) 
-                 	|| isMiningStump(pos.west()) || isMiningStump(pos.east())
-                 	|| isMiningStump(pos.up()) || isMiningStump(pos.down());
+			return Stream.of(pos.north(), pos.south(), pos.west(), pos.east(), pos.down(), pos.up()).anyMatch(this::isMiningStump);
 		}
 		
 		private boolean isMiningStump(BlockPos pos)
