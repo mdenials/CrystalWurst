@@ -341,7 +341,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	{
 		BlockPos pv = pos.add(pxbv.getValueI(), pybv.getValueI(), pzbv.getValueI());
 		BlockPos nv = pos.add(-nxbv.getValueI(), -nybv.getValueI(), -nzbv.getValueI());
-		return BlockUtils.getAllInBoxStream(mp, MP).filter(MiningBotUtils::isLog).collect(Collectors.toList());
+		return BlockUtils.getAllInBoxStream(nv, pv).filter(MiningBotUtils::isLog).collect(Collectors.toList());
 	}
 
 	private boolean isVisible(Block block, BlockPos pos)
