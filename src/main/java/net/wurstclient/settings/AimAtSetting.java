@@ -64,9 +64,6 @@ public final class AimAtSetting extends EnumSetting<AimAtSetting.AimAt>
 		Box box = e.getBoundingBox();
 		Vec3d eyes = RotationUtils.getEyesPos();
 		
-		if(box.contains(eyes))
-			return eyes;
-		
 		double clampedX = MathHelper.clamp(eyes.x, box.minX, box.maxX);
 		double clampedY = MathHelper.clamp(eyes.y, box.minY, box.maxY);
 		double clampedZ = MathHelper.clamp(eyes.z, box.minZ, box.maxZ);
