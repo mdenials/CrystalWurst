@@ -60,10 +60,15 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 {
 
 	private final SliderSetting range = new SliderSetting("Range", "How far MiningBot will reach to break blocks.", 4.5, 0, 6, 0.000001, ValueDisplay.DECIMAL);
-    	private final SliderSetting boxRange = new SliderSetting("Box Range", "Box Range", 1, 0, 20, 1, ValueDisplay.INTEGER);
-    	private final SliderSetting arraySize = new SliderSetting("Array Size", 1, 0, 8192, 1, ValueDisplay.INTEGER);
+	private final SliderSetting arraySize = new SliderSetting("Array Size", 1, 0, 8192, 1, ValueDisplay.INTEGER);
     	private final SliderSetting queueSize = new SliderSetting("Queue Size", 1, 0, 8192, 1, ValueDisplay.INTEGER);
     	private final SliderSetting height = new SliderSetting("Height", "Leaves up height", 1, -256, 256, 1, ValueDisplay.INTEGER);
+    	private final SliderSetting pxbv = new SliderSetting("Positive X Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
+	private final SliderSetting pybv = new SliderSetting("Positive Y Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
+	private final SliderSetting pzbv = new SliderSetting("Positive Z Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
+	private final SliderSetting nxbv = new SliderSetting("Negative X Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
+	private final SliderSetting nybv = new SliderSetting("Negative Y Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
+	private final SliderSetting nzbv = new SliderSetting("Negative Z Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
 	private final CheckboxSetting checkAngleLOS = new CheckboxSetting("Check Angle line of sight", true);
     	private final CheckboxSetting checkBreakLOS = new CheckboxSetting("Check Break line of sight", true);
 
@@ -130,10 +135,15 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		super("MiningBot");
 		setCategory(Category.BLOCKS);
 		addSetting(range);
-        	addSetting(boxRange);
         	addSetting(arraySize);
         	addSetting(queueSize);
         	addSetting(height);
+		addSetting(pxbv);
+		addSetting(pybv);
+		addSetting(pzbv);
+		addSetting(nxbv);
+		addSetting(nybv);
+		addSetting(nzbv);
 		addSetting(oresList);
         	addSetting(filterList);
 		addSetting(facing);
@@ -329,9 +339,8 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	
 	private List<BlockPos> getNeighbors(BlockPos pos)
 	{
-        	int sz = boxRange.getValueI();
-		BlockPos mp = pos.add(-sz,-sz,-sz);
-		BlockPos MP = pos.add(sz, sz, sz);
+		BlockPos pv = pos.add(pxbv.getValueI(), pybv.getValueI(), pzbv.getValueI());
+		BlockPos nv = pos.add(-nxbv.getValueI(), -nybv.getValueI(), -nzbv.getValueI());
 		return BlockUtils.getAllInBoxStream(mp, MP).filter(MiningBotUtils::isLog).collect(Collectors.toList());
 	}
 
@@ -462,27 +471,27 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
                		return true;
 		}
 
-    private void analyzeMining(BlockPos stump) 
-    {
-        List<BlockPos> logs = new ArrayList<>(Arrays.asList(stump));
-        Set<BlockPos> visited = new HashSet<>(Arrays.asList(stump));
-        Deque<BlockPos> queue = new ArrayDeque<>(Arrays.asList(stump));
-        BlockPos current = queue.pollFirst();
+    		private void analyzeMining(BlockPos stump) 
+    		{
+        		List<BlockPos> logs = new ArrayList<>(Arrays.asList(stump));
+        		Set<BlockPos> visited = new HashSet<>(Arrays.asList(stump));
+        		Deque<BlockPos> queue = new ArrayDeque<>(Arrays.asList(stump));
+        		BlockPos current = queue.pollFirst();
 
-        for (BlockPos next : getNeighbors(current)) 
-        {
-		while (queue.size() < queueSize.getValueI() || logs.size() < arraySize.getValueI())
-		{
-            		if (!visited.contains(next))
-            		{
-                		visited.add(next);
-                		logs.add(next);
-               			queue.add(next);
-            		}
-		}
-        }
-        mining = new Mining(stump, logs);
-    }
+        		for (BlockPos next : getNeighbors(current)) 
+        		{
+				while (queue.size() < queueSize.getValueI() || logs.size() < arraySize.getValueI())
+				{
+            				if (!visited.contains(next))
+            				{
+                				visited.add(next);
+                				logs.add(next);
+               					queue.add(next);
+            				}
+				}
+        		}
+        		mining = new Mining(stump, logs);
+    		}
 
         	@Override
 		public void reset()
