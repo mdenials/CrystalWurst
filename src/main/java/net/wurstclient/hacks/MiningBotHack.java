@@ -476,9 +476,10 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
         		List<BlockPos> logs = new ArrayList<>(Arrays.asList(stump));
         		Set<BlockPos> visited = new HashSet<>(Arrays.asList(stump));
         		Deque<BlockPos> queue = new ArrayDeque<>(Arrays.asList(stump));
-        		BlockPos current = queue.pollFirst();
-			while (queue.size() < queueSize.getValueI() || logs.size() < arraySize.getValueI())
+        		
+			while (!queue.isEmpty() && logs.size() < arraySize.getValueI() && queue.size() < queueSize.getValueI())
 			{
+				BlockPos current = queue.pollFirst();
         			for (BlockPos next : getNeighbors(current)) 
         			{
             				if (!visited.contains(next))
