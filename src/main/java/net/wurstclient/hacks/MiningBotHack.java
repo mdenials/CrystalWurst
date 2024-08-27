@@ -471,15 +471,15 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 
         for (BlockPos next : getNeighbors(current)) 
         {
-            if (queue.size() >= queueSize.getValueI()) break;
-            if (logs.size() >= arraySize.getValueI()) break;
-
-            if (!visited.contains(next))
-            {
-                visited.add(next);
-                logs.add(next);
-                queue.add(next);
-            }
+		while (queue.size() < queueSize.getValueI() || logs.size() < arraySize.getValueI())
+		{
+            		if (!visited.contains(next))
+            		{
+                		visited.add(next);
+                		logs.add(next);
+               			queue.add(next);
+            		}
+		}
         }
         mining = new Mining(stump, logs);
     }
