@@ -450,26 +450,26 @@ public class PathFinder
 			
 			// liquids
 			if(block == Blocks.WATER && !abilities.noWaterSlowdown())
-				costs[i] *= liquidCost;
+				costs[i] += liquidCost;
 			else if(block == Blocks.LAVA)
-				costs[i] *= liquidCost;
+				costs[i] += liquidCost;
 			
 			// soul sand
 			if(!canFlyAt(pos) && BlockUtils.getBlock(pos.down()) instanceof SoulSandBlock)
-				costs[i] *= slowCost;
+				costs[i] += slowCost;
 			
 			// mining
 			if(isMineable(pos))
-				costs[i] *= mineCost;
+				costs[i] += mineCost;
 			if(isMineable(pos.up()))
-				costs[i] *= mineCost;
+				costs[i] += mineCost;
 		}
 		
 		float cost = costs[0] + costs[1];
 		
 		// diagonal movement
 		if(current.getX() != next.getX() && current.getZ() != next.getZ())
-			cost *= diagCost;
+			cost += diagCost;
 		
 		return cost;
 	}
