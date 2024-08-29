@@ -146,12 +146,9 @@ public abstract class AltEditorScreen extends Screen
 	public final void tick()
 	{
 		String nameOrEmail = nameOrEmailBox.getText().trim();
-		boolean alex = nameOrEmail.equalsIgnoreCase("Alexander01998");
 		
-		doneButton.active = !nameOrEmail.isEmpty()
-			&& !(alex && passwordBox.getText().isEmpty());
-		
-		stealSkinButton.active = !alex;
+		doneButton.active = !nameOrEmail.isEmpty() && !passwordBox.getText().isEmpty();
+		stealSkinButton.active = !nameOrEmail.isEmpty();
 	}
 	
 	/**
