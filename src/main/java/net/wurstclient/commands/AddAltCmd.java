@@ -45,10 +45,7 @@ public final class AddAltCmd extends Command
 	}
 	
 	private void add(String name)
-	{
-		if(name.equalsIgnoreCase("Alexander01998"))
-			return;
-		
+	{		
 		WURST.getAltManager().add(new CrackedAlt(name));
 		ChatUtils.message("Added 1 alt.");
 	}
@@ -67,8 +64,7 @@ public final class AddAltCmd extends Command
 			if(altManager.contains(name))
 				continue;
 			
-			if(name.equalsIgnoreCase(playerName)
-				|| name.equalsIgnoreCase("Alexander01998"))
+			if(name.equalsIgnoreCase(playerName))
 				continue;
 			
 			altManager.add(new CrackedAlt(name));
