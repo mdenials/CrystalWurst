@@ -24,13 +24,11 @@ import net.wurstclient.util.RegionPos;
 
 public final class PathRenderer
 {
-	public static void renderArrow(MatrixStack matrixStack, BlockPos start,
-		BlockPos end, RegionPos region)
+	public static void renderArrow(MatrixStack matrixStack, BlockPos start, BlockPos end, RegionPos region)
 	{
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
-		BufferBuilder bufferBuilder = tessellator
-			.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
+		BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
 		
 		int startX = start.getX() - region.x();
 		int startY = start.getY();
