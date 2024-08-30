@@ -52,13 +52,11 @@ public final class PathRenderer
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
 	
-	public static void renderNode(MatrixStack matrixStack, BlockPos pos,
-		RegionPos region)
+	public static void renderNode(MatrixStack matrixStack, BlockPos pos, RegionPos region)
 	{
 		matrixStack.push();
 		
-		matrixStack.translate(pos.getX() - region.x(), pos.getY(),
-			pos.getZ() - region.z());
+		matrixStack.translate(pos.getX() - region.x(), pos.getY(), pos.getZ() - region.z());
 		matrixStack.scale(0.1F, 0.1F, 0.1F);
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
@@ -66,21 +64,6 @@ public final class PathRenderer
 		
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
-		
-		// middle part
-		bufferBuilder.vertex(matrix, 0, 0, 1);
-		bufferBuilder.vertex(matrix, -1, 0, 0);
-		bufferBuilder.vertex(matrix, 1, 0, 0);
-
-		// top part
-		bufferBuilder.vertex(matrix, 0, 1, 0);
-		bufferBuilder.vertex(matrix, -1, 0, 0);
-		bufferBuilder.vertex(matrix, 1, 0, 0);
-
-		// bottom part
-		bufferBuilder.vertex(matrix, 0, -1, 0);
-		bufferBuilder.vertex(matrix, -1, 0, 0);
-		bufferBuilder.vertex(matrix, 1, 0, 0);
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
