@@ -47,22 +47,6 @@ public final class PathRenderer
 		bufferBuilder.vertex(matrix, startX, startY, startZ);
 		bufferBuilder.vertex(matrix, endX, endY, endZ);
 		
-		matrixStack.translate(endX, endY, endZ);
-		
-		float scale = 1 / 16F;
-		matrixStack.scale(scale, scale, scale);
-		
-		int xDiff = endX - startX;
-		int yDiff = endY - startY;
-		int zDiff = endZ - startZ;
-		
-		float xAngle = (float)(Math.atan2(yDiff, -zDiff) + Math.toRadians(90));
-		matrix.rotate(xAngle, new Vector3f(1, 0, 0));
-		
-		double yzDiff = Math.sqrt(yDiff * yDiff + zDiff * zDiff);
-		float zAngle = (float)Math.atan2(xDiff, yzDiff);
-		matrix.rotate(zAngle, new Vector3f(0, 0, 1));
-		
 		matrixStack.pop();
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
