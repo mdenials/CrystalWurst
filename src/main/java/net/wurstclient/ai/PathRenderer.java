@@ -65,47 +65,22 @@ public final class PathRenderer
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
-		BufferBuilder bufferBuilder = tessellator
-			.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
+		BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
 		
 		// middle part
 		bufferBuilder.vertex(matrix, 0, 0, 1);
 		bufferBuilder.vertex(matrix, -1, 0, 0);
-		
-		bufferBuilder.vertex(matrix, -1, 0, 0);
-		bufferBuilder.vertex(matrix, 0, 0, -1);
-		
-		bufferBuilder.vertex(matrix, 0, 0, -1);
 		bufferBuilder.vertex(matrix, 1, 0, 0);
-		
-		bufferBuilder.vertex(matrix, 1, 0, 0);
-		bufferBuilder.vertex(matrix, 0, 0, 1);
-		
+
 		// top part
 		bufferBuilder.vertex(matrix, 0, 1, 0);
-		bufferBuilder.vertex(matrix, 1, 0, 0);
-		
-		bufferBuilder.vertex(matrix, 0, 1, 0);
 		bufferBuilder.vertex(matrix, -1, 0, 0);
-		
-		bufferBuilder.vertex(matrix, 0, 1, 0);
-		bufferBuilder.vertex(matrix, 0, 0, -1);
-		
-		bufferBuilder.vertex(matrix, 0, 1, 0);
-		bufferBuilder.vertex(matrix, 0, 0, 1);
-		
+		bufferBuilder.vertex(matrix, 1, 0, 0);
+
 		// bottom part
 		bufferBuilder.vertex(matrix, 0, -1, 0);
-		bufferBuilder.vertex(matrix, 1, 0, 0);
-		
-		bufferBuilder.vertex(matrix, 0, -1, 0);
 		bufferBuilder.vertex(matrix, -1, 0, 0);
-		
-		bufferBuilder.vertex(matrix, 0, -1, 0);
-		bufferBuilder.vertex(matrix, 0, 0, -1);
-		
-		bufferBuilder.vertex(matrix, 0, -1, 0);
-		bufferBuilder.vertex(matrix, 0, 0, 1);
+		bufferBuilder.vertex(matrix, 1, 0, 0);
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
