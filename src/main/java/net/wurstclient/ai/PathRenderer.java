@@ -62,6 +62,47 @@ public final class PathRenderer
 		
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
+
+		// front face
+		bufferBuilder.vertex(matrix, 0, 0, 1);
+		bufferBuilder.vertex(matrix, -1, 0, 1);
+		bufferBuilder.vertex(matrix, 1, 0, 1);
+
+		// back face
+		bufferBuilder.vertex(matrix, 0, 0, -1);
+		bufferBuilder.vertex(matrix, -1, 0, -1);
+		bufferBuilder.vertex(matrix, 1, 0, -1);
+
+		// top face
+		bufferBuilder.vertex(matrix, 0, 1, 1);
+		bufferBuilder.vertex(matrix, -1, 1, 1);
+		bufferBuilder.vertex(matrix, 1, 1, 1);
+		bufferBuilder.vertex(matrix, 0, 1, -1);
+		bufferBuilder.vertex(matrix, -1, 1, -1);
+		bufferBuilder.vertex(matrix, 1, 1, -1);
+
+		// bottom face
+		bufferBuilder.vertex(matrix, 0, -1, 1);
+		bufferBuilder.vertex(matrix, -1, -1, 1);
+		bufferBuilder.vertex(matrix, 1, -1, 1);
+		bufferBuilder.vertex(matrix, 0, -1, -1);
+		bufferBuilder.vertex(matrix, -1, -1, -1);
+		bufferBuilder.vertex(matrix, 1, -1, -1);
+
+		// connecting faces
+		bufferBuilder.vertex(matrix, -1, 0, 1);
+		bufferBuilder.vertex(matrix, -1, 0, -1);
+		bufferBuilder.vertex(matrix, -1, 1, 1);
+		bufferBuilder.vertex(matrix, -1, 1, -1);
+		bufferBuilder.vertex(matrix, -1, -1, 1);
+		bufferBuilder.vertex(matrix, -1, -1, -1);
+
+		bufferBuilder.vertex(matrix, 1, 0, 1);
+		bufferBuilder.vertex(matrix, 1, 0, -1);
+		bufferBuilder.vertex(matrix, 1, 1, 1);
+		bufferBuilder.vertex(matrix, 1, 1, -1);
+		bufferBuilder.vertex(matrix, 1, -1, 1);
+		bufferBuilder.vertex(matrix, 1, -1, -1);
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
