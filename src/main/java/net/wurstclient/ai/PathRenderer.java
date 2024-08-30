@@ -63,37 +63,6 @@ public final class PathRenderer
 		float zAngle = (float)Math.atan2(xDiff, yzDiff);
 		matrix.rotate(zAngle, new Vector3f(0, 0, 1));
 		
-		// arrow head
-		bufferBuilder.vertex(matrix, 0, 2, 1);
-		bufferBuilder.vertex(matrix, -1, 2, 0);
-		
-		bufferBuilder.vertex(matrix, -1, 2, 0);
-		bufferBuilder.vertex(matrix, 0, 2, -1);
-		
-		bufferBuilder.vertex(matrix, 0, 2, -1);
-		bufferBuilder.vertex(matrix, 1, 2, 0);
-		
-		bufferBuilder.vertex(matrix, 1, 2, 0);
-		bufferBuilder.vertex(matrix, 0, 2, 1);
-		
-		bufferBuilder.vertex(matrix, 1, 2, 0);
-		bufferBuilder.vertex(matrix, -1, 2, 0);
-		
-		bufferBuilder.vertex(matrix, 0, 2, 1);
-		bufferBuilder.vertex(matrix, 0, 2, -1);
-		
-		bufferBuilder.vertex(matrix, 0, 0, 0);
-		bufferBuilder.vertex(matrix, 1, 2, 0);
-		
-		bufferBuilder.vertex(matrix, 0, 0, 0);
-		bufferBuilder.vertex(matrix, -1, 2, 0);
-		
-		bufferBuilder.vertex(matrix, 0, 0, 0);
-		bufferBuilder.vertex(matrix, 0, 2, -1);
-		
-		bufferBuilder.vertex(matrix, 0, 0, 0);
-		bufferBuilder.vertex(matrix, 0, 2, 1);
-		
 		matrixStack.pop();
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
