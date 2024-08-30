@@ -217,7 +217,7 @@ public final class FightBotHack extends Hack
 			
 			// follow entity
 			double strafeAngle = 
-			MC.player.rotationYaw - Math.atan2(entity.getZ() - MC.player.getZ(), entity.getX() - MC.player.getX()) + (MC.player.rotationYaw > 0 ? 90 : -90);
+			MC.player.getYaw() - Math.atan2(entity.getZ() - MC.player.getZ(), entity.getX() - MC.player.getX()) + (MC.player.getYaw() > 0 ? 90 : -90);
 
 			MC.options.forwardKey.setPressed(MC.player.distanceTo(entity) > distance.getValueF());
 			MC.options.backKey.setPressed(MC.player.distanceTo(entity) < retreatDistance.getValueF());
