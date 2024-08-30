@@ -59,9 +59,16 @@ public final class FightBotHack extends Hack
 			+ "This should be set to a lower value than Range.",
 		3, 0, 6, 0.000001, ValueDisplay.DECIMAL);
 
-    	private final SliderSetting safedistance = new SliderSetting("Safe Distance",
+    	private final SliderSetting retreatDistance = new SliderSetting("Safe Distance",
 		"At what distance to retreat from the target.",
 		3, 0, 6, 0.000001, ValueDisplay.DECIMAL);
+
+	private final SliderSetting strafeDistance = new SliderSetting("Strafe Distance",
+		"At what distance to strafe near the target.",
+		3, 0, 6, 0.000001, ValueDisplay.DECIMAL);
+
+	private final SliderSetting rightDegree = new SliderSetting("Right Degree", 360, 0, 360, 1, ValueDisplay.DEGREES);
+	private final SliderSetting leftDegree = new SliderSetting("Left Degree", 360, 0, 360, 1, ValueDisplay.DEGREES);
 	
 	private final CheckboxSetting useAi =
 		new CheckboxSetting("Use AI (experimental)", false);
@@ -85,7 +92,10 @@ public final class FightBotHack extends Hack
 		addSetting(speed);
 		addSetting(swingHand);
 		addSetting(distance);
-        	addSetting(safedistance);
+        	addSetting(retreatDistance);
+		addSetting(strafeDistance);
+		addSetting(rightDegree);
+		addSetting(leftDegree);
 		addSetting(useAi);
 		addSetting(pauseOnContainers);
 		
@@ -206,12 +216,15 @@ public final class FightBotHack extends Hack
 			}
 			
 			// follow entity
-			MC.options.forwardKey.setPressed(
-				MC.player.distanceTo(entity) > distance.getValueF());
-			MC.options.backKey.setPressed(
-				MC.player.distanceTo(entity) < safedistance.getValueF());
-			WURST.getRotationFaker()
-				.faceVectorClient(entity.getBoundingBox().getCenter());
+			double strafeAngle = 
+			MC.player.rotationYaw - Math.atan2(entity.getZ() - MC.player.getZ(), entity.getX() - MC.player.getX()) + (MC.player.rotationYaw > 0 ? 90 : -90);
+
+			MC.options.forwardKey.setPressed(MC.player.distanceTo(entity) > distance.getValueF());
+			MC.options.backKey.setPressed(MC.player.distanceTo(entity) < retreatDistance.getValueF());
+			MC.options.leftKey.setPressed(MC.player.distanceTo(entity) <= retreatDistance.getValueF() && Math.abs(strafeAngle) < leftDegree.getValue());
+        		MC.options.rightKey.setPressed(MC.player.distanceTo(entity) <= retreatDistance.getValueF() && Math.abs(strafeAngle) > rightDegree.getValue());
+			
+			WURST.getRotationFaker().faceVectorClient(entity.getBoundingBox().getCenter());
 		}
 		
 		// check cooldown
