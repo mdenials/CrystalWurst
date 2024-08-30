@@ -586,7 +586,7 @@ public class PathFinder
 			// processed (red)
 			for(Entry<PathPos, PathPos> entry : prevPosMap.entrySet())
 			{
-				if(renderedThings >= 5000)
+				if(renderedThings > renderLimit)
 					break;
 				
 				if(entry.getKey().isJumping())
