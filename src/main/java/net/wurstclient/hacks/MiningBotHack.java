@@ -66,9 +66,9 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
     	private final SliderSetting pxbv = new SliderSetting("Positive X Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
 	private final SliderSetting pybv = new SliderSetting("Positive Y Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
 	private final SliderSetting pzbv = new SliderSetting("Positive Z Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
-	private final SliderSetting nxbv = new SliderSetting("Negative X Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
-	private final SliderSetting nybv = new SliderSetting("Negative Y Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
-	private final SliderSetting nzbv = new SliderSetting("Negative Z Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
+	private final SliderSetting nxbv = new SliderSetting("Negative X Box Value", "Box Range", -1, -2147483647, 0, 1, ValueDisplay.INTEGER);
+	private final SliderSetting nybv = new SliderSetting("Negative Y Box Value", "Box Range", -1, -2147483647, 0, 1, ValueDisplay.INTEGER);
+	private final SliderSetting nzbv = new SliderSetting("Negative Z Box Value", "Box Range", -1, -2147483647, 0, 1, ValueDisplay.INTEGER);
 	private final CheckboxSetting checkAngleLOS = new CheckboxSetting("Check Angle line of sight", true);
     	private final CheckboxSetting checkBreakLOS = new CheckboxSetting("Check Break line of sight", true);
 
@@ -340,7 +340,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	private List<BlockPos> getNeighbors(BlockPos pos)
 	{
 		BlockPos pv = pos.add(pxbv.getValueI(), pybv.getValueI(), pzbv.getValueI());
-		BlockPos nv = pos.add(-nxbv.getValueI(), -nybv.getValueI(), -nzbv.getValueI());
+		BlockPos nv = pos.add(nxbv.getValueI(), nybv.getValueI(), nzbv.getValueI());
 		return BlockUtils.getAllInBoxStream(nv, pv).filter(MiningBotUtils::isLog).collect(Collectors.toList());
 	}
 
