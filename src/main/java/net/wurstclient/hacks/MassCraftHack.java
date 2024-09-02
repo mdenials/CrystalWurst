@@ -54,25 +54,20 @@ public final class MassCraftHack extends Hack implements UpdateListener
 		EVENTS.remove(UpdateListener.class, this);
 	}
 
-
+	//public void craft() {}
+	//ClientTickEvents.START_CLIENT_TICK.register((MinecraftClient minecraftClient)-> { craft(); });
+	
 	@Override
 	public void onUpdate()
 	{
-		ClientTickEvents.START_CLIENT_TICK.register((MinecraftClient minecraftClient)-> 
+		// wait for timer
+		if(timer > 0)
 		{
-			// wait for timer
-			if(timer > 0)
-			{
-				timer--;
-				return;
-			}
-			timer = delay.getValueI();
-			craft();
-		});
-	}
+			timer--;
+			return;
+		}
+		timer = delay.getValueI();
 
-	public void craft()
-	{ 
 		if (MC.player == null || MC.interactionManager == null)
 			return;
 		
@@ -82,12 +77,11 @@ public final class MassCraftHack extends Hack implements UpdateListener
 		
     		if (im == null || inv == null || ply == null) 
         		return;
+		
     		// Check if the current screen handler is an instance of CraftingScreenHandler or PlayerScreenHandler
     		if (!(ply.currentScreenHandler instanceof CraftingScreenHandler) && !(ply.currentScreenHandler instanceof PlayerScreenHandler))
         		return;
 
-		
-		
     		if (ply.currentScreenHandler instanceof CraftingScreenHandler)
     		{
         		CraftingScreenHandler rsh = (CraftingScreenHandler) ply.currentScreenHandler;
@@ -111,7 +105,7 @@ public final class MassCraftHack extends Hack implements UpdateListener
             			ply.dropSelectedItem(true);
 			
         		im.clickSlot(syncID, resultSlotIndex, 0, SlotActionType.QUICK_MOVE, ply);
-    		}		
+    		}
 	}
 
 	public boolean hasSpace(PlayerInventory inv, ItemStack outStack)
