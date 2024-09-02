@@ -476,9 +476,9 @@ public class PathFinder
 	
 	private float getHeuristic(BlockPos pos)
 	{
-		float dx = Math.abs(goal.getX() - pos.getX());
-		float dy = Math.abs(goal.getY() - pos.getY());
-		float dz = Math.abs(goal.getZ() - pos.getZ());
+		float dx = Math.abs(pos.getX() - goal.getX());
+		float dy = Math.abs(pos.getY() - goal.getY());
+		float dz = Math.abs(pos.getZ() - goal.getZ());
 		return mhMul * (dx + dy + dz - mhDim * Math.min(dy, Math.min(dx, dz)));
 	}
 	
