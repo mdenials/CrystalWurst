@@ -34,7 +34,7 @@ The translation files are located in [this folder](https://github.com/Wurst-Impe
 
 This code is licensed under the GNU General Public License v3. **You can only use this code in open-source clients that you release under the same license! Using it in closed-source/proprietary clients is not allowed!**
 
-## For dear original owner
+## For Alexander01998
 Despite the fact that I have directly posted a copy of my work online, I am still banned by the creator of this client.
 Well, then so be it. I inform you, dear Alexander, that the light did not come together in a wedge on the official build - there are still not enough QOL functions. 
 And the meaning of your hehe "punishments" is reduced to zero.
