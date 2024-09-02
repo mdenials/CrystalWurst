@@ -479,7 +479,7 @@ public class PathFinder
 		float dx = Math.abs(pos.getX() - goal.getX());
 		float dy = Math.abs(pos.getY() - goal.getY());
 		float dz = Math.abs(pos.getZ() - goal.getZ());
-		return mhMul * (dx + dy + dz - mhDim * Math.min(dy, Math.min(dx, dz)));
+		return mhMul * (dx + dy + dz - mhDim * Math.min(Math.min(dx, dz), dy));
 	}
 	
 	public PathPos getCurrentPos()
