@@ -572,17 +572,6 @@ public class PathFinder
 		{
 			int renderedThings = 0;
 			
-			// queue (yellow)
-			RenderSystem.setShaderColor(1, 1, 0, 0.75F);
-			for(PathPos element : queue.toArray())
-			{
-				if(renderedThings > renderLimit)
-					break;
-				
-				PathRenderer.renderNode(matrixStack, element, region);
-				renderedThings++;
-			}
-			
 			// processed (red)
 			for(Entry<PathPos, PathPos> entry : prevPosMap.entrySet())
 			{
@@ -594,8 +583,7 @@ public class PathFinder
 				else
 					RenderSystem.setShaderColor(1, 0, 0, 0.75F);
 				
-				PathRenderer.renderArrow(matrixStack, entry.getValue(),
-					entry.getKey(), region);
+				PathRenderer.renderArrow(matrixStack, entry.getValue(), entry.getKey(), region);
 				renderedThings++;
 			}
 		}
