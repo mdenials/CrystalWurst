@@ -49,44 +49,4 @@ public final class PathRenderer
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
-	
-	public static void renderNode(MatrixStack matrixStack, BlockPos pos, RegionPos region)
-	{
-		matrixStack.push();
-		
-		matrixStack.translate(pos.getX() - region.x(), pos.getY(), pos.getZ() - region.z());
-		matrixStack.scale(0.1F, 0.1F, 0.1F);
-		
-		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
-		Tessellator tessellator = RenderSystem.renderThreadTesselator();
-		
-		RenderSystem.setShader(GameRenderer::getPositionProgram);
-		BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION);
-		
-		//icosahedron render
-		bufferBuilder.vertex(matrix, 0, 11, 5);
-		bufferBuilder.vertex(matrix, 0, 5, 1);
-		bufferBuilder.vertex(matrix, 0, 1, 7);
-		bufferBuilder.vertex(matrix, 0, 7, 10);
-		bufferBuilder.vertex(matrix, 0, 10, 11);
-		bufferBuilder.vertex(matrix, 1, 5, 9);
-		bufferBuilder.vertex(matrix, 5, 11, 4);
-		bufferBuilder.vertex(matrix, 11, 10, 2);
-		bufferBuilder.vertex(matrix, 10, 7, 6);
-		bufferBuilder.vertex(matrix, 7, 1, 8);
-		bufferBuilder.vertex(matrix, 3, 9, 4);
-		bufferBuilder.vertex(matrix, 3, 4, 2);
-		bufferBuilder.vertex(matrix, 3, 2, 6);
-		bufferBuilder.vertex(matrix, 3, 6, 8);
-		bufferBuilder.vertex(matrix, 3, 8, 9);
-		bufferBuilder.vertex(matrix, 4, 9, 5);
-		bufferBuilder.vertex(matrix, 2, 4, 11);
-		bufferBuilder.vertex(matrix, 6, 2, 10);
-		bufferBuilder.vertex(matrix, 8, 6, 7);
-		bufferBuilder.vertex(matrix, 9, 8, 1);
-
-		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-		
-		matrixStack.pop();
-	}
 }
