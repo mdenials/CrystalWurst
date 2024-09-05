@@ -461,10 +461,6 @@ public class PathFinder
 			// mining
 			if(isMineable(pos))
 				costs[i] += mineCost;
-			if(isMineable(pos.up()))
-				costs[i] += mineCost;
-			if(isMineable(pos.down()))
-				costs[i] += mineCost;
 		}
 		
 		float cost = costs[0] + costs[1];
