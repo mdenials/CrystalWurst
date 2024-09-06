@@ -455,7 +455,8 @@ public class PathFinder
 				costs[i] += liquidCost;
 			
 			// soul sand
-			if(!canFlyAt(pos) && BlockUtils.getBlock(pos.down()) instanceof SoulSandBlock)
+			if(!canFlyAt(pos) && BlockUtils.getBlock(pos.down()) instanceof SoulSandBlock
+			  || !canFlyAt(pos) && BlockUtils.getBlock(pos.down()) instanceof CobwebBlock)
 				costs[i] += slowCost;
 			
 			// mining
