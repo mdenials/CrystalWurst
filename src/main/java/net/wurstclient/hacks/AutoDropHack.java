@@ -22,6 +22,7 @@ import net.wurstclient.settings.ItemListSetting;
 	"InventoryCleaner", "inventory cleaner", "InvCleaner", "inv cleaner"})
 public final class AutoDropHack extends Hack implements UpdateListener
 {
+	private final SliderSetting delay = new SliderSetting("Delay", "Masscrafter delay. ", 5, 0, 20, 1, ValueDisplay.INTEGER);
 	private ItemListSetting items = new ItemListSetting("Items",
 		"Unwanted items that will be dropped.", "minecraft:allium",
 		"minecraft:azure_bluet", "minecraft:blue_orchid",
@@ -31,32 +32,27 @@ public final class AutoDropHack extends Hack implements UpdateListener
 		"minecraft:poisonous_potato", "minecraft:poppy", "minecraft:red_tulip",
 		"minecraft:rose_bush", "minecraft:rotten_flesh", "minecraft:sunflower",
 		"minecraft:wheat_seeds", "minecraft:white_tulip");
-	
-	private final String renderName =
-		Math.random() < 0.01 ? "AutoLinus" : getName();
-	
+
+	private int timer;
 	public AutoDropHack()
 	{
 		super("AutoDrop");
 		setCategory(Category.ITEMS);
+		addSetting(delay);
 		addSetting(items);
-	}
-	
-	@Override
-	public String getRenderName()
-	{
-		return renderName;
 	}
 	
 	@Override
 	protected void onEnable()
 	{
+		timer = 0;
 		EVENTS.add(UpdateListener.class, this);
 	}
 	
 	@Override
 	protected void onDisable()
 	{
+		timer = 0;
 		EVENTS.remove(UpdateListener.class, this);
 	}
 	
@@ -67,7 +63,15 @@ public final class AutoDropHack extends Hack implements UpdateListener
 		if(MC.currentScreen instanceof HandledScreen
 			&& !(MC.currentScreen instanceof InventoryScreen))
 			return;
-		
+
+		// wait for timer
+		if(timer > 0)
+		{
+			timer--;
+			return;
+		}
+		timer = delay.getValueI();
+
 		for(int slot = 9; slot < 45; slot++)
 		{
 			int adjustedSlot = slot;
