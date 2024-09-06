@@ -463,7 +463,7 @@ public class PathFinder
 		
 		// diagonal movement
 		if(current.getX() != next.getX() && current.getZ() != next.getZ())
-			modCost += diagCost;
+			cost += diagCost;
 		
 		return cost;
 	}
