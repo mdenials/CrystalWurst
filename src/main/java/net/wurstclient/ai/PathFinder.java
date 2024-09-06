@@ -448,13 +448,9 @@ public class PathFinder
 			BlockPos pos = positions[i];
 			Block block = BlockUtils.getBlock(pos);
 			
-			// liquids
-			if(block == Blocks.WATER && !abilities.noWaterSlowdown())
-				costs[i] += liquidCost;
-			else if(block == Blocks.LAVA)
-				costs[i] += liquidCost;
+	//liquids if(block == Blocks.WATER && !abilities.noWaterSlowdown()) costs[i] += liquidCost; else if(block == Blocks.LAVA) costs[i] += liquidCost;
 			
-			// soul sand
+			// slowdown check
 			if(!canFlyAt(pos) && BlockUtils.getBlock(pos.down()).getVelocityMultiplier() < 1F)
 				costs[i] += slowCost;
 			
