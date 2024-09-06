@@ -440,7 +440,7 @@ public class PathFinder
 	
 	private float getCost(BlockPos current, BlockPos next)
 	{
-		float[] costs = {defCost, modCost};
+		float cost = defCost + modCost;
 		BlockPos[] positions = {current, next};
 		
 		for(int i = 0; i < positions.length; i++)
@@ -450,22 +450,20 @@ public class PathFinder
 			
 			//liquids 
 			if(block instanceof FluidBlock && !abilities.noWaterSlowdown()) 
-				costs[i] += liquidCost; 
+				modCost += liquidCost; 
 			
 			// slowdown check
 			if(!canFlyAt(pos) && BlockUtils.getBlock(pos.down()).getVelocityMultiplier() < 1F)
-				costs[i] += slowCost;
+				modCost += slowCost;
 			
 			// mining
 			if(isMineable(pos))
-				costs[i] += mineCost;
+				modCost += mineCost;
 		}
-		
-		float cost = costs[0] + costs[1];
 		
 		// diagonal movement
 		if(current.getX() != next.getX() && current.getZ() != next.getZ())
-			cost += diagCost;
+			modCost += diagCost;
 		
 		return cost;
 	}
