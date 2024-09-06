@@ -17,6 +17,8 @@ import net.wurstclient.SearchTags;
 import net.wurstclient.events.UpdateListener;
 import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.ItemListSetting;
+import net.wurstclient.settings.SliderSetting;
+import net.wurstclient.settings.SliderSetting.ValueDisplay;
 
 @SearchTags({"auto drop", "AutoEject", "auto-eject", "auto eject",
 	"InventoryCleaner", "inventory cleaner", "InvCleaner", "inv cleaner"})
