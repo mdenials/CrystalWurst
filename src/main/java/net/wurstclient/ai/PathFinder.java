@@ -529,7 +529,7 @@ public class PathFinder
 		{
 			pos = start;
 				for(PathPos next : prevPosMap.keySet())
-					if(getHeuristic(next) <= getHeuristic(pos)
+					if(getHeuristic(next) < getHeuristic(pos)
 						&& (canFlyAt(next) || canBeSolid(next.down())))
 							pos = next;
 		}
