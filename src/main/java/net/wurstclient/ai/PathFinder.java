@@ -521,15 +521,17 @@ public class PathFinder
 		
 		// get last position
 		PathPos pos;
-		if(!failed)
-			pos = current;
-		else
+		if(failed)
 		{
 			pos = start;
 			for(PathPos next : prevPosMap.keySet())
 				if(getHeuristic(next) < getHeuristic(pos)
 					&& (canFlyAt(next) || canBeSolid(next.down())))
 					pos = next;
+		}
+		else
+		{
+			pos = current;
 		}
 		
 		// get positions
@@ -538,9 +540,6 @@ public class PathFinder
 			path.add(pos);
 			pos = prevPosMap.get(pos);
 		}
-		
-		// reverse path
-		Collections.reverse(path);
 		
 		return path;
 	}
