@@ -521,17 +521,17 @@ public class PathFinder
 		
 		// get last position
 		PathPos pos;
-		if(failed)
+		if(!failed)
 		{
-			pos = start;
-			for(PathPos next : prevPosMap.keySet())
-				if(getHeuristic(next) <= getHeuristic(pos)
-					&& (canFlyAt(next) || canBeSolid(next.down())))
-					pos = next;
+			pos = current;
 		}
 		else
 		{
-			pos = current;
+			pos = start;
+				for(PathPos next : prevPosMap.keySet())
+					if(getHeuristic(next) <= getHeuristic(pos)
+						&& (canFlyAt(next) || canBeSolid(next.down())))
+							pos = next;
 		}
 		
 		// get positions
