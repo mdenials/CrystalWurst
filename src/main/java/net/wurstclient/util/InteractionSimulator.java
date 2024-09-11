@@ -29,83 +29,16 @@ public enum InteractionSimulator
 	
 	private static final MinecraftClient MC = WurstClient.MC;
 	
-	/**
-	 * @see #rightClickBlock(BlockHitResult, SwingHand)
-	 */
-	public static void rightClickBlock(BlockHitResult hitResult)
-	{
-		rightClickBlock(hitResult, SwingHand.CLIENT);
-	}
-	
-	/**
-	 * Right-clicks the block at the given hit result, which may end up placing
-	 * a block, interacting with an existing block, or using an equipped item.
-	 *
-	 * <p>
-	 * This method automatically decides which hand to use in order to match
-	 * vanilla behavior as closely as possible. If you need to force a specific
-	 * hand, use {@link #rightClickBlock(BlockHitResult, Hand, SwingHand)}
-	 * instead.
-	 *
-	 * <p>
-	 * To fully match vanilla behavior, do the following before calling this
-	 * method:
-	 * <ol>
-	 * <li>Face the block and ensure that there are no other blocks or entities
-	 * preventing line of sight.</li>
-	 * <li>Ensure that {@code MC.interactionManager.isBreakingBlock()} returns
-	 * {@code false}.</li>
-	 * <li>Set the item use cooldown to 4 ticks. (Yes, even if subsequent checks
-	 * fail and the interaction doesn't happen.)</li>
-	 * <li>Ensure that {@code MC.player.isRiding()} returns {@code false}.</li>
-	 * </ol>
-	 */
-	public static void rightClickBlock(BlockHitResult hitResult)
-	{
-		for(Hand hand : Hand.values())
-		{
-			ItemStack stack = MC.player.getStackInHand(hand);
-			if(interactBlockAndSwing(hitResult, hand, stack))
-				return;
-			
-			if(interactItemAndSwing(stack, hand))
-				return;
-		}
-	}
-	
-	/**
-	 * @see #rightClickBlock(BlockHitResult, Hand, SwingHand)
-	 */
-	public static void rightClickBlock(BlockHitResult hitResult, Hand hand)
-	{
-		rightClickBlock(hitResult, hand);
-	}
-	
-	/**
-	 * Right-clicks the block at the given hit result, which may end up placing
-	 * a block, interacting with an existing block, or using an equipped item.
-	 *
-	 * <p>
-	 * This method forces the specified hand to be used, which would not be
-	 * possible in vanilla. For a more realistic right-click simulation, use
-	 * {@link #rightClickBlock(BlockHitResult, SwingHand)} instead.
-	 */
 	public static void rightClickBlock(BlockHitResult hitResult, Hand hand)
 	{
 		ItemStack stack = MC.player.getStackInHand(hand);
 		if(interactBlockAndSwing(hitResult, hand, stack))
 			return;
-		
-		interactItemAndSwing(stack, hand);
+			
+		if(interactItemAndSwing(stack, hand))
+			return;
 	}
 	
-	/**
-	 * Calls {@code interactBlock()} and swings the hand if the game would
-	 * normally do that.
-	 *
-	 * @return {@code true} if this call should consume the click and prevent
-	 *         any further block/item interactions
-	 */
 	private static boolean interactBlockAndSwing(BlockHitResult hitResult, Hand hand, ItemStack stack)
 	{
 		// save old stack size and call interactBlock()
