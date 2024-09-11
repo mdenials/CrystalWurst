@@ -32,6 +32,8 @@ import net.wurstclient.events.UpdateListener;
 import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.FileSetting;
+import net.wurstclient.settings.FacingSetting;
+import net.wurstclient.settings.FacingSetting.Facing;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.settings.SwingHandSetting.SwingHand;
@@ -51,6 +53,19 @@ public final class AutoBuildHack extends Hack
 		"How far to reach when placing blocks.\n" + "Recommended values:\n"
 			+ "6.0 for vanilla\n" + "4.25 for NoCheat+",
 		6, 1, 10, 0.05, ValueDisplay.DECIMAL);
+	
+	private final FacingSetting facing = FacingSetting.withPacketSpam("Face entities",
+			"Whether or not Autobuild should face the correct direction when rotate to blocks.\n\n"
+				+ "Slower but can help with anti-cheat plugins.",
+			Facing.OFF);
+
+	private final SwingHandSetting swingHand = new SwingHandSetting("How AutoBuild should swing your hand when placing blocks.\n\n"
+			+ "\u00a7lOff\u00a7r - Don't swing your hand at all. Will be detected"
+			+ " by anti-cheat plugins.\n\n"
+			+ "\u00a7lServer-side\u00a7r - Swing your hand on the server-side,"
+			+ " without playing the animation on the client-side.\n\n"
+			+ "\u00a7lClient-side\u00a7r - Swing your hand on the client-side."
+			+ " This is the most legit option.");
 	
 	private final CheckboxSetting checkLOS = new CheckboxSetting(
 		"Check line of sight",
@@ -76,6 +91,8 @@ public final class AutoBuildHack extends Hack
 		setCategory(Category.BLOCKS);
 		addSetting(templateSetting);
 		addSetting(range);
+		addSetting(facing);
+        	addSetting(swingHand);
 		addSetting(checkLOS);
 		addSetting(instaBuild);
 		addSetting(fastPlace);
@@ -257,10 +274,9 @@ public final class AutoBuildHack extends Hack
 			if(checkLOS.isChecked() && !params.lineOfSight())
 				continue;
 			
-			MC.itemUseCooldown = 4;
-			RotationUtils.getNeededRotations(params.hitVec())
-				.sendPlayerLookPacket();
+			facing.getSelected().face(params.hitVec());
 			InteractionSimulator.rightClickBlock(params.toHitResult());
+			swingHand.getSelected().swing(Hand.MAIN_HAND);
 			break;
 		}
 	}
@@ -277,9 +293,10 @@ public final class AutoBuildHack extends Hack
 			BlockPlacingParams params = BlockPlacer.getBlockPlacingParams(pos);
 			if(params == null || params.distanceSq() > rangeSq)
 				continue;
+
 			
-			InteractionSimulator.rightClickBlock(params.toHitResult(),
-				SwingHand.OFF);
+			InteractionSimulator.rightClickBlock(params.toHitResult(), SwingHand.OFF);
+
 		}
 		
 		remainingBlocks.clear();
