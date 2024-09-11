@@ -276,7 +276,7 @@ public final class AutoBuildHack extends Hack
 				continue;
 			
 			facing.getSelected().face(params.hitVec());
-			InteractionSimulator.rightClickBlock(params.toHitResult(), Hand.MAIN_HAND);
+			InteractionSimulator.rightClickBlock(params.toHitResult());
 			swingHand.getSelected().swing(Hand.MAIN_HAND);
 			break;
 		}
@@ -296,7 +296,7 @@ public final class AutoBuildHack extends Hack
 				continue;
 
 			
-			InteractionSimulator.rightClickBlock(params.toHitResult(), Hand.MAIN_HAND);
+			InteractionSimulator.rightClickBlock(params.toHitResult());
 
 		}
 		
