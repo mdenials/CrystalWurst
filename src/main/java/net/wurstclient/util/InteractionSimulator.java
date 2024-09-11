@@ -29,14 +29,18 @@ public enum InteractionSimulator
 	
 	private static final MinecraftClient MC = WurstClient.MC;
 	
-	public static void rightClickBlock(BlockHitResult hitResult, Hand hand)
+	public static void rightClickBlock(BlockHitResult hitResult)
 	{
 		ItemStack stack = MC.player.getStackInHand(hand);
-		if(interactBlockAndSwing(hitResult, hand, stack))
-			return;
+
+		for(Hand hand : Hand.values())
+		{
+			if(interactBlockAndSwing(hitResult, hand, stack))
+				return;
 			
-		if(interactItemAndSwing(stack, hand))
-			return;
+			if(interactItemAndSwing(stack, hand))
+				return;
+		}
 	}
 	
 	private static boolean interactBlockAndSwing(BlockHitResult hitResult, Hand hand, ItemStack stack)
