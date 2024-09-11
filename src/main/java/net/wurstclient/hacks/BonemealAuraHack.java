@@ -210,7 +210,7 @@ public final class BonemealAuraHack extends Hack implements PostMotionListener
 		// face and right click the block
 		MC.itemUseCooldown = 4;
 		WURST.getRotationFaker().faceVectorPacket(params.hitVec());
-		InteractionSimulator.rightClickBlock(params.toHitResult(), Hand.MAIN_HAND);
+		InteractionSimulator.rightClickBlock(params.toHitResult());
 		return true;
 	}
 	
@@ -222,7 +222,7 @@ public final class BonemealAuraHack extends Hack implements PostMotionListener
 			return false;
 		
 		// right click the block
-		InteractionSimulator.rightClickBlock(params.toHitResult(), Hand.MAIN_HAND);
+		InteractionSimulator.rightClickBlock(params.toHitResult());
 		return true;
 	}
 	
