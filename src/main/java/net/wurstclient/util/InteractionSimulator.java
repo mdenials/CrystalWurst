@@ -13,7 +13,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.wurstclient.WurstClient;
-import net.wurstclient.settings.SwingHandSetting.SwingHand;
 
 /**
  * A utility class to turn right-clicking a block into a simple one-liner,
@@ -61,16 +60,15 @@ public enum InteractionSimulator
 	 * <li>Ensure that {@code MC.player.isRiding()} returns {@code false}.</li>
 	 * </ol>
 	 */
-	public static void rightClickBlock(BlockHitResult hitResult,
-		SwingHand swing)
+	public static void rightClickBlock(BlockHitResult hitResult)
 	{
 		for(Hand hand : Hand.values())
 		{
 			ItemStack stack = MC.player.getStackInHand(hand);
-			if(interactBlockAndSwing(hitResult, swing, hand, stack))
+			if(interactBlockAndSwing(hitResult, hand, stack))
 				return;
 			
-			if(interactItemAndSwing(stack, swing, hand))
+			if(interactItemAndSwing(stack, hand))
 				return;
 		}
 	}
@@ -80,7 +78,7 @@ public enum InteractionSimulator
 	 */
 	public static void rightClickBlock(BlockHitResult hitResult, Hand hand)
 	{
-		rightClickBlock(hitResult, hand, SwingHand.CLIENT);
+		rightClickBlock(hitResult, hand);
 	}
 	
 	/**
@@ -92,14 +90,13 @@ public enum InteractionSimulator
 	 * possible in vanilla. For a more realistic right-click simulation, use
 	 * {@link #rightClickBlock(BlockHitResult, SwingHand)} instead.
 	 */
-	public static void rightClickBlock(BlockHitResult hitResult, Hand hand,
-		SwingHand swing)
+	public static void rightClickBlock(BlockHitResult hitResult, Hand hand)
 	{
 		ItemStack stack = MC.player.getStackInHand(hand);
-		if(interactBlockAndSwing(hitResult, swing, hand, stack))
+		if(interactBlockAndSwing(hitResult, hand, stack))
 			return;
 		
-		interactItemAndSwing(stack, swing, hand);
+		interactItemAndSwing(stack, hand);
 	}
 	
 	/**
@@ -109,19 +106,15 @@ public enum InteractionSimulator
 	 * @return {@code true} if this call should consume the click and prevent
 	 *         any further block/item interactions
 	 */
-	private static boolean interactBlockAndSwing(BlockHitResult hitResult,
-		SwingHand swing, Hand hand, ItemStack stack)
+	private static boolean interactBlockAndSwing(BlockHitResult hitResult, Hand hand, ItemStack stack)
 	{
 		// save old stack size and call interactBlock()
 		int oldCount = stack.getCount();
-		ActionResult result =
-			MC.interactionManager.interactBlock(MC.player, hand, hitResult);
+		ActionResult result = MC.interactionManager.interactBlock(MC.player, hand, hitResult);
 		
 		// swing hand and reset equip animation
-		if(result.shouldSwingHand())
-		{
-			swing.swing(hand);
-			
+		if(result.isAccepted())
+		{			
 			if(!stack.isEmpty() && (stack.getCount() != oldCount
 				|| MC.interactionManager.hasCreativeInventory()))
 				MC.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
@@ -137,8 +130,7 @@ public enum InteractionSimulator
 	 * @return {@code true} if this call should consume the click and prevent
 	 *         any further block/item interactions
 	 */
-	private static boolean interactItemAndSwing(ItemStack stack,
-		SwingHand swing, Hand hand)
+	private static boolean interactItemAndSwing(ItemStack stack, Hand hand)
 	{
 		// pass if hand is empty
 		if(stack.isEmpty())
@@ -147,11 +139,7 @@ public enum InteractionSimulator
 		// call interactItem()
 		ActionResult result =
 			MC.interactionManager.interactItem(MC.player, hand);
-		
-		// swing hand
-		if(result.shouldSwingHand())
-			swing.swing(hand);
-		
+				
 		// reset equip animation
 		if(result.isAccepted())
 		{
