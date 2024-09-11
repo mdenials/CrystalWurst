@@ -165,8 +165,7 @@ public final class TillauraHack extends Hack implements PostMotionListener
 			return false;
 		
 		// right click the block
-		InteractionSimulator.rightClickBlock(params.toHitResult(),
-			SwingHand.OFF);
+		InteractionSimulator.rightClickBlock(params.toHitResult());
 		return true;
 	}
 }
