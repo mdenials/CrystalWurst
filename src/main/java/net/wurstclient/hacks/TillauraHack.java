@@ -25,6 +25,9 @@ import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
+import net.wurstclient.settings.FacingSetting;
+import net.wurstclient.settings.FacingSetting.Facing;
+import net.wurstclient.settings.SwingHandSetting;
 import net.wurstclient.settings.SwingHandSetting.SwingHand;
 import net.wurstclient.util.BlockBreaker;
 import net.wurstclient.util.BlockBreaker.BlockBreakingParams;
@@ -40,6 +43,19 @@ public final class TillauraHack extends Hack implements PostMotionListener
 	private final SliderSetting range = new SliderSetting("Range",
 		"How far Tillaura will reach to till blocks.", 5, 1, 6, 0.05,
 		ValueDisplay.DECIMAL);
+
+	private final FacingSetting facing = FacingSetting.withPacketSpam("Face entities",
+			"Whether or not Autobuild should face the correct direction when rotate to blocks.\n\n"
+				+ "Slower but can help with anti-cheat plugins.",
+			Facing.OFF);
+
+	private final SwingHandSetting swingHand = new SwingHandSetting("How AutoBuild should swing your hand when placing blocks.\n\n"
+			+ "\u00a7lOff\u00a7r - Don't swing your hand at all. Will be detected"
+			+ " by anti-cheat plugins.\n\n"
+			+ "\u00a7lServer-side\u00a7r - Swing your hand on the server-side,"
+			+ " without playing the animation on the client-side.\n\n"
+			+ "\u00a7lClient-side\u00a7r - Swing your hand on the client-side."
+			+ " This is the most legit option.");
 	
 	private final CheckboxSetting multiTill =
 		new CheckboxSetting("MultiTill", "Tills multiple blocks at once.\n"
@@ -60,6 +76,8 @@ public final class TillauraHack extends Hack implements PostMotionListener
 		
 		setCategory(Category.BLOCKS);
 		addSetting(range);
+		addSetting(facing);
+        	addSetting(swingHand);
 		addSetting(multiTill);
 		addSetting(checkLOS);
 	}
@@ -150,8 +168,8 @@ public final class TillauraHack extends Hack implements PostMotionListener
 		
 		// face and right click the block
 		MC.itemUseCooldown = 5;
-		WURST.getRotationFaker().faceVectorPacket(params.hitVec());
-		InteractionSimulator.rightClickBlock(params.toHitResult());
+		facing.getSelected().face(params.hitVec());
+		InteractionSimulator.rightClickBlock(params.toHitResult(), swingHand.getSelected());
 		return true;
 	}
 	
@@ -165,7 +183,8 @@ public final class TillauraHack extends Hack implements PostMotionListener
 			return false;
 		
 		// right click the block
-		InteractionSimulator.rightClickBlock(params.toHitResult());
+		facing.getSelected().face(params.hitVec());
+		InteractionSimulator.rightClickBlock(params.toHitResult(), swingHand.getSelected());
 		return true;
 	}
 }
