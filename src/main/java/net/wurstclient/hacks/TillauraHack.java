@@ -149,7 +149,7 @@ public final class TillauraHack extends Hack implements PostMotionListener
 			return false;
 		
 		// face and right click the block
-		MC.itemUseCooldown = 4;
+		MC.itemUseCooldown = 5;
 		WURST.getRotationFaker().faceVectorPacket(params.hitVec());
 		InteractionSimulator.rightClickBlock(params.toHitResult());
 		return true;
