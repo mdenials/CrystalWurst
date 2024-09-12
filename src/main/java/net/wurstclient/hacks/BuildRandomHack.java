@@ -181,7 +181,7 @@ public final class BuildRandomHack extends Hack
 		if(checkLOS.isChecked() && !params.lineOfSight())
 			return false;
 		
-		MC.itemUseCooldown = 4;
+		MC.itemUseCooldown = 5;
 		lastPos = pos;
 		
 		facing.getSelected().face(params.hitVec());
