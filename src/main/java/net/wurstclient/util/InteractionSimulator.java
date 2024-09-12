@@ -31,10 +31,9 @@ public enum InteractionSimulator
 	
 	public static void rightClickBlock(BlockHitResult hitResult)
 	{
-		ItemStack stack = MC.player.getStackInHand(hand);
-
 		for(Hand hand : Hand.values())
 		{
+			ItemStack stack = MC.player.getStackInHand(hand);
 			if(interactBlockAndSwing(hitResult, hand, stack))
 				return;
 			
