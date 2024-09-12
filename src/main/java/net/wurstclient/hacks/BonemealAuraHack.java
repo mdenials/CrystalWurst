@@ -52,6 +52,19 @@ public final class BonemealAuraHack extends Hack implements PostMotionListener
 				+ "\u00a7lHotbar\u00a7r selects bone meal in your hotbar and then uses it on plants.\n"
 				+ "\u00a7lInventory\u00a7r finds bone meal in your inventory, moves it to your hotbar and then uses it.",
 			AutomationLevel.values(), AutomationLevel.RIGHT_CLICK);
+
+	private final FacingSetting facing = FacingSetting.withPacketSpam("Face entities",
+			"Whether or not BonemealAura should face the correct direction when rotate to plants.\n\n"
+				+ "Slower but can help with anti-cheat plugins.",
+			Facing.OFF);
+
+	private final SwingHandSetting swingHand = new SwingHandSetting("How BonemealAura should swing your hand when meal plants.\n\n"
+			+ "\u00a7lOff\u00a7r - Don't swing your hand at all. Will be detected"
+			+ " by anti-cheat plugins.\n\n"
+			+ "\u00a7lServer-side\u00a7r - Swing your hand on the server-side,"
+			+ " without playing the animation on the client-side.\n\n"
+			+ "\u00a7lClient-side\u00a7r - Swing your hand on the client-side."
+			+ " This is the most legit option.");
 	
 	private final CheckboxSetting saplings =
 		new CheckboxSetting("Saplings", true);
@@ -73,6 +86,8 @@ public final class BonemealAuraHack extends Hack implements PostMotionListener
 		addSetting(range);
 		addSetting(mode);
 		addSetting(automationLevel);
+		addSetting(facing);
+        	addSetting(swingHand);
 		addSetting(saplings);
 		addSetting(crops);
 		addSetting(stems);
@@ -209,9 +224,8 @@ public final class BonemealAuraHack extends Hack implements PostMotionListener
 			return false;
 		
 		// face and right click the block
-		MC.itemUseCooldown = 4;
-		WURST.getRotationFaker().faceVectorPacket(params.hitVec());
-		InteractionSimulator.rightClickBlock(params.toHitResult());
+		facing.getSelected().face(params.hitVec());
+		InteractionSimulator.rightClickBlock(params.toHitResult(), swingHand.getSelected());
 		return true;
 	}
 	
@@ -223,7 +237,8 @@ public final class BonemealAuraHack extends Hack implements PostMotionListener
 			return false;
 		
 		// right click the block
-		InteractionSimulator.rightClickBlock(params.toHitResult());
+		facing.getSelected().face(params.hitVec());
+		InteractionSimulator.rightClickBlock(params.toHitResult(), swingHand.getSelected());
 		return true;
 	}
 	
