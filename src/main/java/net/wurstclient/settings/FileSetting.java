@@ -71,8 +71,8 @@ public final class FileSetting extends Setting
 	private void setSelectedFileToDefault()
 	{
 		ArrayList<Path> files = listFiles();
-		
-		selectedFile = "" + files.get(0).getFileName();
+		if (!files.isEmpty())
+			selectedFile = "" + files.get(0).getFileName();
 	}
 	
 	public void resetFolder()
