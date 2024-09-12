@@ -37,8 +37,7 @@ import net.wurstclient.util.RotationUtils;
 
 @SearchTags({"build random", "RandomBuild", "random build", "PlaceRandom",
 	"place random", "RandomPlace", "random place"})
-public final class BuildRandomHack extends Hack
-	implements UpdateListener, RenderListener
+public final class BuildRandomHack extends Hack implements UpdateListener, RenderListener
 {
 	private final SliderSetting range =
 		new SliderSetting("Range", 5, 1, 6, 0.05, ValueDisplay.DECIMAL);
@@ -49,20 +48,7 @@ public final class BuildRandomHack extends Hack
 			+ "Higher values speed up the building process at the cost of"
 			+ " increased lag.",
 		128, 1, 1024, 1, ValueDisplay.INTEGER);
-	
-	private final CheckboxSetting checkItem =
-		new CheckboxSetting("Check held item",
-			"Only builds when you are actually holding a block.\n"
-				+ "Turn this off to build with fire, water, lava, spawn eggs,"
-				+ " or if you just want to right click with an empty hand"
-				+ " in random places.",
-			true);
-	
-	private final CheckboxSetting checkLOS =
-		new CheckboxSetting("Check line of sight",
-			"Ensure that BuildRandom won't try to place blocks behind walls.",
-			false);
-	
+
 	private final FacingSetting facing = FacingSetting.withoutPacketSpam(
 		"How BuildRandom should face the randomly placed blocks.\n\n"
 			+ "\u00a7lOff\u00a7r - Don't face the blocks at all. Will be"
@@ -76,6 +62,19 @@ public final class BuildRandomHack extends Hack
 	
 	private final SwingHandSetting swingHand = new SwingHandSetting(
 		"How BuildRandom should swing your hand when placing blocks.");
+
+	private final CheckboxSetting checkItem =
+		new CheckboxSetting("Check held item",
+			"Only builds when you are actually holding a block.\n"
+				+ "Turn this off to build with fire, water, lava, spawn eggs,"
+				+ " or if you just want to right click with an empty hand"
+				+ " in random places.",
+			true);
+	
+	private final CheckboxSetting checkLOS =
+		new CheckboxSetting("Check line of sight",
+			"Ensure that BuildRandom won't try to place blocks behind walls.",
+			false);
 	
 	private final CheckboxSetting fastPlace =
 		new CheckboxSetting("Always FastPlace",
@@ -105,10 +104,10 @@ public final class BuildRandomHack extends Hack
 		setCategory(Category.BLOCKS);
 		addSetting(range);
 		addSetting(maxAttempts);
-		addSetting(checkItem);
-		addSetting(checkLOS);
 		addSetting(facing);
 		addSetting(swingHand);
+		addSetting(checkItem);
+		addSetting(checkLOS);
 		addSetting(fastPlace);
 		addSetting(placeWhileBreaking);
 		addSetting(placeWhileRiding);
