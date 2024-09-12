@@ -125,8 +125,9 @@ public final class BonemealAuraHack extends Hack implements PostMotionListener
 			for(BlockPos pos : validBlocks)
 				if(rightClickBlockLegit(pos))
 					break;
-				
-		}else
+		}
+		
+		if (mode.getSelected() == Mode.FAST)
 		{
 			// fast mode
 			
