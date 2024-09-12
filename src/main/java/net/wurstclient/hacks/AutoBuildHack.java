@@ -276,6 +276,7 @@ public final class AutoBuildHack extends Hack
 			if(checkLOS.isChecked() && !params.lineOfSight())
 				continue;
 			
+			MC.itemUseCooldown = 5;
 			facing.getSelected().face(params.hitVec());
 			InteractionSimulator.rightClickBlock(params.toHitResult(), swingHand.getSelected());
 			break;
