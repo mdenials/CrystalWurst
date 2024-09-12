@@ -185,8 +185,7 @@ public final class BuildRandomHack extends Hack
 		facing.getSelected().face(params.hitVec());
 		lastPos = pos;
 		
-		InteractionSimulator.rightClickBlock(params.toHitResult(),
-			swingHand.getSelected());
+		InteractionSimulator.rightClickBlock(params.toHitResult());
 		return true;
 	}
 	
