@@ -616,30 +616,6 @@ public final class AltManagerScreen extends Screen
 			Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 			Tessellator tessellator = RenderSystem.renderThreadTesselator();
 			RenderSystem.setShader(GameRenderer::getPositionProgram);
-			
-			// green glow when logged in
-			if(client.getSession().getUsername().equals(alt.getName()))
-			{
-				GL11.glDisable(GL11.GL_CULL_FACE);
-				GL11.glEnable(GL11.GL_BLEND);
-				
-				float opacity =
-					0.3F - Math.abs(MathHelper.sin(System.currentTimeMillis()
-						% 10000L / 10000F * (float)Math.PI * 2.0F) * 0.15F);
-				
-				RenderSystem.setShaderColor(0, 1, 0, opacity);
-				
-				BufferBuilder bufferBuilder = tessellator
-					.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-				bufferBuilder.vertex(matrix, x - 2, y - 2, 0);
-				bufferBuilder.vertex(matrix, x - 2 + 220, y - 2, 0);
-				bufferBuilder.vertex(matrix, x - 2 + 220, y - 2 + 30, 0);
-				bufferBuilder.vertex(matrix, x - 2, y - 2 + 30, 0);
-				BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-				
-				GL11.glEnable(GL11.GL_CULL_FACE);
-				GL11.glDisable(GL11.GL_BLEND);
-			}
 
 			// name / email
 			context.drawText(client.textRenderer, alt.getDisplayName(), x + 0, y + 3, 10526880, false);
