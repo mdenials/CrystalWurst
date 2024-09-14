@@ -666,16 +666,10 @@ public final class AltManagerScreen extends Screen
 			}
 
 			// name / email
-			context.drawText(client.textRenderer,
-				"Name: " + alt.getDisplayName(), x + 31, y + 3, 10526880,
-				false);
-			context.drawText(client.textRenderer,
-				"Name: " + alt.getDisplayName(), x + 31, y + 3, 10526880,
-				false);
-			
+			context.drawText(client.textRenderer, alt.getDisplayName(), x + 0, y + 3, 10526880, false);
+
 			String bottomText = getBottomText(alt);
-			context.drawText(client.textRenderer, bottomText, x + 31, y + 15,
-				10526880, false);
+			context.drawText(client.textRenderer, bottomText, x + 0, y + 15, 10526880, false);
 		}
 		
 		public String getBottomText(Alt alt)
