@@ -431,12 +431,6 @@ public final class AltManagerScreen extends Screen
 			Alt alt = listGui.getSelectedAlt();
 			if(alt == null)
 				return;
-			
-			AltRenderer.drawAltBack(context, alt.getName(),
-				(width / 2 - 125) / 2 - 32, height / 2 - 64 - 9, 64, 128);
-			AltRenderer.drawAltBody(context, alt.getName(),
-				width - (width / 2 - 140) / 2 - 32, height / 2 - 64 - 9, 64,
-				128);
 		}
 		
 		// title text
@@ -670,11 +664,7 @@ public final class AltManagerScreen extends Screen
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				GL11.glDisable(GL11.GL_BLEND);
 			}
-			
-			// face
-			AltRenderer.drawAltFace(context, alt.getName(), x + 1, y + 1, 24,
-				24, isSelectedItem(id));
-			
+
 			// name / email
 			context.drawText(client.textRenderer,
 				"Name: " + alt.getDisplayName(), x + 31, y + 3, 10526880,
