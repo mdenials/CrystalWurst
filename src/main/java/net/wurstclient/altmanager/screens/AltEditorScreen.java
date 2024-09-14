@@ -151,57 +151,6 @@ public abstract class AltEditorScreen extends Screen
 	}
 	
 	/**
-	 * Returns the skin download URL for the given username.
-	 */
-	public URL getSkinUrl(String username) throws IOException
-	{
-		String uuid = getUUID(username);
-		JsonObject texturesValueJson = getTexturesValue(uuid);
-		
-		// Grab URL for skin
-		JsonObject tJObj = texturesValueJson.get("textures").getAsJsonObject();
-		JsonObject skinJObj = tJObj.get("SKIN").getAsJsonObject();
-		String skin = skinJObj.get("url").getAsString();
-		
-		return URI.create(skin).toURL();
-	}
-	
-	/**
-	 * Decodes the base64 textures value from {@link #getSessionJson(String)}.
-	 * Once decoded, it looks like this:
-	 *
-	 * <code><pre>
-	 * {
-	 *   "timestamp" : &lt;current time&gt;,
-	 *   "profileId" : "&lt;UUID&gt;",
-	 *   "profileName" : "&lt;username&gt;",
-	 *   "textures":
-	 *   {
-	 *     "SKIN":
-	 *     {
-	 *       "url": "http://textures.minecraft.net/texture/&lt;texture ID&gt;"
-	 *     }
-	 *   }
-	 * }
-	 * </pre></code>
-	 */
-	private JsonObject getTexturesValue(String uuid) throws IOException
-	{
-		JsonObject sessionJson = getSessionJson(uuid);
-		
-		JsonArray propertiesJson =
-			sessionJson.get("properties").getAsJsonArray();
-		JsonObject firstProperty = propertiesJson.get(0).getAsJsonObject();
-		String texturesBase64 = firstProperty.get("value").getAsString();
-		
-		byte[] texturesBytes = Base64.decodeBase64(texturesBase64.getBytes());AltRenderer
-		JsonObject texturesJson =
-			new Gson().fromJson(new String(texturesBytes), JsonObject.class);
-		
-		return texturesJson;
-	}
-	
-	/**
 	 * Grabs the JSON code from the session server. It looks something like
 	 * this:
 	 *
