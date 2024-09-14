@@ -147,7 +147,7 @@ public abstract class AltEditorScreen extends Screen
 	{
 		String nameOrEmail = nameOrEmailBox.getText().trim();
 		
-		doneButton.active = !nameOrEmail.isEmpty() && !passwordBox.getText().isEmpty();
+		doneButton.active = !(nameOrEmail.isEmpty() && passwordBox.getText().isEmpty());
 		stealSkinButton.active = !nameOrEmail.isEmpty();
 	}
 	
