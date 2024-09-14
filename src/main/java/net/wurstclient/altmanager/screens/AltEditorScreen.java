@@ -149,39 +149,6 @@ public abstract class AltEditorScreen extends Screen
 		errorTimer = 8;
 	}
 	
-	/**
-	 * Grabs the JSON code from the session server. It looks something like
-	 * this:
-	 *
-	 * <code><pre>
-	 * {
-	 *   "id": "&lt;UUID&gt;",
-	 *   "name": "&lt;username&gt;",
-	 *   "properties":
-	 *   [
-	 *     {
-	 *       "name": "textures",
-	 *       "value": "&lt;base64 encoded JSON&gt;"
-	 *     }
-	 *   ]
-	 * }
-	 * </pre></code>
-	 */
-	private JsonObject getSessionJson(String uuid) throws IOException
-	{
-		URL sessionURL = URI
-			.create(
-				"https://sessionserver.mojang.com/session/minecraft/profile/")
-			.resolve(uuid).toURL();
-		
-		try(InputStream sessionInputStream = sessionURL.openStream())
-		{
-			return new Gson().fromJson(
-				IOUtils.toString(sessionInputStream, StandardCharsets.UTF_8),
-				JsonObject.class);
-		}
-	}
-	
 	private String getUUID(String username) throws IOException
 	{
 		URL profileURL =
