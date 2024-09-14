@@ -57,7 +57,6 @@ public abstract class AltEditorScreen extends Screen
 	private ButtonWidget doneButton;
 	
 	protected String message = "";
-	private int errorTimer;
 	
 	public AltEditorScreen(Screen prevScreen, Text title)
 	{
@@ -144,11 +143,6 @@ public abstract class AltEditorScreen extends Screen
 	
 	protected abstract void pressDoneButton();
 	
-	protected final void doErrorEffect()
-	{
-		errorTimer = 8;
-	}
-	
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int int_3)
 	{
@@ -198,27 +192,6 @@ public abstract class AltEditorScreen extends Screen
 		// text boxes
 		nameOrEmailBox.render(context, mouseX, mouseY, partialTicks);
 		passwordBox.render(context, mouseX, mouseY, partialTicks);
-		
-		// red flash for errors
-		if(errorTimer > 0)
-		{
-			GL11.glDisable(GL11.GL_CULL_FACE);
-			GL11.glEnable(GL11.GL_BLEND);
-			
-			RenderSystem.setShaderColor(1, 0, 0, errorTimer / 16F);
-			
-			BufferBuilder bufferBuilder = tessellator
-				.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-			bufferBuilder.vertex(matrix, 0, 0, 0);
-			bufferBuilder.vertex(matrix, width, 0, 0);
-			bufferBuilder.vertex(matrix, width, height, 0);
-			bufferBuilder.vertex(matrix, 0, height, 0);
-			BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-			
-			GL11.glEnable(GL11.GL_CULL_FACE);
-			GL11.glDisable(GL11.GL_BLEND);
-			errorTimer--;
-		}
 		
 		for(Drawable drawable : drawables)
 			drawable.render(context, mouseX, mouseY, partialTicks);
