@@ -149,24 +149,6 @@ public abstract class AltEditorScreen extends Screen
 		errorTimer = 8;
 	}
 	
-	private String getUUID(String username) throws IOException
-	{
-		URL profileURL =
-			URI.create("https://api.mojang.com/users/profiles/minecraft/")
-				.resolve(URLEncoder.encode(username, "UTF-8")).toURL();
-		
-		try(InputStream profileInputStream = profileURL.openStream())
-		{
-			// {"name":"<username>","id":"<UUID>"}
-			
-			JsonObject profileJson = new Gson().fromJson(
-				IOUtils.toString(profileInputStream, StandardCharsets.UTF_8),
-				JsonObject.class);
-			
-			return profileJson.get("id").getAsString();
-		}
-	}
-	
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int int_3)
 	{
