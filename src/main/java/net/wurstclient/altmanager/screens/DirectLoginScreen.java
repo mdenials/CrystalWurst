@@ -43,7 +43,6 @@ public final class DirectLoginScreen extends AltEditorScreen
 			}catch(LoginException e)
 			{
 				message = "\u00a7c\u00a7lMicrosoft:\u00a7c " + e.getMessage();
-				doErrorEffect();
 				return;
 			}
 		
