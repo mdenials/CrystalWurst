@@ -38,7 +38,7 @@ public final class AltRenderer
 	private static void bindSkinTexture(String name)
 	{
 		if(name.isEmpty())
-			name = "Steve";
+			return;
 		
 		if(loadedSkins.get(name) == null)
 		{
