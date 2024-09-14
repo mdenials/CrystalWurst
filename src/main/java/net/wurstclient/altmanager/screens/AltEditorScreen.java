@@ -59,7 +59,6 @@ public abstract class AltEditorScreen extends Screen
 	private TextFieldWidget passwordBox;
 	
 	private ButtonWidget doneButton;
-	private ButtonWidget stealSkinButton;
 	
 	protected String message = "";
 	private int errorTimer;
@@ -89,18 +88,6 @@ public abstract class AltEditorScreen extends Screen
 			.dimensions(width / 2 - 100, height / 4 + 96 + 12, 200, 20)
 			.build());
 		
-		addDrawableChild(stealSkinButton = ButtonWidget
-			.builder(Text.literal("Steal Skin"),
-				b -> message = stealSkin(getNameOrEmail()))
-			.dimensions(width - (width / 2 - 100) / 2 - 64, height - 32, 128,
-				20)
-			.build());
-		
-		addDrawableChild(ButtonWidget
-			.builder(Text.literal("Open Skin Folder"), b -> openSkinFolder())
-			.dimensions((width / 2 - 100) / 2 - 64, height - 32, 128, 20)
-			.build());
-		
 		nameOrEmailBox = new TextFieldWidget(textRenderer, width / 2 - 100, 60,
 			200, 20, Text.literal(""));
 		nameOrEmailBox.setMaxLength(48);
@@ -123,32 +110,11 @@ public abstract class AltEditorScreen extends Screen
 		setFocused(nameOrEmailBox);
 	}
 	
-	private void openSkinFolder()
-	{
-		createSkinFolder();
-		Util.getOperatingSystem().open(skinFolder.toFile());
-	}
-	
-	private void createSkinFolder()
-	{
-		try
-		{
-			Files.createDirectories(skinFolder);
-			
-		}catch(IOException e)
-		{
-			e.printStackTrace();
-			message = "\u00a74\u00a7lSkin folder could not be created.";
-		}
-	}
-	
 	@Override
 	public final void tick()
 	{
 		String nameOrEmail = nameOrEmailBox.getText().trim();
-		
 		doneButton.active = !(nameOrEmail.isEmpty() && passwordBox.getText().isEmpty());
-		stealSkinButton.active = !nameOrEmail.isEmpty();
 	}
 	
 	/**
@@ -185,34 +151,6 @@ public abstract class AltEditorScreen extends Screen
 	protected final void doErrorEffect()
 	{
 		errorTimer = 8;
-	}
-	
-	private final String stealSkin(String name)
-	{
-		createSkinFolder();
-		Path path = skinFolder.resolve(name + ".png");
-		
-		try
-		{
-			URL url = getSkinUrl(name);
-			
-			try(InputStream in = url.openStream())
-			{
-				Files.copy(in, path, StandardCopyOption.REPLACE_EXISTING);
-			}
-			
-			return "\u00a7a\u00a7lSaved skin as " + name + ".png";
-			
-		}catch(IOException e)
-		{
-			e.printStackTrace();
-			return "\u00a74\u00a7lSkin could not be saved.";
-			
-		}catch(NullPointerException e)
-		{
-			e.printStackTrace();
-			return "\u00a74\u00a7lPlayer does not exist.";
-		}
 	}
 	
 	/**
@@ -259,7 +197,7 @@ public abstract class AltEditorScreen extends Screen
 		JsonObject firstProperty = propertiesJson.get(0).getAsJsonObject();
 		String texturesBase64 = firstProperty.get("value").getAsString();
 		
-		byte[] texturesBytes = Base64.decodeBase64(texturesBase64.getBytes());
+		byte[] texturesBytes = Base64.decodeBase64(texturesBase64.getBytes());AltRenderer
 		JsonObject texturesJson =
 			new Gson().fromJson(new String(texturesBytes), JsonObject.class);
 		
