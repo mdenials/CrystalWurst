@@ -45,7 +45,6 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.wurstclient.WurstClient;
-import net.wurstclient.altmanager.AltRenderer;
 import net.wurstclient.altmanager.NameGenerator;
 
 public abstract class AltEditorScreen extends Screen
