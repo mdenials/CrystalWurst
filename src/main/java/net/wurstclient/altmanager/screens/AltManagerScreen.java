@@ -66,7 +66,6 @@ public final class AltManagerScreen extends Screen
 	
 	private ListGui listGui;
 	private boolean shouldAsk = true;
-	private int errorTimer;
 	
 	private ButtonWidget useButton;
 	private ButtonWidget starButton;
@@ -230,7 +229,6 @@ public final class AltManagerScreen extends Screen
 		}
 		catch(LoginException e)
 		{
-			errorTimer = 8;
 			failedLogins.add(alt);
 		}
 	}
@@ -442,28 +440,6 @@ public final class AltManagerScreen extends Screen
 			textRenderer, "premium: " + altManager.getNumPremium()
 				+ ", cracked: " + altManager.getNumCracked(),
 			width / 2, 24, 10526880);
-		
-		// red flash for errors
-		if(errorTimer > 0)
-		{
-			RenderSystem.setShader(GameRenderer::getPositionProgram);
-			GL11.glDisable(GL11.GL_CULL_FACE);
-			GL11.glEnable(GL11.GL_BLEND);
-			
-			RenderSystem.setShaderColor(1, 0, 0, errorTimer / 16F);
-			
-			BufferBuilder bufferBuilder = tessellator
-				.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-			bufferBuilder.vertex(matrix, 0, 0, 0);
-			bufferBuilder.vertex(matrix, width, 0, 0);
-			bufferBuilder.vertex(matrix, width, height, 0);
-			bufferBuilder.vertex(matrix, 0, height, 0);
-			BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-			
-			GL11.glEnable(GL11.GL_CULL_FACE);
-			GL11.glDisable(GL11.GL_BLEND);
-			errorTimer--;
-		}
 		
 		for(Drawable drawable : drawables)
 			drawable.render(context, mouseX, mouseY, partialTicks);
