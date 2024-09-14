@@ -232,12 +232,6 @@ public abstract class AltEditorScreen extends Screen
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
-		// skin preview
-		AltRenderer.drawAltBack(context, nameOrEmailBox.getText(),
-			(width / 2 - 100) / 2 - 64, height / 2 - 128, 128, 256);
-		AltRenderer.drawAltBody(context, nameOrEmailBox.getText(),
-			width - (width / 2 - 100) / 2 - 64, height / 2 - 128, 128, 256);
-		
 		// text
 		context.drawTextWithShadow(textRenderer, "Name (for cracked alts), or",
 			width / 2 - 100, 37, 10526880);
