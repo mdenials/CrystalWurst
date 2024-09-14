@@ -49,10 +49,7 @@ import net.wurstclient.altmanager.AltRenderer;
 import net.wurstclient.altmanager.NameGenerator;
 
 public abstract class AltEditorScreen extends Screen
-{
-	private final Path skinFolder =
-		WurstClient.INSTANCE.getWurstFolder().resolve("skins");
-	
+{	
 	protected final Screen prevScreen;
 	
 	private TextFieldWidget nameOrEmailBox;
