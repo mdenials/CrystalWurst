@@ -60,8 +60,7 @@ public final class BuildRandomHack extends Hack implements UpdateListener, Rende
 			+ " camera on the client-side. This is the most legit option, but"
 			+ " can be VERY disorienting to look at.");
 	
-	private final SwingHandSetting swingHand = new SwingHandSetting(
-		"How BuildRandom should swing your hand when placing blocks.");
+	private final SwingHandSetting swingHand = new SwingHandSetting(this, SwingHand.CLIENT);
 
 	private final CheckboxSetting checkItem =
 		new CheckboxSetting("Check held item",
