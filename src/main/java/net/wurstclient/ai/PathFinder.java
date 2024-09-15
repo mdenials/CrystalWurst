@@ -130,9 +130,9 @@ public class PathFinder
 		return failed = queue.isEmpty() || iterations >= thinkSpeed * thinkTime;
 	}
 	
-	private ArrayList<PathPos> getNeighbors(PathPos pos)
+	private List<PathPos> getNeighbors(PathPos pos)
 	{
-		ArrayList<PathPos> neighbors = new ArrayList<>();
+		List<PathPos> neighbors = new List<>();
 		
 		// abort if too far away
 		if(Math.abs(start.getX() - pos.getX()) > landRange
@@ -513,7 +513,7 @@ public class PathFinder
 		return failed;
 	}
 	
-	public ArrayList<PathPos> formatPath()
+	public List<PathPos> formatPath()
 	{
 		if(!done && !failed)
 			throw new IllegalStateException("No path found!");
