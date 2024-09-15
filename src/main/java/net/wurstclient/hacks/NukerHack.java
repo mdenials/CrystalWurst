@@ -36,6 +36,7 @@ import net.wurstclient.settings.EnumSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.util.BlockBreaker;
+import net.wurstclient.util.BlockBreakingCache;
 import net.wurstclient.util.BlockUtils;
 import net.wurstclient.util.OverlayRenderer;
 import net.wurstclient.util.RotationUtils;
@@ -76,7 +77,7 @@ public final class NukerHack extends Hack
 		"minecraft:raw_copper_block", "minecraft:raw_gold_block",
 		"minecraft:raw_iron_block", "minecraft:redstone_ore");
 	
-	private final ArrayDeque<Set<BlockPos>> prevBlocks = new ArrayDeque<>();
+	private final BlockBreakingCache cache = new BlockBreakingCache();
 	private final OverlayRenderer renderer = new OverlayRenderer();
 	private BlockPos currentBlock;
 	
@@ -125,7 +126,7 @@ public final class NukerHack extends Hack
 			currentBlock = null;
 		}
 		
-		prevBlocks.clear();
+		cache.reset();
 		renderer.resetProgress();
 		
 		if(!lockId.isChecked())
@@ -163,7 +164,7 @@ public final class NukerHack extends Hack
 			MC.interactionManager.cancelBlockBreaking();
 			renderer.resetProgress();
 			
-			ArrayList<BlockPos> blocks = filterOutRecentBlocks(stream);
+			ArrayList<BlockPos> blocks = cache.filterOutRecentBlocks(stream);
 			if(blocks.isEmpty())
 				return;
 			
@@ -187,26 +188,6 @@ public final class NukerHack extends Hack
 			renderer.updateProgress();
 		else
 			renderer.resetProgress();
-	}
-	
-	/*
-	 * Waits 5 ticks before trying to break the same block again, which
-	 * makes it much more likely that the server will accept the block
-	 * breaking packets.
-	 */
-	private ArrayList<BlockPos> filterOutRecentBlocks(Stream<BlockPos> stream)
-	{
-		for(Set<BlockPos> set : prevBlocks)
-			stream = stream.filter(pos -> !set.contains(pos));
-		
-		ArrayList<BlockPos> blocks =
-			stream.collect(Collectors.toCollection(ArrayList::new));
-		
-		prevBlocks.addLast(new HashSet<>(blocks));
-		while(prevBlocks.size() > 5)
-			prevBlocks.removeFirst();
-		
-		return blocks;
 	}
 	
 	@Override
