@@ -8,6 +8,8 @@
 package net.wurstclient.hacks;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import java.util.Comparator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -271,7 +273,7 @@ public final class FollowHack extends Hack
 		}
 		
 		@Override
-		public ArrayList<PathPos> formatPath()
+		public List<PathPos> formatPath()
 		{
 			if(!done)
 				failed = true;
