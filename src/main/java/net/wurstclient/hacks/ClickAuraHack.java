@@ -33,7 +33,7 @@ public final class ClickAuraHack extends Hack
 	implements UpdateListener, LeftClickListener
 {
 	private final SliderSetting range =
-		new SliderSetting("Range", 5, 1, 10, 0.05, ValueDisplay.DECIMAL);
+		new SliderSetting("Range", 5, 0, 7, 0.000001, ValueDisplay.DECIMAL);
 	
 	private final AttackSpeedSliderSetting speed =
 		new AttackSpeedSliderSetting();
@@ -46,7 +46,7 @@ public final class ClickAuraHack extends Hack
 		Priority.values(), Priority.ANGLE);
 	
 	private final SliderSetting fov =
-		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
+		new SliderSetting("FOV", 360, 0, 360, 1, ValueDisplay.DEGREES);
 	
 	private final EntityFilterList entityFilters =
 		EntityFilterList.genericCombat();
