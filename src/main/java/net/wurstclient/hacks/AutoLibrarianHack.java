@@ -106,9 +106,7 @@ public final class AutoLibrarianHack extends Hack
 			+ " camera on the client-side. This is the most legit option, but"
 			+ " can be disorienting to look at.");
 	
-	private final SwingHandSetting swingHand =
-		new SwingHandSetting("How to swing your hand when interacting with the"
-			+ " villager and job site.");
+	private final SwingHandSetting swingHand = new SwingHandSetting(this, SwingHand.CLIENT);
 	
 	private final SliderSetting repairMode = new SliderSetting("Repair mode",
 		"Prevents AutoLibrarian from using your axe when its durability reaches"
