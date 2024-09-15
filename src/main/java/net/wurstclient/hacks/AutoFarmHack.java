@@ -31,6 +31,7 @@ import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.util.BlockBreaker;
+import net.wurstclient.util.BlockBreakingCache;
 import net.wurstclient.util.BlockPlacer;
 import net.wurstclient.util.BlockPlacer.BlockPlacingParams;
 import net.wurstclient.util.BlockUtils;
@@ -61,7 +62,7 @@ public final class AutoFarmHack extends Hack
 	}
 	
 	private final HashMap<BlockPos, Item> plants = new HashMap<>();
-	private final ArrayDeque<Set<BlockPos>> prevBlocks = new ArrayDeque<>();
+	private final BlockBreakingCache cache = new BlockBreakingCache();
 	private BlockPos currentlyHarvesting;
 	
 	private final AutoFarmRenderer renderer = new AutoFarmRenderer();
@@ -100,7 +101,7 @@ public final class AutoFarmHack extends Hack
 			currentlyHarvesting = null;
 		}
 		
-		prevBlocks.clear();
+		cache.reset();
 		overlay.resetProgress();
 		busy = false;
 		
@@ -337,7 +338,7 @@ public final class AutoFarmHack extends Hack
 			MC.interactionManager.cancelBlockBreaking();
 			overlay.resetProgress();
 
-			ArrayList<BlockPos> blocks = filterOutRecentBlocks(stream);
+			ArrayList<BlockPos> blocks = cache.filterOutRecentBlocks(stream);
 			if(blocks.isEmpty())
 				return;
 
@@ -359,25 +360,5 @@ public final class AutoFarmHack extends Hack
 		}
 		
 		overlay.updateProgress();	
-	}
-	
-	/*
-	 * Waits 5 ticks before trying to break the same block again, which
-	 * makes it much more likely that the server will accept the block
-	 * breaking packets.
-	 */
-	private ArrayList<BlockPos> filterOutRecentBlocks(Stream<BlockPos> stream)
-	{
-		for(Set<BlockPos> set : prevBlocks)
-			stream = stream.filter(pos -> !set.contains(pos));
-
-		ArrayList<BlockPos> blocks =
-			stream.collect(Collectors.toCollection(ArrayList::new));
-
-		prevBlocks.addLast(new HashSet<>(blocks));
-		while(prevBlocks.size() > 5)
-			prevBlocks.removeFirst();
-
-		return blocks;
 	}
 }
