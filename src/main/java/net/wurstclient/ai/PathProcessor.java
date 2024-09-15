@@ -8,6 +8,7 @@
 package net.wurstclient.ai;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -25,7 +26,7 @@ public abstract class PathProcessor
 		{MC.options.forwardKey, MC.options.backKey, MC.options.rightKey,
 			MC.options.leftKey, MC.options.jumpKey, MC.options.sneakKey};
 	
-	protected final ArrayList<PathPos> path;
+	protected final List<PathPos> path;
 	protected int index;
 	protected boolean done;
 	protected int ticksOffPath;
