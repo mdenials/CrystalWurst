@@ -8,6 +8,7 @@
 package net.wurstclient.commands;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Comparator;
 import java.util.stream.StreamSupport;
 
@@ -174,7 +175,7 @@ public final class PathCmd extends Command
 		// stop if done or failed
 		if(foundPath || pathFinder.isFailed())
 		{
-			ArrayList<PathPos> path = new ArrayList<>();
+			List<PathPos> path = new ArrayList<>();
 			if(foundPath)
 				path = pathFinder.formatPath();
 			else
