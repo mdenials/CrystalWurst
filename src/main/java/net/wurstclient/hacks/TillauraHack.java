@@ -49,13 +49,8 @@ public final class TillauraHack extends Hack implements PostMotionListener
 				+ "Slower but can help with anti-cheat plugins.",
 			Facing.OFF);
 
-	private final SwingHandSetting swingHand = new SwingHandSetting("How AutoBuild should swing your hand when placing blocks.\n\n"
-			+ "\u00a7lOff\u00a7r - Don't swing your hand at all. Will be detected"
-			+ " by anti-cheat plugins.\n\n"
-			+ "\u00a7lServer-side\u00a7r - Swing your hand on the server-side,"
-			+ " without playing the animation on the client-side.\n\n"
-			+ "\u00a7lClient-side\u00a7r - Swing your hand on the client-side."
-			+ " This is the most legit option.");
+	private final SwingHandSetting swingHand =
+		new SwingHandSetting(this, SwingHand.CLIENT);
 	
 	private final CheckboxSetting multiTill =
 		new CheckboxSetting("MultiTill", "Tills multiple blocks at once.\n"
