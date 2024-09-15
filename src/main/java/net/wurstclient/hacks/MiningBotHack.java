@@ -48,6 +48,7 @@ import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SwingHandSetting;
+import net.wurstclient.settings.SwingHandSetting.SwingHand;
 import net.wurstclient.settings.BlockSetting;
 import net.wurstclient.settings.BlockListSetting;
 import net.wurstclient.util.BlockBreaker;
