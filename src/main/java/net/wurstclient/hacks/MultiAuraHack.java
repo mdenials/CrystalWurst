@@ -39,9 +39,8 @@ public final class MultiAuraHack extends Hack implements UpdateListener
 	private final SliderSetting fov =
 		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
 	
-	private final SwingHandSetting swingHand = new SwingHandSetting(
-		"How MultiAura should swing your hand when attacking.",
-		SwingHand.CLIENT);
+	private final SwingHandSetting swingHand =
+		new SwingHandSetting(this, SwingHand.CLIENT);
 	
 	private final PauseAttackOnContainersSetting pauseOnContainers =
 		new PauseAttackOnContainersSetting(false);
