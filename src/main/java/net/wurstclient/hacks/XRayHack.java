@@ -18,6 +18,7 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.clickgui.screens.EditBlockListScreen;
@@ -94,12 +95,6 @@ public final class XRayHack extends Hack implements UpdateListener,
 		setCategory(Category.RENDER);
 		addSetting(ores);
 		addSetting(onlyExposed);
-		addSetting(Up);
-        	addSetting(Down);
-        	addSetting(North);
-        	addSetting(South);
-        	addSetting(West);
-        	addSetting(East);
 		optiFineWarning = checkOptiFine();
 	}
 	
