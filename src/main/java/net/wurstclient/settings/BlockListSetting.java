@@ -37,9 +37,9 @@ public class BlockListSetting extends Setting
 	private final ArrayList<String> blockNames = new ArrayList<>();
 	private final String[] defaultNames;
 	
-	public BlockListSetting(String name, Wtext description, String... blocks)
+	public BlockListSetting(String name, WText description, String... blocks)
 	{
-		super(name, Wtext.append(description));
+		super(name, WText.append(description));
 		
 		Arrays.stream(blocks).parallel()
 			.map(s -> Registries.BLOCK.get(Identifier.of(s)))
