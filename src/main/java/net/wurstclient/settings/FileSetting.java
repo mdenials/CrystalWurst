@@ -119,7 +119,7 @@ public final class FileSetting extends Setting
 			String newFile = JsonUtils.getAsString(json);
 			
 			if(newFile.isEmpty() || !Files.exists(folder.resolve(newFile)))
-				throw new JsonException();
+				return;
 			
 			selectedFile = newFile;
 			
