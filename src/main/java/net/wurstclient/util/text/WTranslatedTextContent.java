@@ -30,6 +30,9 @@ public final class WTranslatedTextContent implements WTextContent
 	{
 		WurstTranslator translator = WurstClient.INSTANCE.getTranslator();
 		Map<String, String> language = translator.getWurstsCurrentLanguage();
+		if (language == null)
+			return;
+		
 		if(language == lastLanguage)
 			return;
 		
