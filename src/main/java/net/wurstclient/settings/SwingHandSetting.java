@@ -25,10 +25,10 @@ public final class SwingHandSetting
 	private static final WText REDUCED_DESCRIPTION_SUFFIX =
 		buildDescriptionSuffix(false);
 	
-	private SwingHandSetting(String name, String description, SwingHand[] values,
+	private SwingHandSetting(String name, WText description, SwingHand[] values,
 		SwingHand selected)
 	{
-		super(name, description, values, selected);
+		super(name, WText.append(description), values, selected);
 	}
 	
 	public SwingHandSetting(WText description, SwingHand selected)
