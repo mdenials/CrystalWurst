@@ -28,7 +28,7 @@ public final class SwingHandSetting
 	private SwingHandSetting(String name, WText description, SwingHand[] values,
 		SwingHand selected)
 	{
-		super(name, WText.append(description), values, selected);
+		super(name, description.toString(), values, selected);
 	}
 	
 	public SwingHandSetting(WText description, SwingHand selected)
