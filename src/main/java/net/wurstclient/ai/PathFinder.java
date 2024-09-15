@@ -66,7 +66,7 @@ public class PathFinder
 	
 	protected boolean done;
 	protected boolean failed;
-	private final List<PathPos> path = new List<>();
+	private final List<PathPos> path = new ArrayList<>();
 	
 	public PathFinder(BlockPos goal)
 	{
@@ -132,7 +132,7 @@ public class PathFinder
 	
 	private List<PathPos> getNeighbors(PathPos pos)
 	{
-		List<PathPos> neighbors = new List<>();
+		List<PathPos> neighbors = new ArrayList<>();
 		
 		// abort if too far away
 		if(Math.abs(start.getX() - pos.getX()) > landRange
