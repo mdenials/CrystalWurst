@@ -8,6 +8,7 @@
 package net.wurstclient.hacks;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
@@ -269,7 +270,7 @@ public final class FightBotHack extends Hack
 		}
 		
 		@Override
-		public ArrayList<PathPos> formatPath()
+		public List<PathPos> formatPath()
 		{
 			if(!done)
 				failed = true;
