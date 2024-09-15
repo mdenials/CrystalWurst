@@ -27,7 +27,7 @@ public final class WText
 	
 	private WText(WTextContent... contents)
 	{
-		this.contents = ImmutableList.copyOf(contents);
+		this.contents = Lists.newArrayList(contents);
 	}
 	
 	public static WText literal(String text)
