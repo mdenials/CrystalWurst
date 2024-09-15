@@ -9,7 +9,7 @@ package net.wurstclient.hacks;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Objects;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiPredicate;
@@ -150,21 +150,21 @@ public final class NukerHack extends Hack
 		BlockPos eyesBlock = BlockPos.ofFloored(eyesVec);
 		double rangeSq = range.getValueSq();
 		int blockRange = range.getValueCeil();
-		
-		Stream<BlockPos> stream =
-			BlockUtils.getAllInBoxStream(eyesBlock, blockRange)
-				.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq)
-				.filter(BlockUtils::canBeClicked)
-				.filter(mode.getSelected().getValidator(this)).sorted(Comparator
-					.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)));
-		
+
+		Stream<BlockBreakingParams> stream = BlockUtils
+			.getAllInBoxStream(eyesBlock, blockRange)
+			.filter(this::shouldBreakBlock)
+			.map(BlockBreaker::getBlockBreakingParams).filter(Objects::nonNull)
+			.filter(params -> params.distanceSq() <= rangeSq)
+			.sorted(BlockBreaker.comparingParams());
+
 		// Break all blocks in creative mode
 		if(MC.player.getAbilities().creativeMode)
 		{
 			MC.interactionManager.cancelBlockBreaking();
 			renderer.resetProgress();
 			
-			ArrayList<BlockPos> blocks = cache.filterOutRecentBlocks(stream);
+			ArrayList<BlockPos> blocks = cache.filterOutRecentBlocks(stream.map(BlockBreakingParams::pos));
 			if(blocks.isEmpty())
 				return;
 			
@@ -174,8 +174,8 @@ public final class NukerHack extends Hack
 		}
 		
 		// Break the first valid block in survival mode
-		currentBlock =
-			stream.filter(BlockBreaker::breakOneBlock).findFirst().orElse(null);
+		currentBlock = stream.filter(BlockBreaker::breakOneBlock)
+			.map(BlockBreakingParams::pos).findFirst().orElse(null);
 		
 		if(currentBlock == null)
 		{
