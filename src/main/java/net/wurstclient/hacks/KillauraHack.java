@@ -50,7 +50,7 @@ public final class KillauraHack extends Hack implements UpdateListener, HandleIn
 	private final SliderSetting range = new SliderSetting("Range",
 		"Determines how far Killaura will reach to attack entities.\n"
 			+ "Anything that is further away than the specified value will not be attacked.",
-		5, 1, 10, 0.05, ValueDisplay.DECIMAL);
+		5, 0, 7, 0.000001, ValueDisplay.DECIMAL);
 	
 	private final AttackSpeedSliderSetting speed =
 		new AttackSpeedSliderSetting();
@@ -61,7 +61,7 @@ public final class KillauraHack extends Hack implements UpdateListener, HandleIn
 				+ " attacks.\n\n" + "\u00b1100ms is recommended for Vulcan.\n\n"
 				+ "0 (off) is fine for NoCheat+, AAC, Grim, Verus, Spartan, and"
 				+ " vanilla servers.",
-			100, 0, 1000, 50, ValueDisplay.INTEGER.withPrefix("\u00b1")
+			100, 0, 1000, 1, ValueDisplay.INTEGER.withPrefix("\u00b1")
 				.withSuffix("ms").withLabel(0, "off"));
 	
 	private final EnumSetting<Priority> priority = new EnumSetting<>("Priority",
@@ -72,7 +72,7 @@ public final class KillauraHack extends Hack implements UpdateListener, HandleIn
 		Priority.values(), Priority.ANGLE);
 	
 	private final SliderSetting fov =
-		new SliderSetting("FOV", 360, 30, 360, 10, ValueDisplay.DEGREES);
+		new SliderSetting("FOV", 360, 0, 360, 1, ValueDisplay.DEGREES);
 	
 	private final SwingHandSetting swingHand =
 		new SwingHandSetting(this, SwingHand.CLIENT);
