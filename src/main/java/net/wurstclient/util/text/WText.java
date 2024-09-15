@@ -7,7 +7,7 @@
  */
 package net.wurstclient.util.text;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.google.common.collect.Lists;
 
@@ -23,7 +23,7 @@ import net.minecraft.text.Text;
  */
 public final class WText
 {
-	private final ArrayList<WTextContent> contents;
+	private final List<WTextContent> contents;
 	
 	private WText(WTextContent... contents)
 	{
