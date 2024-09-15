@@ -238,8 +238,7 @@ public final class AutoFarmHack extends Hack
 			.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq)
 			.filter(pos -> BlockUtils.getState(pos).isReplaceable())
 			.filter(pos -> plants.containsKey(pos)).filter(this::canBeReplanted)
-			.sorted(Comparator.
-				.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
+			.sorted(Comparator.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
 			.collect(Collectors.toCollection(ArrayList::new));
 	}
 	
