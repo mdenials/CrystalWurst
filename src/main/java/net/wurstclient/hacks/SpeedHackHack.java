@@ -7,73 +7,110 @@
  */
 package net.wurstclient.hacks;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
+import net.wurstclient.events.LeftClickListener;
 import net.wurstclient.events.UpdateListener;
+import net.wurstclient.hack.DontSaveState;
 import net.wurstclient.hack.Hack;
-import net.wurstclient.settings.CheckboxSetting;
+import net.wurstclient.hacks.nukers.CommonNukerSettings;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
+import net.wurstclient.settings.SwingHandSetting;
+import net.wurstclient.settings.SwingHandSetting.SwingHand;
+import net.wurstclient.util.BlockBreaker;
+import net.wurstclient.util.BlockUtils;
+import net.wurstclient.util.RotationUtils;
 
-@SearchTags({"speed hack"})
-public final class SpeedHackHack extends Hack implements UpdateListener
+@SearchTags({"speed nuker", "FastNuker", "fast nuker"})
+@DontSaveState
+public final class SpeedNukerHack extends Hack implements UpdateListener
 {
-	public final SliderSetting speed = new SliderSetting("Horizontal Speed", 0.66, 0, 20, 0.000001, ValueDisplay.DECIMAL);
-	public final SliderSetting jumpscale = new SliderSetting("Jump Scale", 0.1, 0, 20, 0.000001, ValueDisplay.DECIMAL);
-	public final SliderSetting power = new SliderSetting("Power", 1, 1, 38, 1, ValueDisplay.INTEGER);
-	private final CheckboxSetting onGround = new CheckboxSetting("Ground check", true);
+	private final SliderSetting range =
+		new SliderSetting("Range", 5, 1, 6, 0.05, ValueDisplay.DECIMAL);
 	
-	public SpeedHackHack()
+	private final CommonNukerSettings commonSettings =
+		new CommonNukerSettings();
+	
+	private final SwingHandSetting swingHand = new SwingHandSetting(
+		SwingHandSetting.genericMiningDescription(this), SwingHand.OFF);
+	
+	public SpeedNukerHack()
 	{
-		super("SpeedHack");
-		setCategory(Category.MOVEMENT);
-		addSetting(speed);
-		addSetting(jumpscale);
-        	addSetting(power);
-		addSetting(onGround);
+		super("SpeedNuker");
+		setCategory(Category.BLOCKS);
+		addSetting(range);
+		commonSettings.getSettings().forEach(this::addSetting);
+		addSetting(swingHand);
+	}
+	
+	@Override
+	public String getRenderName()
+	{
+		return getName() + commonSettings.getRenderNameSuffix();
 	}
 	
 	@Override
 	protected void onEnable()
 	{
+		WURST.getHax().autoMineHack.setEnabled(false);
+		WURST.getHax().excavatorHack.setEnabled(false);
+		WURST.getHax().nukerHack.setEnabled(false);
+		WURST.getHax().nukerLegitHack.setEnabled(false);
+		WURST.getHax().tunnellerHack.setEnabled(false);
+		WURST.getHax().veinMinerHack.setEnabled(false);
+		
+		EVENTS.add(LeftClickListener.class, commonSettings);
 		EVENTS.add(UpdateListener.class, this);
 	}
 	
 	@Override
 	protected void onDisable()
 	{
+		EVENTS.remove(LeftClickListener.class, commonSettings);
 		EVENTS.remove(UpdateListener.class, this);
+		
+		commonSettings.reset();
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		// return if sneaking or not walking
-		if(MC.player.isSneaking() || MC.player.forwardSpeed == 0 && MC.player.sidewaysSpeed == 0)
+		if(commonSettings.isIdModeWithAir())
 			return;
 		
-		// activate sprint if walking forward
-		if(MC.player.forwardSpeed > 0 && !MC.player.horizontalCollision)
-			MC.player.setSprinting(true);
-
-		// activate mini jump if on ground
-		if(!MC.player.isOnGround() && onGround.isChecked())
+		Vec3d eyesVec = RotationUtils.getEyesPos();
+		BlockPos eyesBlock = BlockPos.ofFloored(eyesVec);
+		double rangeSq = range.getValueSq();
+		int blockRange = range.getValueCeil();
+		
+		Stream<BlockPos> stream =
+			BlockUtils.getAllInBoxStream(eyesBlock, blockRange)
+				.filter(BlockUtils::canBeClicked)
+				.filter(commonSettings::shouldBreakBlock);
+		
+		if(commonSettings.isSphereShape())
+			stream = stream
+				.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq);
+		
+		ArrayList<BlockPos> blocks = stream
+			.sorted(Comparator
+				.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
+			.collect(Collectors.toCollection(ArrayList::new));
+		
+		if(blocks.isEmpty())
 			return;
-
-		double spv = Math.pow(speed.getValue(), power.getValueI());
-		Vec3d v = MC.player.getVelocity();
-		MC.player.setVelocity(v.x * spv, v.y + jumpscale.getValue(), v.z * spv);
 		
-		v = MC.player.getVelocity();
-		double currentSpeed = Math.sqrt(Math.pow(v.x, 2) + Math.pow(v.z, 2));
-		
-		// limit speed to highest value that works on NoCheat+ version
-		// 3.13.0-BETA-sMD5NET-b878
-		// UPDATE: Patched in NoCheat+ version 3.13.2-SNAPSHOT-sMD5NET-b888
-		double maxSpeed = Math.pow(speed.getValue(), power.getValueI());
-		
-		if(currentSpeed > maxSpeed)
-			MC.player.setVelocity(v.x / currentSpeed * maxSpeed, v.y, v.z / currentSpeed * maxSpeed);
+		WURST.getHax().autoToolHack.equipIfEnabled(blocks.get(0));
+		BlockBreaker.breakBlocksWithPacketSpam(blocks);
+		swingHand.swing(Hand.MAIN_HAND);
 	}
 }
