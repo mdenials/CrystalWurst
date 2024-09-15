@@ -66,7 +66,7 @@ public class PathFinder
 	
 	protected boolean done;
 	protected boolean failed;
-	private final ArrayList<PathPos> path = new ArrayList<>();
+	private final List<PathPos> path = new List<>();
 	
 	public PathFinder(BlockPos goal)
 	{
