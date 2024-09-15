@@ -81,10 +81,8 @@ public final class KillauraLegitHack extends Hack implements UpdateListener,
 			+ "360\u00b0 = entities can be attacked all around you.",
 		360, 30, 360, 10, ValueDisplay.DEGREES);
 	
-	private final SwingHandSetting swingHand =
-		SwingHandSetting.withoutOffOption(
-			"How KillauraLegit should swing your hand when attacking.",
-			SwingHand.CLIENT);
+p	rivate final SwingHandSetting swingHand =
+		new SwingHandSetting(this, SwingHand.CLIENT);
 	
 	private final CheckboxSetting damageIndicator = new CheckboxSetting(
 		"Damage indicator",
