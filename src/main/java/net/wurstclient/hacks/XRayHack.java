@@ -80,12 +80,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 			+ "Remember to restart X-Ray when changing this setting.",
 		false);
 
-	private final CheckboxSetting Up = new CheckboxSetting("Up", true);
-    	private final CheckboxSetting Down = new CheckboxSetting("Down", true);
-    	private final CheckboxSetting North = new CheckboxSetting("North", true);
-    	private final CheckboxSetting South = new CheckboxSetting("South", true);
-    	private final CheckboxSetting West = new CheckboxSetting("West", true);
-    	private final CheckboxSetting East = new CheckboxSetting("East", true);
+	private final ThreadLocal<BlockPos.Mutable> mutablePosForExposedCheck = ThreadLocal.withInitial(BlockPos.Mutable::new);
 	
 	private final String optiFineWarning;
 	private final String renderName =
@@ -194,17 +189,22 @@ public final class XRayHack extends Hack implements UpdateListener,
 	{
 		String name = BlockUtils.getName(block);
 		int index = Collections.binarySearch(oreNamesCache, name);
-		boolean visible = (index >= 0);
+		boolean visible = index >= 0;
 		
 		if(visible && onlyExposed.isChecked() && pos != null)
-			return !BlockUtils.isOpaqueFullCube(pos.up()) && Up.isChecked()
-         		|| !BlockUtils.isOpaqueFullCube(pos.down()) && Down.isChecked()
-         		|| !BlockUtils.isOpaqueFullCube(pos.north()) && North.isChecked()
-			|| !BlockUtils.isOpaqueFullCube(pos.south()) && South.isChecked()
-         		|| !BlockUtils.isOpaqueFullCube(pos.west()) && West.isChecked()
-         		|| !BlockUtils.isOpaqueFullCube(pos.east()) && East.isChecked();
+			return isExposed(pos);
 		
 		return visible;
+	}
+	
+	private boolean isExposed(BlockPos pos)
+	{
+		BlockPos.Mutable mutablePos = mutablePosForExposedCheck.get();
+		for(Direction direction : Direction.values())
+			if(!BlockUtils.isOpaqueFullCube(mutablePos.set(pos, direction)))
+				return true;
+			
+		return false;
 	}
 	
 	/**
