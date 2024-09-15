@@ -50,9 +50,8 @@ public final class FightBotHack extends Hack
 	private final AttackSpeedSliderSetting speed =
 		new AttackSpeedSliderSetting();
 	
-	private final SwingHandSetting swingHand = new SwingHandSetting(
-		"How FightBot should swing your hand when attacking.",
-		SwingHand.CLIENT);
+	private final SwingHandSetting swingHand =
+		new SwingHandSetting(this, SwingHand.CLIENT);
 
 	private final SliderSetting distance = new SliderSetting("Distance",
 		"How closely to follow the target.\n"
