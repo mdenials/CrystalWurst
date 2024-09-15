@@ -64,10 +64,8 @@ public final class AnchorAuraHack extends Hack implements UpdateListener
 		new CheckboxSetting("Check line of sight",
 			"description.wurst.setting.anchoraura.check_line_of_sight", false);
 	
-	private final SwingHandSetting swingHand = new SwingHandSetting(
-		"How AnchorAura should swing your hand when placing, charging and"
-			+ " detonating respawn anchors.",
-		SwingHand.CLIENT);
+	private final SwingHandSetting swingHand =
+		new SwingHandSetting(this, SwingHand.CLIENT);
 	
 	private final EnumSetting<TakeItemsFrom> takeItemsFrom =
 		new EnumSetting<>("Take items from",
@@ -403,7 +401,6 @@ public final class AnchorAuraHack extends Hack implements UpdateListener
 	private enum TakeItemsFrom
 	{
 		HOTBAR("Hotbar", 9),
-		
 		INVENTORY("Inventory", 36);
 		
 		private final String name;
