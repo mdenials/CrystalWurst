@@ -8,8 +8,8 @@
 package net.wurstclient.util.text;
 
 import java.util.List;
-
 import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.text.Text;
 
@@ -27,7 +27,7 @@ public final class WText
 	
 	private WText(WTextContent... contents)
 	{
-		this.contents = Lists.newArrayList(contents);
+		this.contents = ImmutableList.copyOf(contents);
 	}
 	
 	public static WText literal(String text)
