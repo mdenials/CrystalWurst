@@ -49,8 +49,8 @@ public final class TpAuraHack extends Hack implements UpdateListener
 			+ "\u00a7lHealth\u00a7r - Attacks the weakest entity.",
 		Priority.values(), Priority.ANGLE);
 	
-	private final SwingHandSetting swingHand = new SwingHandSetting(
-		"How TP-Aura should swing your hand when attacking.", SwingHand.CLIENT);
+	private final SwingHandSetting swingHand =
+		new SwingHandSetting(this, SwingHand.CLIENT);
 	
 	private final PauseAttackOnContainersSetting pauseOnContainers =
 		new PauseAttackOnContainersSetting(true);
