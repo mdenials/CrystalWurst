@@ -8,6 +8,7 @@
 package net.wurstclient.ai;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.LadderBlock;
@@ -21,7 +22,7 @@ import net.wurstclient.util.RotationUtils;
 
 public class WalkPathProcessor extends PathProcessor
 {
-	public WalkPathProcessor(ArrayList<PathPos> path)
+	public WalkPathProcessor(List<PathPos> path)
 	{
 		super(path);
 	}
