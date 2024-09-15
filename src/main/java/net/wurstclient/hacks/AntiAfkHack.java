@@ -8,6 +8,7 @@
 package net.wurstclient.hacks;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -255,7 +256,7 @@ public final class AntiAfkHack extends Hack
 		}
 		
 		@Override
-		public ArrayList<PathPos> formatPath()
+		public List<PathPos> formatPath()
 		{
 			failed = true;
 			return super.formatPath();
