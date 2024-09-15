@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2024 Wurst-Imperium and contributors.
+ * Copyright (c) 2014-2023 Wurst-Imperium and contributors.
  *
  * This source code is subject to the terms of the GNU General Public
  * License, version 3. If a copy of the GPL was not distributed with this
@@ -7,110 +7,97 @@
  */
 package net.wurstclient.hacks;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
-import net.wurstclient.events.LeftClickListener;
 import net.wurstclient.events.UpdateListener;
-import net.wurstclient.hack.DontSaveState;
 import net.wurstclient.hack.Hack;
-import net.wurstclient.hacks.nukers.CommonNukerSettings;
+import net.wurstclient.settings.EnumSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
-import net.wurstclient.settings.SwingHandSetting;
-import net.wurstclient.settings.SwingHandSetting.SwingHand;
-import net.wurstclient.util.BlockBreaker;
-import net.wurstclient.util.BlockUtils;
-import net.wurstclient.util.RotationUtils;
 
-@SearchTags({"speed nuker", "FastNuker", "fast nuker"})
-@DontSaveState
-public final class SpeedNukerHack extends Hack implements UpdateListener
+@SearchTags({"speed hack"})
+public final class SpeedHackHack extends Hack implements UpdateListener
 {
-	private final SliderSetting range =
-		new SliderSetting("Range", 5, 1, 6, 0.05, ValueDisplay.DECIMAL);
-	
-	private final CommonNukerSettings commonSettings =
-		new CommonNukerSettings();
-	
-	private final SwingHandSetting swingHand = new SwingHandSetting(
-		SwingHandSetting.genericMiningDescription(this), SwingHand.OFF);
-	
-	public SpeedNukerHack()
+	public final EnumSetting<Mode> mode = new EnumSetting<>("Mode",
+		"\u00a7lSimple\u00a7r mode increases all kinds of movements you do.\n\n"
+			+ "\u00a7lMicroJump\u00a7r mode makes you do many small jumps.\n"
+			+ "May help with some anticheat plugins, but only works while on ground.\n\n",
+		Mode.values(), Mode.SIMPLE);
+
+	public final SliderSetting speed = new SliderSetting(
+	"Horizontal Speed", 0.66, 0, 20, 0.000001, ValueDisplay.DECIMAL);
+
+	public SpeedHackHack()
 	{
-		super("SpeedNuker");
-		setCategory(Category.BLOCKS);
-		addSetting(range);
-		commonSettings.getSettings().forEach(this::addSetting);
-		addSetting(swingHand);
+		super("SpeedHack");
+		setCategory(Category.MOVEMENT);
+		addSetting(speed);
+		addSetting(mode);
 	}
 	
 	@Override
-	public String getRenderName()
+	public void onEnable()
 	{
-		return getName() + commonSettings.getRenderNameSuffix();
-	}
-	
-	@Override
-	protected void onEnable()
-	{
-		WURST.getHax().autoMineHack.setEnabled(false);
-		WURST.getHax().excavatorHack.setEnabled(false);
-		WURST.getHax().nukerHack.setEnabled(false);
-		WURST.getHax().nukerLegitHack.setEnabled(false);
-		WURST.getHax().tunnellerHack.setEnabled(false);
-		WURST.getHax().veinMinerHack.setEnabled(false);
-		
-		EVENTS.add(LeftClickListener.class, commonSettings);
 		EVENTS.add(UpdateListener.class, this);
 	}
 	
 	@Override
-	protected void onDisable()
+	public void onDisable()
 	{
-		EVENTS.remove(LeftClickListener.class, commonSettings);
 		EVENTS.remove(UpdateListener.class, this);
-		
-		commonSettings.reset();
 	}
 	
 	@Override
 	public void onUpdate()
 	{
-		if(commonSettings.isIdModeWithAir())
+		// return if sneaking or not walking
+		if(MC.player.isSneaking() || MC.player.forwardSpeed == 0 && MC.player.sidewaysSpeed == 0)
 			return;
 		
-		Vec3d eyesVec = RotationUtils.getEyesPos();
-		BlockPos eyesBlock = BlockPos.ofFloored(eyesVec);
-		double rangeSq = range.getValueSq();
-		int blockRange = range.getValueCeil();
-		
-		Stream<BlockPos> stream =
-			BlockUtils.getAllInBoxStream(eyesBlock, blockRange)
-				.filter(BlockUtils::canBeClicked)
-				.filter(commonSettings::shouldBreakBlock);
-		
-		if(commonSettings.isSphereShape())
-			stream = stream
-				.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq);
-		
-		ArrayList<BlockPos> blocks = stream
-			.sorted(Comparator
-				.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
-			.collect(Collectors.toCollection(ArrayList::new));
-		
-		if(blocks.isEmpty())
+		double maxSpeed = speed.getValue();
+		Vec3d v = MC.player.getVelocity();
+
+		// only use SpeedHack when on ground
+		if(!MC.player.isOnGround())
 			return;
+
+		if (mode.getSelected() == Mode.MICROJUMP) {
+			
+			// activate sprint if walking forward
+			if(MC.player.forwardSpeed > 0 && !MC.player.horizontalCollision && mode.getSelected() == Mode.MICROJUMP)
+				MC.player.setSprinting(true);
+					
+			double multiplier = maxSpeed / 0.66 * 1.8;
+			MC.player.setVelocity(v.x * multiplier, v.y + 0.1, v.z * multiplier);
+			v = MC.player.getVelocity();
+		} else {
+			double multiplier = maxSpeed / 0.66 * 1.8;
+			MC.player.setVelocity(v.x * multiplier, v.y, v.z * multiplier);
+			v = MC.player.getVelocity();
+		}
+		// limit movement speed
+		double currentSpeed = Math.sqrt(Math.pow(v.x, 2) + Math.pow(v.z, 2));
+		if(currentSpeed > maxSpeed)
+			MC.player.setVelocity(v.x / currentSpeed * maxSpeed, v.y, v.z / currentSpeed * maxSpeed);
+	}
+
+	public static enum Mode
+	{
+		SIMPLE("Simple"),
+		MICROJUMP("MicroJump");
 		
-		WURST.getHax().autoToolHack.equipIfEnabled(blocks.get(0));
-		BlockBreaker.breakBlocksWithPacketSpam(blocks);
-		swingHand.swing(Hand.MAIN_HAND);
+		private final String name;
+
+		private Mode(String name)
+		{
+			this.name = name;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return name;
+		}
 	}
 }
