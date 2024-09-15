@@ -8,6 +8,7 @@
 package net.wurstclient.ai;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -20,7 +21,7 @@ public class FlyPathProcessor extends PathProcessor
 {
 	private final boolean creativeFlying;
 	
-	public FlyPathProcessor(ArrayList<PathPos> path, boolean creativeFlying)
+	public FlyPathProcessor(List<PathPos> path, boolean creativeFlying)
 	{
 		super(path);
 		this.creativeFlying = creativeFlying;
