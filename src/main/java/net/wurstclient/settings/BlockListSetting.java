@@ -37,7 +37,7 @@ public class BlockListSetting extends Setting
 	private final ArrayList<String> blockNames = new ArrayList<>();
 	private final String[] defaultNames;
 	
-	public BlockListSetting(String name, WText description, String... blocks)
+	public BlockListSetting(String name, String description, String... blocks)
 	{
 		super(name, description);
 		
