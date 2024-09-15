@@ -463,7 +463,7 @@ public final class AltManagerScreen extends Screen
 		int itemY = mouseY - 36 + (int)listGui.getScrollAmount() - 4
 			- hoveredIndex * 30;
 		
-		if(itemX < 31 || itemY < 15 || itemY >= 25)
+		if(itemX < 0 || itemY < 15 || itemY >= 25)
 			return;
 		
 		Alt alt = altList.get(hoveredIndex);
