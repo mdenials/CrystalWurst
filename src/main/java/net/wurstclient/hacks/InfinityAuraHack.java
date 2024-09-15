@@ -59,17 +59,15 @@ public final class InfinityAuraHack extends Hack implements UpdateListener
 		Priority.values(), Priority.ANGLE);
 
     	private final AttackSpeedSliderSetting speed = new AttackSpeedSliderSetting();
+	
     	private final FacingSetting facing = FacingSetting.withPacketSpam("Face entities",
 			"Whether or not InfinityAura should face the correct direction when rotate to entites.\n\n"
 				+ "Slower but can help with anti-cheat plugins.",
 			Facing.OFF);
-    	private final SwingHandSetting swingHand = new SwingHandSetting("How InfinityAura should swing your hand when attacking entities.\n\n"
-			+ "\u00a7lOff\u00a7r - Don't swing your hand at all. Will be detected"
-			+ " by anti-cheat plugins.\n\n"
-			+ "\u00a7lServer-side\u00a7r - Swing your hand on the server-side,"
-			+ " without playing the animation on the client-side.\n\n"
-			+ "\u00a7lClient-side\u00a7r - Swing your hand on the client-side."
-			+ " This is the most legit option.");
+	
+	private final SwingHandSetting swingHand =
+		new SwingHandSetting(this, SwingHand.CLIENT);
+	
     	private final SliderSetting fov = new SliderSetting("FOV", 360, 1, 360, 1, ValueDisplay.DEGREES);
 	private final PauseAttackOnContainersSetting pauseOnContainers = new PauseAttackOnContainersSetting(false);
     	private final CheckboxSetting checkLOS = new CheckboxSetting("Check line of sight", false);
