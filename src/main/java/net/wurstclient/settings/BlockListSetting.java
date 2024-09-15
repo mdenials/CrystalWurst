@@ -39,7 +39,7 @@ public class BlockListSetting extends Setting
 	
 	public BlockListSetting(String name, WText description, String... blocks)
 	{
-		super(name, WText.append(description));
+		super(name, WText.literal(description));
 		
 		Arrays.stream(blocks).parallel()
 			.map(s -> Registries.BLOCK.get(Identifier.of(s)))
