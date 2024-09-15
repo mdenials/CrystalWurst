@@ -7,7 +7,11 @@
  */
 package net.wurstclient.hacks;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,7 +19,6 @@ import net.minecraft.block.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -30,6 +33,7 @@ import net.wurstclient.hacks.autofarm.AutoFarmRenderer;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
+import net.wurstclient.settings.SwingHandSetting.SwingHand;
 import net.wurstclient.util.BlockBreaker;
 import net.wurstclient.util.BlockBreakingCache;
 import net.wurstclient.util.BlockPlacer;
@@ -118,11 +122,11 @@ public final class AutoFarmHack extends Hack
 		int blockRange = range.getValueCeil();
 		
 		// get nearby, non-empty blocks
-		ArrayList<BlockPos> blocks = BlockUtils
-			.getAllInBoxStream(eyesBlock, blockRange)
-			.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq)
-			.filter(BlockUtils::canBeClicked)
-			.collect(Collectors.toCollection(ArrayList::new));
+		ArrayList<BlockPos> blocks =
+			BlockUtils.getAllInBoxStream(eyesBlock, blockRange)
+				.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq)
+				.filter(BlockUtils::canBeClicked)
+				.collect(Collectors.toCollection(ArrayList::new));
 		
 		// check for any new plants and add them to the map
 		updatePlants(blocks);
@@ -149,7 +153,7 @@ public final class AutoFarmHack extends Hack
 		if(!replanting)
 			harvest(blocksToHarvest.stream());
 		
-		// upate busy state
+		// update busy state
 		busy = replanting || currentlyHarvesting != null;
 		
 		// update renderer
@@ -238,7 +242,8 @@ public final class AutoFarmHack extends Hack
 			.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq)
 			.filter(pos -> BlockUtils.getState(pos).isReplaceable())
 			.filter(pos -> plants.containsKey(pos)).filter(this::canBeReplanted)
-			.sorted(Comparator.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
+			.sorted(Comparator
+				.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
 			.collect(Collectors.toCollection(ArrayList::new));
 	}
 	
@@ -303,8 +308,7 @@ public final class AutoFarmHack extends Hack
 				
 				// swing arm
 				if(result.isAccepted() && result.shouldSwingHand())
-					MC.player.networkHandler
-						.sendPacket(new HandSwingC2SPacket(hand));
+					SwingHand.SERVER.swing(hand);
 				
 				// reset cooldown
 				MC.itemUseCooldown = 4;
@@ -330,20 +334,20 @@ public final class AutoFarmHack extends Hack
 		return false;
 	}
 	
-	private void harvest(Stream <BlockPos> stream)
+	private void harvest(Stream<BlockPos> stream)
 	{
+		// Break all blocks in creative mode
 		if(MC.player.getAbilities().creativeMode)
 		{
 			MC.interactionManager.cancelBlockBreaking();
 			overlay.resetProgress();
-
+			
 			ArrayList<BlockPos> blocks = cache.filterOutRecentBlocks(stream);
 			if(blocks.isEmpty())
 				return;
-
+			
 			currentlyHarvesting = blocks.get(0);
 			BlockBreaker.breakBlocksWithPacketSpam(blocks);
-			
 			return;
 		}
 		
@@ -358,6 +362,6 @@ public final class AutoFarmHack extends Hack
 			return;
 		}
 		
-		overlay.updateProgress();	
+		overlay.updateProgress();
 	}
 }
