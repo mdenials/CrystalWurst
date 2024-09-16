@@ -64,6 +64,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	private final SliderSetting arraySize = new SliderSetting("Array Size", 1, 0, 8192, 1, ValueDisplay.INTEGER);
     	private final SliderSetting queueSize = new SliderSetting("Queue Size", 1, 0, 8192, 1, ValueDisplay.INTEGER);
     	private final SliderSetting height = new SliderSetting("Height", "Leaves up height", 1, -256, 256, 1, ValueDisplay.INTEGER);
+	private final SliderSetting pathTicks = new SliderSetting("TicksOffPath", 20, 0, 2147483647, 1, ValueDisplay.INTEGER);
     	private final SliderSetting pxbv = new SliderSetting("Positive X Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
 	private final SliderSetting pybv = new SliderSetting("Positive Y Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
 	private final SliderSetting pzbv = new SliderSetting("Positive Z Box Value", "Box Range", 1, 0, 2147483647, 1, ValueDisplay.INTEGER);
@@ -133,6 +134,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
         	addSetting(arraySize);
         	addSetting(queueSize);
         	addSetting(height);
+		addSetting(pathTicks);
 		addSetting(pxbv);
 		addSetting(pybv);
 		addSetting(pzbv);
@@ -286,7 +288,9 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	
 	private boolean breakBlocks(List<BlockPos> blocks) //changed
 	{   
-        	return blocks.stream().filter(this::breakBlock).findFirst().map(pos -> {currentBlock = pos; return true;}).orElse(false);
+        	//return blocks.stream().filter(this::breakBlock).findFirst().map(pos -> {currentBlock = pos; return true;}).orElse(false);
+		return blocks.stream().filter(this::breakBlock).map(pos -> {currentBlock = pos; return true;}).orElse(false);
+	}
 	}
 	
 	private boolean breakBlock(BlockPos pos)
@@ -401,7 +405,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		
 		public void goToGoal()
 		{
-            		if(!pathFinder.isPathStillValid(processor.getIndex()) || processor.getTicksOffPath() > 20)
+            		if(!pathFinder.isPathStillValid(processor.getIndex()) || processor.getTicksOffPath() > pathTicks.getValueI())
 			{
 				pathFinder.reset();
 				return;
