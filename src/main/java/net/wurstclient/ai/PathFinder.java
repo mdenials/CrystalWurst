@@ -607,7 +607,7 @@ public class PathFinder
 	public boolean isPathStillValid(int index)
 	{
 		if(path.isEmpty())
-			throw new IllegalStateException("Path is not formatted!");
+			return false;
 		
 		// check player abilities
 		if(!abilities.equals(PlayerAbilities.get()))
@@ -617,13 +617,13 @@ public class PathFinder
 		if(index == 0)
 		{
 			PathPos pos = path.get(0);
-			if(!isPassable(pos) || !canFlyAt(pos) && !canGoThrough(pos.down())
-				&& !canSafelyStandOn(pos.down()))
+			if(!(isPassable(pos) && isPassableWithoutMining(pos)) || !(canFlyAt(pos) && canGoThrough(pos.down())
+				&& canSafelyStandOn(pos.down())))
 				return false;
 		}
 		
 		// check path
-		for(int i = Math.max(1, index); i < path.size(); i++)
+		for(int i = Math.max(0, index); i < path.size(); i++)
 			if(!getNeighbors(path.get(i - 1)).contains(path.get(i)))
 				return false;
 			
