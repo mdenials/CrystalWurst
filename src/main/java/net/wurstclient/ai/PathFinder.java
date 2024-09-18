@@ -524,9 +524,9 @@ public class PathFinder
 		PathPos pos;
 		if(failed)
 		{
-			//pos = start;
+			pos = start;
 				for(PathPos next : prevPosMap.keySet())
-					if(getHeuristic(next) < getHeuristic(start)
+					if(getHeuristic(next) < getHeuristic(pos)
 						&& (canFlyAt(next) || canBeSolid(next.down())))
 							pos = next;
 		}
