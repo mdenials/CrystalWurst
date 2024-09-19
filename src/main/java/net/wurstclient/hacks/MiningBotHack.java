@@ -288,7 +288,6 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 	
 	private boolean breakBlocks(List<BlockPos> blocks) //changed
 	{   
-        	//return blocks.stream().filter(this::breakBlock).findFirst().map(pos -> {currentBlock = pos; return true;}).orElse(false);
 		return blocks.stream().filter(this::breakBlock).findAny().map(pos -> {currentBlock = pos; return true;}).orElse(false);
 	}
 	
