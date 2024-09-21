@@ -15,7 +15,7 @@ import java.util.ArrayDeque;
 
 public class PathQueue
 {
-	private final Queue<PathQueue.Entry> queue = new ArrayDeque<>();
+	private final Queue<PathQueue.Entry> queue = new PriorityQueue<>(Comparator.comparing(Element::priority));
 	
 	private static class Entry
 	{
