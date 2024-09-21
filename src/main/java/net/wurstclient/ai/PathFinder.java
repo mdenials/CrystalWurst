@@ -60,8 +60,8 @@ public class PathFinder
 	protected PathPos current;
 	private final BlockPos goal;
 	
-	private final Map<PathPos, Float> costMap = new EnumMap<>(); //changed
-	protected final Map<PathPos, PathPos> prevPosMap = new EnumMap<>(); //changed
+	private final Map<PathPos, Float> costMap = new EnumMap<PathPos, Float>(); //changed
+	protected final Map<PathPos, PathPos> prevPosMap = new EnumMap<PathPos, Float>(); //changed
 	private final PathQueue queue = new PathQueue();
 	
 	private int iterations;
