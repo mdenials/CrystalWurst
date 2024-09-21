@@ -46,8 +46,8 @@ public class PathQueue
 		//Iterator<Entry> itr = queue.iterator();
 
 		for (Entry entry : queue)
-		for (int a = 0; i < size(); i++)
-			array[i] = entry.pos;
+		for (int a = 0; a < size(); a++)
+			array[a] = entry.pos;
 		
 		//for(int i = 0; i < size() && itr.hasNext(); i++) array[i] = itr.next().pos;
 		
