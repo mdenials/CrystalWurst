@@ -10,6 +10,7 @@ package net.wurstclient.ai;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.EnumMap;
 import java.util.List;
@@ -59,8 +60,8 @@ public class PathFinder
 	protected PathPos current;
 	private final BlockPos goal;
 	
-	private final EnumMap<PathPos, Float> costMap = new HashMap<>(); //changed
-	protected final EnumMap<PathPos, PathPos> prevPosMap = new HashMap<>(); //changed
+	private final Map<PathPos, Float> costMap = new EnumMap<>(); //changed
+	protected final Map<PathPos, PathPos> prevPosMap = new EnumMap<>(); //changed
 	private final PathQueue queue = new PathQueue();
 	
 	private int iterations;
