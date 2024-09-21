@@ -10,11 +10,12 @@ package net.wurstclient.ai;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class PathQueue
 {
-	private final PriorityQueue<PathQueue.Entry> queue =
-		new PriorityQueue<>(Comparator.comparing(e1 -> e1.priority));
+	private final Queue<PathQueue.Entry> queue = new LinkedList<>();
 	
 	private static class Entry
 	{
