@@ -79,7 +79,7 @@ public class PathFinder
 		this.goal = goal;
 		
 		costMap.put(start, 0F);
-		queue.add(start, getHeuristic(start));
+		queue.add(start);
 	}
 	
 	public PathFinder(PathFinder pathFinder)
@@ -115,7 +115,7 @@ public class PathFinder
 				// add to queue
 				costMap.put(next, newCost);
 				prevPosMap.put(next, current);
-				queue.add(next, newCost + getHeuristic(next));
+				queue.add(next);
 			}
 		}
 		iterations += i;
