@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -58,8 +59,8 @@ public class PathFinder
 	protected PathPos current;
 	private final BlockPos goal;
 	
-	private final HashMap<PathPos, Float> costMap = new HashMap<>();
-	protected final HashMap<PathPos, PathPos> prevPosMap = new HashMap<>();
+	private final EnumMap<PathPos, Float> costMap = new HashMap<>(); //changed
+	protected final EnumMap<PathPos, PathPos> prevPosMap = new HashMap<>(); //changed
 	private final PathQueue queue = new PathQueue();
 	
 	private int iterations;
