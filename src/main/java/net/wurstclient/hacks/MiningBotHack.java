@@ -403,7 +403,7 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 		
 		public void goToGoal()
 		{
-            		if(!pathFinder.isPathStillValid(processor.getIndex()) || processor.getTicksOffPath() >= pathTicks.getValueI())
+            		if(!pathFinder.isPathStillValid(processor.getIndex()) || processor.getTicksOffPath() > pathTicks.getValueI())
 			{
 				pathFinder.reset();
 				return;
