@@ -15,18 +15,15 @@ import java.util.ArrayDeque;
 
 public class PathQueue
 {
-	private final Queue<PathQueue.Entry> queue =
-		new PriorityQueue<>(Comparator.comparing(e1 -> e1.priority));
+	private final Queue<PathQueue.Entry> queue = new ArrayDeque<>();
 	
 	private static class Entry
 	{
 		private PathPos pos;
-		private float priority;
 		
-		public Entry(PathPos pos, float priority)
+		public Entry(PathPos pos)
 		{
 			this.pos = pos;
-			this.priority = priority;
 		}
 	}
 	
@@ -35,9 +32,9 @@ public class PathQueue
 		return queue.isEmpty();
 	}
 	
-	public boolean add(PathPos pos, float priority)
+	public boolean add(PathPos pos)
 	{
-		return queue.add(new Entry(pos, priority));
+		return queue.add(new Entry(pos));
 	}
 	
 	public PathPos[] toArray()
