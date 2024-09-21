@@ -43,8 +43,9 @@ public class PathQueue
 	public PathPos[] toArray()
 	{
 		PathPos[] array = new PathPos[size()];
-		Iterator<Entry> itr = queue.iterator();
-		
+		//Iterator<Entry> itr = queue.iterator();
+
+		for (Entry itr : queue)
 		for(int i = 0; i < size() && itr.hasNext(); i++)
 			array[i] = itr.next().pos;
 		
