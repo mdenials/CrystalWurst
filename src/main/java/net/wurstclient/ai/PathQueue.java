@@ -11,11 +11,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 
 public class PathQueue
 {
-	private final Queue<PathQueue.Entry> queue = new LinkedList<>();
+	private final Queue<PathQueue.Entry> queue = new ArrayDeque<>();
 	
 	private static class Entry
 	{
