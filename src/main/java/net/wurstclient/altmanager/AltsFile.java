@@ -13,6 +13,8 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import com.google.gson.JsonObject;
@@ -89,7 +91,7 @@ public final class AltsFile
 	
 	private void loadAlts(WsonObject wson, AltManager altManager)
 	{
-		ArrayList<Alt> alts = parseJson(wson);
+		List<Alt> alts = parseJson(wson);
 		
 		try
 		{
@@ -102,18 +104,20 @@ public final class AltsFile
 		}
 	}
 	
-	public static ArrayList<Alt> parseJson(WsonObject wson)
+	public static List<Alt> parseJson(WsonObject wson)
 	{
-		ArrayList<Alt> alts = new ArrayList<>();
+		List<Alt> alts = new LinkedList<>();
+		Iterator<Entry<String, JsonObject>> iterator = wson.getAllJsonObjects().entrySet().iterator();
 		
-		for(Entry<String, JsonObject> e : wson.getAllJsonObjects().entrySet())
+		while (iterator.hasNext())
 		{
-			String nameOrEmail = e.getKey();
-			if(nameOrEmail.isEmpty())
-				continue;
-			
-			JsonObject jsonAlt = e.getValue();
-			alts.add(loadAlt(nameOrEmail, jsonAlt));
+        		Entry<String, JsonObject> e = iterator.next();
+       	 		String nameOrEmail = e.getKey();
+        		if (!nameOrEmail.isEmpty())
+			{
+	        		JsonObject jsonAlt = e.getValue();
+            			alts.add(loadAlt(nameOrEmail, jsonAlt));
+        		}
 		}
 		
 		return alts;
