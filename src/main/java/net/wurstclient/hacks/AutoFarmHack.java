@@ -128,7 +128,7 @@ public final class AutoFarmHack extends Hack
 			BlockUtils.getAllInBoxStream(eyesBlock, blockRange)
 				.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq)
 				.filter(BlockUtils::canBeClicked)
-				.collect(Collectors.toCollection(List::new));
+				.collect(Collectors.toCollection(LinkedList::new));
 		
 		// check for any new plants and add them to the map
 		updatePlants(blocks);
@@ -195,7 +195,7 @@ public final class AutoFarmHack extends Hack
 		return blocks.parallelStream().filter(this::shouldBeHarvested)
 			.sorted(Comparator
 				.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
-			.collect(Collectors.toCollection(List::new));
+			.collect(Collectors.toCollection(LinkedList::new));
 	}
 	
 	private boolean shouldBeHarvested(BlockPos pos)
@@ -243,9 +243,8 @@ public final class AutoFarmHack extends Hack
 			.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq)
 			.filter(pos -> BlockUtils.getState(pos).isReplaceable())
 			.filter(pos -> plants.containsKey(pos)).filter(this::canBeReplanted)
-			.sorted(Comparator
-				.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
-			.collect(Collectors.toCollection(List::new));
+			.sorted(Comparator.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
+			.collect(Collectors.toCollection(LinkedList::new));
 	}
 	
 	private boolean canBeReplanted(BlockPos pos)
