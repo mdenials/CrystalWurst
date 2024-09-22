@@ -15,9 +15,11 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.StringJoiner;
 
 import org.joml.Matrix4f;
@@ -59,7 +61,7 @@ import net.wurstclient.util.json.WsonObject;
 
 public final class AltManagerScreen extends Screen
 {
-	private static final HashSet<Alt> failedLogins = new HashSet<>();
+	private static final HashSet<Alt> failedLogins = new LinkedHashSet<>();
 	
 	private final Screen prevScreen;
 	private final AltManager altManager;
@@ -294,14 +296,14 @@ public final class AltManagerScreen extends Screen
 	private void importAsJSON(Path path) throws IOException, JsonException
 	{
 		WsonObject wson = JsonUtils.parseFileToObject(path);
-		ArrayList<Alt> alts = AltsFile.parseJson(wson);
+		List<Alt> alts = AltsFile.parseJson(wson);
 		altManager.addAll(alts);
 	}
 	
 	private void importAsTXT(Path path) throws IOException
 	{
 		List<String> lines = Files.readAllLines(path);
-		ArrayList<Alt> alts = new ArrayList<>();
+		List<Alt> alts = new LinkedList<>();
 		
 		for(String line : lines)
 		{
