@@ -11,7 +11,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.LinkedBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.ArrayDeque;
 
 public class PathQueue
