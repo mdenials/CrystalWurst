@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
@@ -59,15 +61,15 @@ public class PathFinder
 	protected PathPos current;
 	private final BlockPos goal;
 	
-	private final Map<PathPos, Float> costMap = new HashMap<>();
-	protected final Map<PathPos, PathPos> prevPosMap = new HashMap<>();
+	private final Map<PathPos, Float> costMap = new LinkedHashMap<>();
+	protected final Map<PathPos, PathPos> prevPosMap = new LinkedHashMap<>();
 	private final PathQueue queue = new PathQueue();
 	
 	private int iterations;
 	
 	protected boolean done;
 	protected boolean failed;
-	private final List<PathPos> path = new ArrayList<>();
+	private final List<PathPos> path = new LinkedList<>();
 	
 	public PathFinder(BlockPos goal)
 	{
@@ -133,7 +135,7 @@ public class PathFinder
 	
 	private List<PathPos> getNeighbors(PathPos pos)
 	{
-		List<PathPos> neighbors = new ArrayList<>();
+		List<PathPos> neighbors = new LinkedList<>();
 		
 		// abort if too far away
 		if(Math.abs(start.getX() - pos.getX()) > landRange
