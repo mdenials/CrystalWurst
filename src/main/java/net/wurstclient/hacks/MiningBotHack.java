@@ -13,8 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.LinkedHashSet;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Deque;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.Collections;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -470,9 +473,9 @@ public final class MiningBotHack extends Hack implements UpdateListener, RenderL
 
     		private void analyzeMining(BlockPos stump) 
     		{
-        		List<BlockPos> logs = new ArrayList<>(Arrays.asList(stump));
-        		Set<BlockPos> visited = new HashSet<>(Arrays.asList(stump));
-        		Deque<BlockPos> queue = new ArrayDeque<>(Arrays.asList(stump));
+        		List<BlockPos> logs = new LinkedList<>(Arrays.asList(stump));
+        		Set<BlockPos> visited = new LinkedHashSet<>(Arrays.asList(stump));
+        		Deque<BlockPos> queue = new LinkedBlockingDeque<>(Arrays.asList(stump));
         		
 			while (!queue.isEmpty() && logs.size() < arraySize.getValueI() && queue.size() < queueSize.getValueI())
 			{
