@@ -10,7 +10,9 @@ package net.wurstclient.hacks;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -65,7 +67,7 @@ public final class AutoFarmHack extends Hack
 		seeds.put(Blocks.COCOA, Items.COCOA_BEANS);
 	}
 	
-	private final HashMap<BlockPos, Item> plants = new HashMap<>();
+	private final HashMap<BlockPos, Item> plants = new LinkedHashMap<>();
 	private final BlockBreakingCache cache = new BlockBreakingCache();
 	private BlockPos currentlyHarvesting;
 	
@@ -122,17 +124,17 @@ public final class AutoFarmHack extends Hack
 		int blockRange = range.getValueCeil();
 		
 		// get nearby, non-empty blocks
-		ArrayList<BlockPos> blocks =
+		List<BlockPos> blocks =
 			BlockUtils.getAllInBoxStream(eyesBlock, blockRange)
 				.filter(pos -> pos.getSquaredDistance(eyesVec) <= rangeSq)
 				.filter(BlockUtils::canBeClicked)
-				.collect(Collectors.toCollection(ArrayList::new));
+				.collect(Collectors.toCollection(List::new));
 		
 		// check for any new plants and add them to the map
 		updatePlants(blocks);
 		
-		ArrayList<BlockPos> blocksToHarvest = new ArrayList<>();
-		ArrayList<BlockPos> blocksToReplant = new ArrayList<>();
+		List<BlockPos> blocksToHarvest = new LinkedList<>();
+		List<BlockPos> blocksToReplant = new LinkedList<>();
 		
 		// don't place or break any blocks while Freecam is enabled
 		if(!WURST.getHax().freecamHack.isEnabled())
@@ -188,13 +190,12 @@ public final class AutoFarmHack extends Hack
 		}
 	}
 	
-	private ArrayList<BlockPos> getBlocksToHarvest(Vec3d eyesVec,
-		ArrayList<BlockPos> blocks)
+	private List<BlockPos> getBlocksToHarvest(Vec3d eyesVec, List<BlockPos> blocks)
 	{
 		return blocks.parallelStream().filter(this::shouldBeHarvested)
 			.sorted(Comparator
 				.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
-			.collect(Collectors.toCollection(ArrayList::new));
+			.collect(Collectors.toCollection(List::new));
 	}
 	
 	private boolean shouldBeHarvested(BlockPos pos)
@@ -235,7 +236,7 @@ public final class AutoFarmHack extends Hack
 		return false;
 	}
 	
-	private ArrayList<BlockPos> getBlocksToReplant(Vec3d eyesVec,
+	private List<BlockPos> getBlocksToReplant(Vec3d eyesVec,
 		BlockPos eyesBlock, double rangeSq, int blockRange)
 	{
 		return BlockUtils.getAllInBoxStream(eyesBlock, blockRange)
@@ -244,7 +245,7 @@ public final class AutoFarmHack extends Hack
 			.filter(pos -> plants.containsKey(pos)).filter(this::canBeReplanted)
 			.sorted(Comparator
 				.comparingDouble(pos -> pos.getSquaredDistance(eyesVec)))
-			.collect(Collectors.toCollection(ArrayList::new));
+			.collect(Collectors.toCollection(List::new));
 	}
 	
 	private boolean canBeReplanted(BlockPos pos)
@@ -287,7 +288,7 @@ public final class AutoFarmHack extends Hack
 				: Hand.OFF_HAND;
 			
 			// filter out blocks that need a different seed
-			ArrayList<BlockPos> blocksToReplantWithHeldSeed =
+			List<BlockPos> blocksToReplantWithHeldSeed =
 				blocksToReplant.stream().filter(pos -> plants.get(pos) == item)
 					.collect(Collectors.toCollection(ArrayList::new));
 			
@@ -342,7 +343,7 @@ public final class AutoFarmHack extends Hack
 			MC.interactionManager.cancelBlockBreaking();
 			overlay.resetProgress();
 			
-			ArrayList<BlockPos> blocks = cache.filterOutRecentBlocks(stream);
+			List<BlockPos> blocks = cache.filterOutRecentBlocks(stream);
 			if(blocks.isEmpty())
 				return;
 			
