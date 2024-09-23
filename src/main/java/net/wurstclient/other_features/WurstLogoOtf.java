@@ -15,11 +15,14 @@ import net.wurstclient.SearchTags;
 import net.wurstclient.other_feature.OtherFeature;
 import net.wurstclient.settings.ColorSetting;
 import net.wurstclient.settings.EnumSetting;
+import net.wurstclient.settings.TextFieldSetting;
 
 @SearchTags({"wurst logo", "top left corner"})
 @DontBlock
 public final class WurstLogoOtf extends OtherFeature
 {
+	private final TextFieldSetting versionString = new TextFieldSetting("VersionString","WurstClient_v8.0.0_MC1.20.6");
+	
 	private final ColorSetting bgColor = new ColorSetting("Background",
 		"Background color.\n"
 			+ "Only visible when \u00a76RainbowUI\u00a7r is disabled.",
@@ -34,24 +37,30 @@ public final class WurstLogoOtf extends OtherFeature
 	public WurstLogoOtf()
 	{
 		super("WurstLogo", "Shows the Wurst logo and version on the screen.");
+		addSetting(versionString);
 		addSetting(bgColor);
 		addSetting(txtColor);
 		addSetting(visibility);
 	}
-	
+
 	public boolean isVisible()
 	{
 		return visibility.getSelected().isVisible();
 	}
-	
-	public float[] getBackgroundColor()
+
+	public String getVersion()
 	{
-		return bgColor.getColorF();
+		return this.versionString.getValue();
 	}
 	
 	public int getTextColor()
 	{
 		return txtColor.getColorI();
+	}
+
+	public float[] getBackgroundColor()
+	{
+		return bgColor.getColorF();
 	}
 	
 	public static enum Visibility
