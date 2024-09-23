@@ -8,7 +8,9 @@
 package net.wurstclient.navigator;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -21,7 +23,7 @@ import net.wurstclient.other_feature.OtfList;
 
 public final class Navigator
 {
-	private final ArrayList<Feature> navigatorList = new ArrayList<>();
+	private final List<Feature> navigatorList = new LinkedList<>();
 	private final HashMap<String, Long> preferences = new HashMap<>();
 	private final PreferencesFile preferencesFile;
 	
@@ -35,7 +37,7 @@ public final class Navigator
 		preferencesFile.load();
 	}
 	
-	public void copyNavigatorList(ArrayList<Feature> list)
+	public void copyNavigatorList(List<Feature> list)
 	{
 		if(list.equals(navigatorList))
 			return;
@@ -44,7 +46,7 @@ public final class Navigator
 		list.addAll(navigatorList);
 	}
 	
-	public void getSearchResults(ArrayList<Feature> list, String query)
+	public void getSearchResults(List<Feature> list, String query)
 	{
 		// clear display list
 		list.clear();
