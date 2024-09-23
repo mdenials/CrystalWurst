@@ -9,6 +9,8 @@ package net.wurstclient.navigator;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.LinkedList;
 
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
@@ -37,8 +39,7 @@ import net.wurstclient.util.RenderUtils;
 
 public final class NavigatorMainScreen extends NavigatorScreen
 {
-	private static final ArrayList<Feature> navigatorDisplayList =
-		new ArrayList<>();
+	private static final List<Feature> navigatorDisplayList = new LinkedList<>();
 	private TextFieldWidget searchBar;
 	private String lastSearchText = "";
 	private String tooltip;
