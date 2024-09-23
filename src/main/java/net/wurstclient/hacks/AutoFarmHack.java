@@ -7,7 +7,6 @@
  */
 package net.wurstclient.hacks;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -289,7 +288,7 @@ public final class AutoFarmHack extends Hack
 			// filter out blocks that need a different seed
 			List<BlockPos> blocksToReplantWithHeldSeed =
 				blocksToReplant.stream().filter(pos -> plants.get(pos) == item)
-					.collect(Collectors.toCollection(ArrayList::new));
+					.collect(Collectors.toCollection(LinkedList::new));
 			
 			for(BlockPos pos : blocksToReplantWithHeldSeed)
 			{
