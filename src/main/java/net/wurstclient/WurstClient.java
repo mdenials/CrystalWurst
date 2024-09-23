@@ -139,9 +139,6 @@ public enum WurstClient
 		Path altsFile = wurstFolder.resolve("alts.encrypted_json");
 		Path encFolder = Encryption.chooseEncryptionFolder();
 		altManager = new AltManager(altsFile, encFolder);
-		
-		analytics.trackPageView("/mc" + MC_VERSION + "/v" + VERSION,
-			"Wurst " + VERSION + " MC" + MC_VERSION);
 	}
 	
 	private Path createWurstFolder()
