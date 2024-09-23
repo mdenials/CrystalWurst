@@ -9,7 +9,9 @@ package net.wurstclient.navigator;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
@@ -57,7 +59,7 @@ public final class NavigatorFeatureScreen extends NavigatorScreen
 	private ButtonData activeButton;
 	private ButtonWidget primaryButton;
 	private String text;
-	private ArrayList<ButtonData> buttonDatas = new ArrayList<>();
+	private List<ButtonData> buttonDatas = new LinkedList<>();
 	
 	private Window window = new Window("");
 	private int windowComponentY;
