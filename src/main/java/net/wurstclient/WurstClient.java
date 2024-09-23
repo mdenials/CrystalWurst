@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 import net.minecraft.client.MinecraftClient;
 import net.wurstclient.altmanager.AltManager;
 import net.wurstclient.altmanager.Encryption;
-import net.wurstclient.analytics.WurstAnalytics;
 import net.wurstclient.clickgui.ClickGui;
 import net.wurstclient.command.CmdList;
 import net.wurstclient.command.CmdProcessor;
@@ -53,7 +52,6 @@ public enum WurstClient
 	public static final String VERSION = "7.45";
 	public static final String MC_VERSION = "1.21.1";
 	
-	private WurstAnalytics analytics;
 	private EventManager eventManager;
 	private AltManager altManager;
 	private HackList hax;
@@ -87,7 +85,6 @@ public enum WurstClient
 		String trackingID = "UA-52838431-5";
 		String hostname = "client.wurstclient.net";
 		Path analyticsFile = wurstFolder.resolve("analytics.json");
-		analytics = new WurstAnalytics(trackingID, hostname, analyticsFile);
 		
 		eventManager = new EventManager(this);
 		
@@ -168,11 +165,6 @@ public enum WurstClient
 	public String translate(String key, Object... args)
 	{
 		return translator.translate(key, args);
-	}
-	
-	public WurstAnalytics getAnalytics()
-	{
-		return analytics;
 	}
 	
 	public EventManager getEventManager()
