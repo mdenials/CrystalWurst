@@ -27,8 +27,7 @@ import net.wurstclient.other_features.WurstLogoOtf;
 
 public final class WurstLogo
 {
-	private static final Identifier texture =
-		Identifier.of("wurst", "wurst_128.png");
+	private static final Identifier texture = Identifier.of("wurst", "wurst_128.png");
 	
 	public void render(DrawContext context)
 	{
@@ -66,10 +65,7 @@ public final class WurstLogo
 	
 	private String getVersionString()
 	{
-		String version = "v" + WurstClient.VERSION;
-		version += " MC" + WurstClient.MC_VERSION;
-		
-		return version;
+		return otf.getVersion();
 	}
 	
 	private void drawQuads(MatrixStack matrices, int x1, int y1, int x2, int y2,
