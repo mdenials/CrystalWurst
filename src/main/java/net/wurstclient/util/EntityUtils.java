@@ -44,7 +44,8 @@ public enum EntityUtils
 		&& !e.isRemoved()
 		&& (e instanceof LivingEntity && ((LivingEntity)e).getHealth() > 0
 			|| e instanceof EndCrystalEntity
-			|| e instanceof ShulkerBulletEntity)
+			|| e instanceof ShulkerBulletEntity
+		   	|| e instanceof FireballEntity)
 		&& e != MC.player && !(e instanceof FakePlayerEntity)
 		&& !WURST.getFriends().isFriend(e);
 	
