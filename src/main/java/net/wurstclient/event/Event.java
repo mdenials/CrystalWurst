@@ -8,11 +8,10 @@
 package net.wurstclient.event;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public abstract class Event<T extends Listener>
 {
-	public abstract void fire(LinkedList<T> listeners);
+	public abstract void fire(ArrayList<T> listeners);
 	
 	public abstract Class<T> getListenerType();
 }
