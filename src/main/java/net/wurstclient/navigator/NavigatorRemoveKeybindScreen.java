@@ -7,7 +7,9 @@
  */
 package net.wurstclient.navigator;
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -68,8 +70,8 @@ public class NavigatorRemoveKeybindScreen extends NavigatorScreen
 		if(oldCommands == null)
 			return;
 		
-		ArrayList<String> commandsList =
-			new ArrayList<>(Arrays.asList(oldCommands.replace(";", "\u00a7")
+		List<String> commandsList =
+			new LinkedList<>(Arrays.asList(oldCommands.replace(";", "\u00a7")
 				.replace("\u00a7\u00a7", ";").split("\u00a7")));
 		
 		for(int i = 0; i < commandsList.size(); i++)
