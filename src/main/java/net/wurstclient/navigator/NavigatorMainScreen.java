@@ -179,7 +179,7 @@ public final class NavigatorMainScreen extends NavigatorScreen
 	protected void onUpdate()
 	{
 		String newText = searchBar.getText();
-		if(clickTimer == -1 && !newText.equals(lastSearchText))
+		if(!newText.equals(lastSearchText))
 		{
 			Navigator navigator = WurstClient.INSTANCE.getNavigator();
 			
@@ -197,13 +197,7 @@ public final class NavigatorMainScreen extends NavigatorScreen
 		}
 		
 		if(expanding)
-			if(clickTimer < 4)
-				clickTimer++;
-			else
-				WurstClient.MC.setScreen(
-					new NavigatorFeatureScreen(expandingFeature, this));
-		else if(!expanding && clickTimer > -1)
-			clickTimer--;
+			WurstClient.MC.setScreen(new NavigatorFeatureScreen(expandingFeature, this));
 		
 		scrollbarLocked = clickTimer != -1;
 	}
@@ -215,38 +209,29 @@ public final class NavigatorMainScreen extends NavigatorScreen
 	}
 	
 	@Override
-	protected void onRender(DrawContext context, int mouseX, int mouseY,
-		float partialTicks)
+	protected void onRender(DrawContext context, int mouseX, int mouseY, float partialTicks)
 	{
 		MatrixStack matrixStack = context.getMatrices();
 		ClickGui gui = WurstClient.INSTANCE.getGui();
 		float[] bgColor = gui.getBgColor();
 		float[] acColor = gui.getAcColor();
 		int txtColor = gui.getTxtColor();
-		
-		boolean clickTimerRunning = clickTimer != -1;
 		tooltip = null;
 		
 		// search bar
-		if(!clickTimerRunning)
-		{
-			RenderSystem.setShaderColor(1, 1, 1, 1);
-			context.drawTextWithShadow(WurstClient.MC.textRenderer, "Search: ",
-				middleX - 150, 32, txtColor);
-			searchBar.render(context, mouseX, mouseY, partialTicks);
-			GL11.glEnable(GL11.GL_BLEND);
-		}
+		RenderSystem.setShaderColor(1, 1, 1, 1);
+		context.drawTextWithShadow(WurstClient.MC.textRenderer, "Search: ", middleX - 150, 32, txtColor);
+		searchBar.render(context, mouseX, mouseY, partialTicks);
+		GL11.glEnable(GL11.GL_BLEND);
 		
 		// feature list
 		int listX = middleX - 154;
-		if(!clickTimerRunning)
-			hoveredFeature = -1;
+		hoveredFeature = -1;
 		
 		RenderUtils.scissorBox(0, 59, width, height - 42);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		
-		for(int i = Math.max(-scroll * 3 / 20 - 3, 0); i < navigatorDisplayList
-			.size(); i++)
+		for(int i = Math.max(-scroll * 3 / 20 - 3, 0); i < navigatorDisplayList.size(); i++)
 		{
 			int featureX = listX + 104 * (i % 3);
 			int featureY = 60 + i / 3 * 20 + scroll;
@@ -290,8 +275,7 @@ public final class NavigatorMainScreen extends NavigatorScreen
 			
 			// background
 			RenderUtils.setShaderColor(bgColor, 0.75F);
-			BufferBuilder bufferBuilder = tessellator
-				.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
+			BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 			bufferBuilder.vertex(matrix, xt1, yt1, 0);
 			bufferBuilder.vertex(matrix, xt1, yt2, 0);
 			bufferBuilder.vertex(matrix, xt2, yt2, 0);
@@ -300,8 +284,7 @@ public final class NavigatorMainScreen extends NavigatorScreen
 			
 			// outline
 			RenderUtils.setShaderColor(acColor, 0.5F);
-			bufferBuilder = tessellator.begin(
-				VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
+			bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 			bufferBuilder.vertex(matrix, xt1, yt1, 0);
 			bufferBuilder.vertex(matrix, xt1, yt2, 0);
 			bufferBuilder.vertex(matrix, xt2, yt2, 0);
@@ -313,13 +296,11 @@ public final class NavigatorMainScreen extends NavigatorScreen
 			
 			// text
 			for(int i = 0; i < lines.length; i++)
-				context.drawText(tr, lines[i], xt1 + 2,
-					yt1 + 2 + i * tr.fontHeight, txtColor, false);
+				context.drawText(tr, lines[i], xt1 + 2, yt1 + 2 + i * tr.fontHeight, txtColor, false);
 		}
 	}
 	
-	private void renderFeature(DrawContext context, int mouseX, int mouseY,
-		float partialTicks, int i, int x, int y)
+	private void renderFeature(DrawContext context, int mouseX, int mouseY, float partialTicks, int i, int x, int y)
 	{
 		MatrixStack matrixStack = context.getMatrices();
 		ClickGui gui = WurstClient.INSTANCE.getGui();
@@ -330,35 +311,6 @@ public final class NavigatorMainScreen extends NavigatorScreen
 		
 		Feature feature = navigatorDisplayList.get(i);
 		Rectangle area = new Rectangle(x, y, 100, 16);
-		
-		// click animation
-		if(clickTimerRunning)
-		{
-			if(feature != expandingFeature)
-				return;
-			
-			float factor;
-			if(expanding)
-				if(clickTimer == 4)
-					factor = 1F;
-				else
-					factor = (clickTimer + partialTicks) / 4F;
-			else if(clickTimer == 0)
-				factor = 0F;
-			else
-				factor = (clickTimer - partialTicks) / 4F;
-			float antiFactor = 1 - factor;
-			
-			area.x = (int)(area.x * antiFactor + (middleX - 154) * factor);
-			area.y = (int)(area.y * antiFactor + 60 * factor);
-			area.width = (int)(area.width * antiFactor + 308 * factor);
-			area.height =
-				(int)(area.height * antiFactor + (height - 103) * factor);
-			
-			drawBackgroundBox(matrixStack, area.x, area.y, area.x + area.width,
-				area.y + area.height);
-			return;
-		}
 		
 		// color
 		boolean hovering = area.contains(mouseX, mouseY);
@@ -376,15 +328,9 @@ public final class NavigatorMainScreen extends NavigatorScreen
 		boolean renderAsHovered = hovering || selectedFeature == i;
 		
 		if(feature.isEnabled())
-			// if(feature.isBlocked())
-			// RenderSystem.setShaderColor(1, 0, 0,
-			// hovering ? opacity * 1.5F : opacity);
-			// else
-			RenderSystem.setShaderColor(0, 1, 0,
-				renderAsHovered ? opacity * 1.5F : opacity);
+			RenderSystem.setShaderColor(0, 1, 0, renderAsHovered ? opacity * 1.5F : opacity);
 		else
-			RenderUtils.setShaderColor(bgColor,
-				renderAsHovered ? opacity * 1.5F : opacity);
+			RenderUtils.setShaderColor(bgColor, renderAsHovered ? opacity * 1.5F : opacity);
 		
 		// tooltip
 		String tt = feature.getWrappedDescription(200);
@@ -426,8 +372,7 @@ public final class NavigatorMainScreen extends NavigatorScreen
 		
 		// arrow
 		RenderSystem.setShaderColor(0, hovering ? 1 : 0.85F, 0, 1);
-		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.TRIANGLES,
-			VertexFormats.POSITION);
+		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, ax1, ay1, 0);
 		bufferBuilder.vertex(matrix, ax2, ay1, 0);
 		bufferBuilder.vertex(matrix, ax3, ay2, 0);
@@ -435,24 +380,18 @@ public final class NavigatorMainScreen extends NavigatorScreen
 		
 		// arrow shadow
 		RenderSystem.setShaderColor(0.0625F, 0.0625F, 0.0625F, 0.5F);
-		bufferBuilder = tessellator.begin(
-			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
+		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, ax1, ay1, 0);
 		bufferBuilder.vertex(matrix, ax2, ay1, 0);
 		bufferBuilder.vertex(matrix, ax3, ay2, 0);
 		bufferBuilder.vertex(matrix, ax1, ay1, 0);
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
-		// text
-		if(!clickTimerRunning)
-		{
-			RenderSystem.setShader(GameRenderer::getPositionProgram);
-			RenderSystem.setShaderColor(1, 1, 1, 1);
-			String buttonText = feature.getName();
-			context.drawText(client.textRenderer, buttonText, area.x + 4,
-				area.y + 4, txtColor, false);
-			GL11.glEnable(GL11.GL_BLEND);
-		}
+		RenderSystem.setShader(GameRenderer::getPositionProgram);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
+		String buttonText = feature.getName();
+		context.drawText(client.textRenderer, buttonText, area.x + 4, area.y + 4, txtColor, false);
+		GL11.glEnable(GL11.GL_BLEND);
 	}
 	
 	public void setExpanding(boolean expanding)
@@ -461,8 +400,7 @@ public final class NavigatorMainScreen extends NavigatorScreen
 	}
 	
 	@Override
-	protected void onMouseDrag(double mouseX, double mouseY, int button,
-		double double_3, double double_4)
+	protected void onMouseDrag(double mouseX, double mouseY, int button, double double_3, double double_4)
 	{
 		
 	}
