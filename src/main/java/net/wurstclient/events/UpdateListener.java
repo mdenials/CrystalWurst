@@ -8,7 +8,6 @@
 package net.wurstclient.events;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import net.wurstclient.event.Event;
 import net.wurstclient.event.Listener;
@@ -22,7 +21,7 @@ public interface UpdateListener extends Listener
 		public static final UpdateEvent INSTANCE = new UpdateEvent();
 		
 		@Override
-		public void fire(LinkedList<UpdateListener> listeners)
+		public void fire(ArrayList<UpdateListener> listeners)
 		{
 			for(UpdateListener listener : listeners)
 				listener.onUpdate();
