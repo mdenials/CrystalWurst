@@ -114,9 +114,6 @@ public final class NavigatorMainScreen extends NavigatorScreen
 	@Override
 	protected void onMouseClick(double x, double y, int button)
 	{
-		if(clickTimer != -1)
-			return;
-		
 		// back button
 		if(button == GLFW.GLFW_MOUSE_BUTTON_4)
 		{
