@@ -28,11 +28,11 @@ import net.wurstclient.other_features.WurstLogoOtf;
 public final class WurstLogo
 {
 	private static final Identifier texture = Identifier.of("wurst", "wurst_128.png");
+	private WurstLogoOtf otf = WurstClient.INSTANCE.getOtfs().wurstLogoOtf;
 	
 	public void render(DrawContext context)
 	{
 		MatrixStack matrixStack = context.getMatrices();
-		WurstLogoOtf otf = WurstClient.INSTANCE.getOtfs().wurstLogoOtf;
 		if(!otf.isVisible())
 			return;
 		
