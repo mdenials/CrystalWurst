@@ -18,7 +18,6 @@ import net.wurstclient.other_features.*;
 public final class OtfList
 {
 	public final AiSettingsOtf aiSettingsOtf = new AiSettingsOtf();
-	public final ChangelogOtf changelogOtf = new ChangelogOtf();
 	public final CleanUpOtf cleanUpOtf = new CleanUpOtf();
 	public final DisableOtf disableOtf = new DisableOtf();
 	public final HackListOtf hackListOtf = new HackListOtf();
