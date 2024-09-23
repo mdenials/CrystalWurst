@@ -71,16 +71,10 @@ public enum WurstClient
 	private Path wurstFolder;
 	
 	public void initialize()
-	{
-		System.out.println("Starting Wurst Client...");
-		
+	{		
 		MC = MinecraftClient.getInstance();
 		IMC = (IMinecraftClient)MC;
 		wurstFolder = createWurstFolder();
-		
-		String trackingID = "UA-52838431-5";
-		String hostname = "client.wurstclient.net";
-		Path analyticsFile = wurstFolder.resolve("analytics.json");
 		
 		eventManager = new EventManager(this);
 		
