@@ -48,7 +48,6 @@
     "MobEntityRendererMixin",
     "MouseMixin",
     "MultiplayerScreenMixin",
-    "PackScreenMixin",
     "PlayerInventoryMixin",
     "PlayerSkinProviderMixin",
     "PowderSnowBlockMixin",
