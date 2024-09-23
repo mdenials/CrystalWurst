@@ -57,7 +57,7 @@ public final class WurstLogoOtf extends OtherFeature
 	public static enum Visibility
 	{
 		ON("On", () -> true),
-		OFF("Off", () -> false)
+		OFF("Off", () -> false);
 		
 		private final String name;
 		private final BooleanSupplier visible;
