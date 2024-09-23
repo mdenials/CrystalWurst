@@ -68,23 +68,12 @@ public class WurstOptionsScreen extends Screen
 				.setChecked(!middleClickFriends.isChecked()));
 		
 		new WurstOptionsButton(-154, 48,
-			() -> "Count Users: " + (analytics.isEnabled() ? "ON" : "OFF"),
-			"Counts how many people are using Wurst and which versions are the"
-				+ " most popular. We use this data to decide when to stop"
-				+ " supporting old Minecraft versions.\n\n"
-				+ "We use a random ID to tell users apart so that this data can"
-				+ " never be linked to your Minecraft account. The random ID is"
-				+ " changed every 3 days to make extra sure that you remain"
-				+ " anonymous.",
-			b -> analytics.setEnabled(!analytics.isEnabled()));
-		
-		new WurstOptionsButton(-154, 72,
 			() -> "Spoof Vanilla: "
 				+ (vanillaSpoofOtf.isEnabled() ? "ON" : "OFF"),
 			vanillaSpoofOtf.getDescription(),
 			b -> vanillaSpoofOtf.doPrimaryAction());
 		
-		new WurstOptionsButton(-154, 96,
+		new WurstOptionsButton(-154, 72,
 			() -> "Translations: " + (!forceEnglish.isChecked() ? "ON" : "OFF"),
 			"Allows text in Wurst to be displayed in other languages than"
 				+ " English. It will use the same language that Minecraft is"
