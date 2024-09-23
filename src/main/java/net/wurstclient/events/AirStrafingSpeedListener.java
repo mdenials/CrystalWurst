@@ -8,7 +8,7 @@
 package net.wurstclient.events;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 import net.wurstclient.event.Event;
 import net.wurstclient.event.Listener;
@@ -45,7 +45,7 @@ public interface AirStrafingSpeedListener extends Listener
 		}
 		
 		@Override
-		public void fire(List<AirStrafingSpeedListener> listeners)
+		public void fire(LinkedList<AirStrafingSpeedListener> listeners)
 		{
 			for(AirStrafingSpeedListener listener : listeners)
 				listener.onGetAirStrafingSpeed(this);
