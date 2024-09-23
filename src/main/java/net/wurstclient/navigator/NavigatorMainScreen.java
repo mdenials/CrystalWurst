@@ -137,19 +137,6 @@ public final class NavigatorMainScreen extends NavigatorScreen
 		// left click
 		if(button == 0)
 			leftClick(hoveredFeature);
-			
-		// right click
-		// if(button == 1)
-		// {
-		// Feature feature = navigatorDisplayList.get(hoveredFeature);
-		// if(feature.getHelpPage().isEmpty())
-		// return;
-		// MiscUtils.openLink("https://www.wurstclient.net/wiki/"
-		// + feature.getHelpPage() + "/");
-		// WurstClient wurst = WurstClient.INSTANCE;
-		// wurst.navigator.addPreference(feature.getName());
-		// ConfigFiles.NAVIGATOR.save();
-		// }
 	}
 	
 	private void expand(int i)
@@ -401,15 +388,6 @@ public final class NavigatorMainScreen extends NavigatorScreen
 		
 		// tooltip
 		String tt = feature.getWrappedDescription(200);
-		// if(feature.isBlocked())
-		// {
-		// if(tt == null)
-		// tt = "";
-		// else
-		// tt += "\n\n";
-		// tt +=
-		// "Your current YesCheat+ profile is blocking this feature.";
-		// }
 		if(hovering)
 			tooltip = tt;
 		
