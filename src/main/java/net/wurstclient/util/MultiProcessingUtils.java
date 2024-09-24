@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public enum MultiProcessingUtils
 {
@@ -22,7 +23,7 @@ public enum MultiProcessingUtils
 	public static ProcessBuilder makeProcess(Class<?> mainClass, String... args)
 		throws IOException
 	{
-		List<String> cmd = new ArrayList<>();
+		List<String> cmd = new CopyOnWriteArrayList<>();
 		cmd.add(getJavaDir().toString());
 		cmd.add("-cp");
 		cmd.add(getClasspath().toString());
