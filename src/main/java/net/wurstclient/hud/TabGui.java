@@ -39,7 +39,7 @@ import net.wurstclient.util.RenderUtils;
 
 public final class TabGui implements KeyPressListener
 {
-	private final List<Tab> tabs = new CopyOnWriteArrayList<>();
+	private final List<Tab> tabs = new LinkedList<>();
 	private final TabGuiOtf tabGuiOtf =
 		WurstClient.INSTANCE.getOtfs().tabGuiOtf;
 	
