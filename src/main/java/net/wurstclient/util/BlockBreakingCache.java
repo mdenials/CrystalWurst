@@ -7,10 +7,15 @@
  */
 package net.wurstclient.util;
 
+import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,22 +23,22 @@ import net.minecraft.util.math.BlockPos;
 
 public final class BlockBreakingCache
 {
-	private final ArrayDeque<Set<BlockPos>> prevBlocks = new ArrayDeque<>();
+	private final Deque<Set<BlockPos>> prevBlocks = new ConcurrentLinkedDeque<>();
 	
 	/**
 	 * Waits 5 ticks before trying to break the same block again, which
 	 * makes it much more likely that the server will accept the block
 	 * breaking packets.
 	 */
-	public ArrayList<BlockPos> filterOutRecentBlocks(Stream<BlockPos> stream)
+	public List<BlockPos> filterOutRecentBlocks(Stream<BlockPos> stream)
 	{
 		for(Set<BlockPos> set : prevBlocks)
 			stream = stream.filter(pos -> !set.contains(pos));
 		
-		ArrayList<BlockPos> blocks =
-			stream.collect(Collectors.toCollection(ArrayList::new));
+		List<BlockPos> blocks =
+			stream.collect(Collectors.toCollection(LinkedList::new));
 		
-		prevBlocks.addLast(new HashSet<>(blocks));
+		prevBlocks.addLast(new LinkedHashSet<>(blocks));
 		while(prevBlocks.size() > 5)
 			prevBlocks.removeFirst();
 		
