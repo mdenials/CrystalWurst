@@ -7,7 +7,9 @@
  */
 package net.wurstclient.util;
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -181,9 +183,9 @@ public enum BlockUtils
 			.filter(shapeBox -> shapeBox.intersects(box));
 	}
 	
-	public static ArrayList<BlockPos> getAllInBox(BlockPos from, BlockPos to)
+	public static List<BlockPos> getAllInBox(BlockPos from, BlockPos to)
 	{
-		ArrayList<BlockPos> blocks = new ArrayList<>();
+		List<BlockPos> blocks = new LinkedList<>();
 		
 		BlockPos min = new BlockPos(Math.min(from.getX(), to.getX()),
 			Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()));
@@ -198,7 +200,7 @@ public enum BlockUtils
 		return blocks;
 	}
 	
-	public static ArrayList<BlockPos> getAllInBox(BlockPos center, int range)
+	public static List<BlockPos> getAllInBox(BlockPos center, int range)
 	{
 		return getAllInBox(center.add(-range, -range, -range),
 			center.add(range, range, range));
