@@ -220,7 +220,7 @@ public final class VeinMinerHack extends Hack
 	
 	private void buildVein(BlockPos pos)
 	{
-		ArrayDeque<BlockPos> queue = new Deque<>();
+		Deque<BlockPos> queue = new ArrayDeque<>();
 		Block targetBlock = BlockUtils.getBlock(pos);
 		int maxSize = maxVeinSize.getValueI();
 		
