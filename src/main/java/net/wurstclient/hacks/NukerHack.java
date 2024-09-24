@@ -8,6 +8,7 @@
 package net.wurstclient.hacks;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -126,7 +127,7 @@ public final class NukerHack extends Hack
 			MC.interactionManager.cancelBlockBreaking();
 			overlay.resetProgress();
 			
-			ArrayList<BlockPos> blocks = cache
+			LinkedList<BlockPos> blocks = cache
 				.filterOutRecentBlocks(stream.map(BlockBreakingParams::pos));
 			if(blocks.isEmpty())
 				return;
