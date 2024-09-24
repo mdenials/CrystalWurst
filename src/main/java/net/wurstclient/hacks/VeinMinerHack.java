@@ -7,9 +7,13 @@
  */
 package net.wurstclient.hacks;
 
+import java.util.Deque;
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -64,7 +68,7 @@ public final class VeinMinerHack extends Hack
 	
 	private final BlockBreakingCache cache = new BlockBreakingCache();
 	private final OverlayRenderer overlay = new OverlayRenderer();
-	private final HashSet<BlockPos> currentVein = new HashSet<>();
+	private final HashSet<BlockPos> currentVein = new LinkedHashSet<>();
 	private BlockPos currentBlock;
 	
 	private final SliderSetting maxVeinSize = new SliderSetting("Max vein size",
@@ -153,7 +157,7 @@ public final class VeinMinerHack extends Hack
 			MC.interactionManager.cancelBlockBreaking();
 			overlay.resetProgress();
 			
-			ArrayList<BlockPos> blocks = cache
+			List<BlockPos> blocks = cache
 				.filterOutRecentBlocks(stream.map(BlockBreakingParams::pos));
 			if(blocks.isEmpty())
 				return;
@@ -216,7 +220,7 @@ public final class VeinMinerHack extends Hack
 	
 	private void buildVein(BlockPos pos)
 	{
-		ArrayDeque<BlockPos> queue = new ArrayDeque<>();
+		ArrayDeque<BlockPos> queue = new Deque<>();
 		Block targetBlock = BlockUtils.getBlock(pos);
 		int maxSize = maxVeinSize.getValueI();
 		
