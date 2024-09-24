@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.Arrays;
 
 public enum MultiProcessingUtils
@@ -23,7 +22,7 @@ public enum MultiProcessingUtils
 	public static ProcessBuilder makeProcess(Class<?> mainClass, String... args)
 		throws IOException
 	{
-		List<String> cmd = new LinkedList<>();
+		List<String> cmd = new ArrayList<>();
 		cmd.add(getJavaDir().toString());
 		cmd.add("-cp");
 		cmd.add(getClasspath().toString());
