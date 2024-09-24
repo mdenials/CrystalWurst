@@ -19,13 +19,13 @@ public enum StreamUtils
 {
 	;
 	
-	public static List<String> readAllLines(InputStream input)
+	public static ArrayList<String> readAllLines(InputStream input)
 		throws IOException
 	{
 		try(BufferedReader br =
 			new BufferedReader(new InputStreamReader(input)))
 		{
-			List<String> lines = new LinkedList<>();
+			ArrayList<String> lines = new LinkedList<>();
 			String line;
 			
 			while((line = br.readLine()) != null)
