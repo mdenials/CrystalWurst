@@ -23,7 +23,7 @@ public enum MultiProcessingUtils
 	public static ProcessBuilder makeProcess(Class<?> mainClass, String... args)
 		throws IOException
 	{
-		List<String> cmd = new CopyOnWriteArrayList<>();
+		List<String> cmd = new ArrayList<>();
 		cmd.add(getJavaDir().toString());
 		cmd.add("-cp");
 		cmd.add(getClasspath().toString());
