@@ -185,7 +185,7 @@ public enum BlockUtils
 	
 	public static ArrayList<BlockPos> getAllInBox(BlockPos from, BlockPos to)
 	{
-		ArrayList<BlockPos> blocks = new LinkedList<>();
+		List<BlockPos> blocks = new LinkedList<>();
 		
 		BlockPos min = new BlockPos(Math.min(from.getX(), to.getX()),
 			Math.min(from.getY(), to.getY()), Math.min(from.getZ(), to.getZ()));
