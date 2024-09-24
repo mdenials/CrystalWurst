@@ -40,8 +40,9 @@ public abstract class AbstractBlockRenderContextMixin
 		if(!xray.isOpacityMode() || xray
 			.isVisible(blockInfo.blockState.getBlock(), blockInfo.blockPos))
 			return;
-		
+
+		int opacityColorMask = xray.getOpacityColorMask();
 		for(int i = 0; i < 4; i++)
-			quad.color(i, quad.color(i) & xray.getOpacityColorMask());
+			quad.color(i, quad.color(i) & opacityColorMask);
 	}
 }
