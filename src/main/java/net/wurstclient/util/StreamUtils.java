@@ -11,19 +11,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public enum StreamUtils
 {
 	;
 	
-	public static ArrayList<String> readAllLines(InputStream input)
+	public static List<String> readAllLines(InputStream input)
 		throws IOException
 	{
 		try(BufferedReader br =
 			new BufferedReader(new InputStreamReader(input)))
 		{
-			ArrayList<String> lines = new ArrayList<>();
+			List<String> lines = new LinkedList<>();
 			String line;
 			
 			while((line = br.readLine()) != null)
