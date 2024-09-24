@@ -25,7 +25,7 @@ public enum StreamUtils
 		try(BufferedReader br =
 			new BufferedReader(new InputStreamReader(input)))
 		{
-			List<String> lines = new LinkedList<>();
+			ArrayList<String> lines = new ArrayList<>();
 			String line;
 			
 			while((line = br.readLine()) != null)
