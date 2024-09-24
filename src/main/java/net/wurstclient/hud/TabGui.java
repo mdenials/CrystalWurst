@@ -10,6 +10,7 @@ package net.wurstclient.hud;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.LinkedHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
@@ -38,7 +39,7 @@ import net.wurstclient.util.RenderUtils;
 
 public final class TabGui implements KeyPressListener
 {
-	private final List<Tab> tabs = new LinkedList<>();
+	private final List<Tab> tabs = new CopyOnWriteArrayList<>();
 	private final TabGuiOtf tabGuiOtf =
 		WurstClient.INSTANCE.getOtfs().tabGuiOtf;
 	
