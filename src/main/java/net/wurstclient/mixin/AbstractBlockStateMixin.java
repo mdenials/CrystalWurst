@@ -118,7 +118,7 @@ public abstract class AbstractBlockStateMixin extends State<Block, BlockState>
     	private BlockPos modifyPos(BlockPos pos)
 	{
 		HackList hax = WurstClient.INSTANCE.getHax();
-        	if (hax.noTextureRotations.isEnabled())
+        	if (hax.noTextureRotationsHack.isEnabled())
 			return pos.multiply(RANDOM.nextInt());
 		
         	return pos;
