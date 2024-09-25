@@ -18,7 +18,7 @@ public final class NoTextureRotationsHack extends Hack
 {
     public NoTextureRotationsHack()
 	{
-		super("NoTextureRotations");
+		super("NoTextureRotation");
 		setCategory(Category.RENDER);
     }
 }
