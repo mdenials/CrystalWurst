@@ -16,16 +16,14 @@ import net.wurstclient.settings.CheckboxSetting;
 @SearchTags({"sign overlay"})
 public final class NoSignOverlayHack extends Hack
 {
+    	public final CheckboxSetting noSignText = new CheckboxSetting("SignText", false);
+    	public final CheckboxSetting noGlowing = new CheckboxSetting("Glowing", false);
 
-    private final CheckboxSetting noSignText = new CheckboxSetting("SignText", false);
-    private final CheckboxSetting noGlowing = new CheckboxSetting("Glowing", false);
-
-    public NoSignOverlayHack()
+    	public NoSignOverlayHack()
 	{
 		super("NoSignOverlay");
 		setCategory(Category.RENDER);
-        addSetting(noSignText);
-        addSetting(noGlowing);
-    }
-
+        	addSetting(noSignText);
+        	addSetting(noGlowing);
+    	}
 }
