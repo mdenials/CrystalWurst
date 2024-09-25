@@ -8,6 +8,7 @@
 package net.wurstclient.mixin;
 
 import java.util.Iterator;
+import java.util.Collections;
 import java.util.stream.Stream;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +32,7 @@ public abstract class MapRendererMixin {
     @ModifyExpressionValue(method = "draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ZI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/map/MapState;getDecorations()Ljava/lang/Iterable;"))
     private Iterable<MapDecoration> getIconsProxy(Iterable<MapDecoration> original) {
       HackList hax = WurstClient.INSTANCE.getHax();
-        return (hax.noMapOverlayHack.isEnabled() && hax.noMapOverlayHack.noMapMarkers.isChecked()) ? () -> Stream.empty().iterator() : original;
+        return (hax.noMapOverlayHack.isEnabled() && hax.noMapOverlayHack.noMapMarkers.isChecked()) ? Collections.emptyIterable() : original;
     }
 
     @Inject(method = "draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ZI)V", at = @At("HEAD"), cancellable = true)
