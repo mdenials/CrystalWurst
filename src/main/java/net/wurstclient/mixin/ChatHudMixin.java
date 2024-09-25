@@ -19,6 +19,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import com.llamalad7.mixinextras.injector.ModifyReceiver;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
@@ -57,4 +59,12 @@ public class ChatHudMixin
 		indicator.set(WurstClient.INSTANCE.getOtfs().noChatReportsOtf
 			.modifyIndicator(message, signature, indicator.get()));
 	}
+
+	// No Message Signature Indicator
+    @ModifyExpressionValue(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHudLine$Visible;indicator()Lnet/minecraft/client/gui/hud/MessageIndicator;"))
+    private MessageIndicator onRender_modifyIndicator(MessageIndicator indicator) {
+	HackList hax = WurstClient.INSTANCE.getHax();    
+        return hax.noMessageSignatureIndicatorHack.isEnabled() ? null : indicator;
+    }
+	
 }
