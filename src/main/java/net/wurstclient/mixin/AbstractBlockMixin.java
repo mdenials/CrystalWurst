@@ -7,13 +7,6 @@
  */
 package net.wurstclient.mixin;
 
-/*
- * This file is part of the Meteor Client distribution (https://github.com/MeteorDevelopment/meteor-client).
- * Copyright (c) Meteor Development.
- */
-
-package meteordevelopment.meteorclient.mixin;
-
 import java.util.Random;
 
 import org.spongepowered.asm.mixin.Mixin;
