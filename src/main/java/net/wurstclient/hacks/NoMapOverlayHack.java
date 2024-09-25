@@ -16,16 +16,14 @@ import net.wurstclient.settings.CheckboxSetting;
 @SearchTags({"map overlay"})
 public final class NoMapOverlayHack extends Hack
 {
+    	public final CheckboxSetting noMapMarkers = new CheckboxSetting("MapMarkers", false);
+    	public final CheckboxSetting noMapContents = new CheckboxSetting("MapContents", false);
 
-    private final CheckboxSetting noMapMarkers = new CheckboxSetting("MapMarkers", false);
-    private final CheckboxSetting noMapContents = new CheckboxSetting("MapContents", false);
-
-    public NoMapOverlayHack()
+    	public NoMapOverlayHack()
 	{
 		super("NoMapOverlay");
 		setCategory(Category.RENDER);
-        addSetting(noMapMarkers);
-        addSetting(noMapContents);
-    }
-
+        	addSetting(noMapMarkers);
+        	addSetting(noMapContents);
+    	}
 }
