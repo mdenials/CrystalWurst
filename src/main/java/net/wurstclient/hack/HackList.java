@@ -91,6 +91,7 @@ public final class HackList implements UpdateListener
 	public final CriticalsHack criticalsHack = new CriticalsHack();
 	public final CrystalAuraHack crystalAuraHack = new CrystalAuraHack();
 	public final DerpHack derpHack = new DerpHack();
+	public final DropSpawnHack dropSpawnHack = new DropSpawnHack();
 	public final DolphinHack dolphinHack = new DolphinHack();
 	public final ExcavatorHack excavatorHack = new ExcavatorHack();
 	public final ExtraElytraHack extraElytraHack = new ExtraElytraHack();
@@ -139,6 +140,10 @@ public final class HackList implements UpdateListener
 	public final NavigatorHack navigatorHack = new NavigatorHack();
 	public final NewChunksHack newChunksHack = new NewChunksHack();
 	public final NoBackgroundHack noBackgroundHack = new NoBackgroundHack();
+	public final NoCaveCullingHack noCaveCullingHack = new NoCaveCullingHack();
+	public final NoDeadEntitiesHack noDeadEntitiesHack = new NoDeadEntitesHack();
+	public final NoEntityWithBlockHack noEntityWithBlockHack = new NoEntityWithBlockHack();
+	public final NoFallBlockOverlayHack noFallBlockOverlayHack = new NoFallBlockOverlayHack();
 	public final NoClipHack noClipHack = new NoClipHack();
 	public final NoFallHack noFallHack = new NoFallHack();
 	public final NoFireOverlayHack noFireOverlayHack = new NoFireOverlayHack();
@@ -146,11 +151,15 @@ public final class HackList implements UpdateListener
 	public final NoFrictionHack noFrictionHack = new NoFrictionHack();
 	public final NoHurtcamHack noHurtcamHack = new NoHurtcamHack();
 	public final NoLevitationHack noLevitationHack = new NoLevitationHack();
+	public final NoMapOverlayHack noMapOverlayHack = new NoMapOverlayHack();
+	public final NoMessageSignatureIndicatorHack noMessageSignatureIndicator = new NoMessageSignatureIndicatorHack();
 	public final NoOverlayHack noOverlayHack = new NoOverlayHack();
 	public final NoPitchLimitHack noPitchLimitHack = new NoPitchLimitHack();
 	public final NoPumpkinHack noPumpkinHack = new NoPumpkinHack();
 	public final NoShieldOverlayHack noShieldOverlayHack = new NoShieldOverlayHack();
+	public final NoSignOverlayHack noSignOverlayHack = new NoSignOverlayHack();
 	public final NoSlowdownHack noSlowdownHack = new NoSlowdownHack();
+	public final NoTextureRotationsHack noTextureRotationsHack = new NoTextureRotationsHack();
 	public final NoWeatherHack noWeatherHack = new NoWeatherHack();
 	public final NoWebHack noWebHack = new NoWebHack();
 	public final NukerHack nukerHack = new NukerHack();
