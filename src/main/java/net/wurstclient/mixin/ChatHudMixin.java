@@ -28,6 +28,7 @@ import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.Text;
 import net.wurstclient.WurstClient;
+import net.wurstclient.hack.HackList;
 import net.wurstclient.event.EventManager;
 import net.wurstclient.events.ChatInputListener.ChatInputEvent;
 
