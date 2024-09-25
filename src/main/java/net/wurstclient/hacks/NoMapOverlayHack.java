@@ -25,7 +25,7 @@ public final class NoMapOverlayHack extends Hack
 		super("NoMapOverlay");
 		setCategory(Category.RENDER);
         addSetting(noMapMarkers);
-        addSetting(noMapContents)
+        addSetting(noMapContents);
     }
 
 }
