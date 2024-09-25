@@ -18,7 +18,7 @@ public final class NoMessageSignatureIndicatorHack extends Hack
 {
     public NoMessageSignatureIndicatorHack()
 	{
-		super("NoMessageSignatureIndicator");
+		super("NoMSI");
 		setCategory(Category.RENDER);
     }
 }
