@@ -20,7 +20,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.wurstclient.WurstClient;
-import net.wurstclient.HackList;
+import net.wurstclient.hack.HackList;
 
 @Mixin(AbstractBlock.class)
 public abstract class AbstractBlockMixin
