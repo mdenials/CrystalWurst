@@ -23,7 +23,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.map.MapDecoration;
 
 @Mixin(MapRenderer.MapTexture.class)
-public abstract class MapRendererMixin {
+private abstract class MapRendererMixin {
     @ModifyExpressionValue(method = "draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ZI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/map/MapState;getDecorations()Ljava/lang/Iterable;"))
     private Iterable<MapDecoration> getIconsProxy(Iterable<MapDecoration> original) {
       HackList hax = WurstClient.INSTANCE.getHax();
