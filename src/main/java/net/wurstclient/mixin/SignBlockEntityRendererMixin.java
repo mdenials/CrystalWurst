@@ -18,13 +18,14 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 
 import net.wurstclient.WurstClient;
+import net.wurstclient.hack.HackList;
 
 @Mixin(SignBlockEntityRenderer.class)
 public abstract class SignBlockEntityRendererMixin {
     @ModifyExpressionValue(method = "renderText", at = @At(value = "CONSTANT", args = {"intValue=4", "ordinal=1"}))
     private int loopTextLengthProxy(int i) {
-
-        if () 
+        HackList hax = WurstClient.INSTANCE.getHax();
+        if (hax.noSignOverlayHack.isEnabled() && hax.noSignOverlayHack.noSignText.isChecked()) 
             return 0;
         return i;
     }
