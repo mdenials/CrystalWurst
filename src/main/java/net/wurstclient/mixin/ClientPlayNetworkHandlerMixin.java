@@ -24,11 +24,12 @@ import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ChunkData;
 import net.minecraft.network.packet.s2c.play.ChunkDeltaUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.wurstclient.WurstClient;
 import net.wurstclient.util.ChatUtils;
-
+import net.wurstclient.hack.HackList;
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin
 	extends ClientCommonNetworkHandler
@@ -40,6 +41,16 @@ public abstract class ClientPlayNetworkHandlerMixin
 	{
 		super(client, connection, connectionState);
 	}
+
+	@Inject(method = "onEntitySpawn", at = @At("HEAD"), cancellable = true)
+    	private void onEntitySpawn(EntitySpawnS2CPacket packet, CallbackInfo info) {
+        if (packet != null && packet.getEntityType() != null){
+            if (WurstClient.INSTANCE.getHax().dropSpawnHack.isEnabled()) {
+                info.cancel();
+           }
+        }
+     }
+
 	
 	@Inject(at = @At("TAIL"),
 		method = "onGameJoin(Lnet/minecraft/network/packet/s2c/play/GameJoinS2CPacket;)V")
