@@ -17,11 +17,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.font.TextRenderer.TextLayerType;
+import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.EntityAttachmentType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.Text;
@@ -118,6 +120,13 @@ public abstract class EntityRendererMixin<T extends Entity>
 		
 		matrices.pop();
 	}
+
+	@Inject(method = "shouldRender", at = @At("HEAD"), cancellable = true)
+    	private void shouldRender(T entity, Frustum frustum, double x, double y, double z, CallbackInfoReturnable<Boolean> cir) {
+        	if (WurstClient.INSTANCE.getHax().noFallBlockOverlayHack.isEnabled() && entity instanceof FallingBlockEntity)
+			cir.cancel();
+    }
+	
 	
 	@Shadow
 	public abstract TextRenderer getTextRenderer();
