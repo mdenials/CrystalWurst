@@ -22,7 +22,7 @@ public final class NoWeatherHack extends Hack
 		new CheckboxSetting("Change World Time", false);
 	
 	private final SliderSetting time =
-		new SliderSetting("Time", 6000, 0, 23900, 100, ValueDisplay.INTEGER);
+		new SliderSetting("Time", 6000, 0, 24000, 1, ValueDisplay.INTEGER);
 	
 	private final CheckboxSetting changeMoonPhase =
 		new CheckboxSetting("Change Moon Phase", false);
