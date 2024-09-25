@@ -22,6 +22,9 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.map.MapDecoration;
 
+import net.wurstclient.WurstClient;
+import net.wurstclient.hack.HackList;
+
 @Mixin(MapRenderer.MapTexture.class)
 private abstract class MapRendererMixin {
     @ModifyExpressionValue(method = "draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ZI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/map/MapState;getDecorations()Ljava/lang/Iterable;"))
