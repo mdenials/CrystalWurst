@@ -36,8 +36,6 @@ public abstract class EntityRenderDispatcherMixin
       Entity entity, float opacity,float tickDelta,
       WorldView world, float radius, CallbackInfo info)
     {
-        if (PostProcessShaders.rendering) 
-          info.cancel();
         if (WurstClient.INSTANCE.getHax().noDeadEntitiesHack.isEnabled() && entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) 
           info.cancel();
     }
