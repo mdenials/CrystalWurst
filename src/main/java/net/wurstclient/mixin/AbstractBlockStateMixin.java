@@ -8,9 +8,11 @@
 package net.wurstclient.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mojang.serialization.MapCodec;
@@ -37,6 +39,9 @@ import net.wurstclient.hacks.HandNoClipHack;
 @Mixin(AbstractBlockState.class)
 public abstract class AbstractBlockStateMixin extends State<Block, BlockState>
 {
+	@Unique
+    	private static final Random RANDOM = new Random();
+	
 	private AbstractBlockStateMixin(WurstClient wurst, Block owner,
 		Reference2ObjectArrayMap<Property<?>, Comparable<?>> propertyMap,
 		MapCodec<BlockState> codec)
@@ -106,6 +111,16 @@ public abstract class AbstractBlockStateMixin extends State<Block, BlockState>
 		cir.setReturnValue(VoxelShapes.fullCube());
 		cir.cancel();
 	}
+
+	@ModifyVariable(method = "getModelOffset", at = @At("HEAD"), argsOnly = true)
+    	private BlockPos modifyPos(BlockPos pos)
+	{
+		HackList hax = WurstClient.INSTANCE.getHax();
+        	if (hax.noTextureRotations.isEnabled())
+			return pos.multiply(RANDOM.nextInt());
+		
+        	return pos;
+    	}
 	
 	@Shadow
 	public abstract FluidState getFluidState();
