@@ -26,15 +26,15 @@ import net.wurstclient.WurstClient;
 import net.wurstclient.hack.HackList;
 
 @Mixin(MapRenderer.MapTexture.class)
-private abstract class MapRendererMixin {
+public abstract class MapRendererMixin {
     @ModifyExpressionValue(method = "draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ZI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/map/MapState;getDecorations()Ljava/lang/Iterable;"))
-    private Iterable<MapDecoration> getIconsProxy(Iterable<MapDecoration> original) {
+    public Iterable<MapDecoration> getIconsProxy(Iterable<MapDecoration> original) {
       HackList hax = WurstClient.INSTANCE.getHax();
         return (hax.noMapOverlayHack.isEnabled() && hax.noMapOverlayHack.noMapMarkers.isChecked()) ? Iterator::new : original;
     }
 
     @Inject(method = "draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ZI)V", at = @At("HEAD"), cancellable = true)
-    private void onDraw(MatrixStack matrices, VertexConsumerProvider vertexConsumers, boolean hidePlayerIcons, int light, CallbackInfo ci) {
+    public void onDraw(MatrixStack matrices, VertexConsumerProvider vertexConsumers, boolean hidePlayerIcons, int light, CallbackInfo ci) {
       HackList hax = WurstClient.INSTANCE.getHax();
         if (hax.noMapOverlayHack.isEnabled() && hax.noMapOverlayHack.noMapContents.isChecked()) 
           ci.cancel();
