@@ -26,7 +26,7 @@ import net.wurstclient.WurstClient;
 import net.wurstclient.hack.HackList;
 
 @Mixin(MapRenderer.MapTexture.class)
-private abstract class MapRendererMixin {
+public abstract class MapRendererMixin {
     @ModifyExpressionValue(method = "draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ZI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/map/MapState;getDecorations()Ljava/lang/Iterable;"))
     private Iterable<MapDecoration> getIconsProxy(Iterable<MapDecoration> original) {
       HackList hax = WurstClient.INSTANCE.getHax();
