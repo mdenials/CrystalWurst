@@ -134,7 +134,7 @@ public abstract class EntityMixin implements Nameable, EntityLike, CommandOutput
  @Inject(method = "isGlowing", at = @At("HEAD"), cancellable = true)
     private void isGlowing(CallbackInfoReturnable<Boolean> info) {
 	HackList hax = WurstClient.INSTANCE.getHax();
-        if (hax.noSignOverlayHack.isEnabled() && hax.noSignOverlayHack.noGlowing.isChecked())) 
+        if (hax.noSignOverlayHack.isEnabled() && hax.noSignOverlayHack.noGlowing.isChecked()) 
 		info.setReturnValue(false);
     }
 }
