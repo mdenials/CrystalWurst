@@ -141,7 +141,7 @@ public final class HackList implements UpdateListener
 	public final NewChunksHack newChunksHack = new NewChunksHack();
 	public final NoBackgroundHack noBackgroundHack = new NoBackgroundHack();
 	public final NoCaveCullingHack noCaveCullingHack = new NoCaveCullingHack();
-	public final NoDeadEntitiesHack noDeadEntitiesHack = new NoDeadEntitesHack();
+	public final NoDeadEntitiesHack noDeadEntitiesHack = new NoDeadEntitiesHack();
 	public final NoEntityWithBlockHack noEntityWithBlockHack = new NoEntityWithBlockHack();
 	public final NoFallBlockOverlayHack noFallBlockOverlayHack = new NoFallBlockOverlayHack();
 	public final NoClipHack noClipHack = new NoClipHack();
