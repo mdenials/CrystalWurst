@@ -16,14 +16,14 @@ import net.wurstclient.settings.CheckboxSetting;
 @SearchTags({"entities with block"})
 public final class NoEntityWithBlockHack extends Hack
 {
-    private final CheckboxSetting noMobInSpawner = new CheckboxSetting("MobInSpawner", false);
-    private final CheckboxSetting noEnchTableBook = new CheckboxSetting("EnchantTableBook", false);
+    	public final CheckboxSetting noMobInSpawner = new CheckboxSetting("MobInSpawner", false);
+    	public final CheckboxSetting noEnchTableBook = new CheckboxSetting("EnchantTableBook", false);
 
-    public NoEntityWithBlockHack()
+    	public NoEntityWithBlockHack()
 	{
 		super("NoEntityWithBlock");
 		setCategory(Category.RENDER);
-        addSetting(noMobInSpawner);
-        addSetting(noEnchTableBook);
-    }
+        	addSetting(noMobInSpawner);
+        	addSetting(noEnchTableBook);
+    	}
 }
