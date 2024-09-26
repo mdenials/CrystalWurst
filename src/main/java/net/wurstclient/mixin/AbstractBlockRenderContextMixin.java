@@ -35,7 +35,7 @@ public abstract class AbstractBlockRenderContextMixin
 	private void onShadeQuad(MutableQuadViewImpl quad, boolean ao, boolean emissive, boolean vanillaShade, CallbackInfo ci)
 	{
 		XRayHack xray = WurstClient.INSTANCE.getHax().xRayHack;
-		if(!xray.isOpacityMode())
+		if(!xray.isOpacityMode() || xray.isVisible(blockInfo.blockState.getBlock(), blockInfo.blockPos))
 			return;
 
 		int opacityColorMask = xray.getOpacityColorMask();
