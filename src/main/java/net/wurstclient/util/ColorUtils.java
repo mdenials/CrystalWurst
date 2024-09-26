@@ -43,7 +43,7 @@ public enum ColorUtils
 			
 		}catch(NumberFormatException e)
 		{
-			throw new JsonException(e);
+			throw new JsonException("ColorUtils.ParseHex(Error)r");
 		}
 		
 		return new Color(rgb[0], rgb[1], rgb[2], rgb[3]);
@@ -77,7 +77,7 @@ public enum ColorUtils
 			
 		}catch(NumberFormatException e)
 		{
-			throw new JsonException(e);
+			throw new JsonException("ColorUtils.ParseRGB(Error)");
 		}
 		
 		return new Color(rgb[0], rgb[1], rgb[2], rgb[3]);
@@ -89,8 +89,10 @@ public enum ColorUtils
 		{
 			return parseRGB(red, green, blue, alpha);
 			
-		}catch(JsonException e)
+		}
+		catch(JsonException e)
 		{
+			throw new JsonException("ColorUtils.tryParseRGB(Error)");
 			return null;
 		}
 	}
