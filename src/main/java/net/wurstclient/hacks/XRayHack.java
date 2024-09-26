@@ -42,10 +42,10 @@ public final class XRayHack extends Hack implements UpdateListener,
 	SetOpaqueCubeListener, GetAmbientOcclusionLightLevelListener,
 	ShouldDrawSideListener, RenderBlockEntityListener
 {
-	private final SliderSetting opacity = new SliderSetting("Opacity",
-		"Opacity of non-ore blocks when X-Ray is enabled.\n\n"
+	private final SliderSetting opacity = new SliderSetting("Alpha",
+		"Alpha of non-ore blocks when X-Ray is enabled.\n\n"
 			+ "Remember to restart X-Ray when changing this setting.",
-		0, 0, 1, 0.01, ValueDisplay.PERCENTAGE.withLabel(0, "off"));
+		0, 0, 255, 1, ValueDisplay.INTEGER.withLabel(0, "off"));
 
 	private final ColorSetting color = new ColorSetting("Color",
 		"Xray will be highlighted blocks in this color.", Color.WHITE);
@@ -226,7 +226,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 	public int getOpacityColorMask()
 	{
 		//return (int)(opacity.getValue() * 255) << 24 | 0xFFFFFF;
-		return (int)(color.getValue(opacity.getValueF()));
+		return (int)(color.getColorI(opacity.getValueI()));
 	}
 	
 	/**
