@@ -55,8 +55,8 @@ public final class ClickGui
 	private final ArrayList<Popup> popups = new ArrayList<>();
 	private final Path windowsFile;
 	
-	private int bgColor;
-	private int acColor;
+	private float bgColor;
+	private float acColor;
 	private int txtColor;
 	private float opacity;
 	private float ttOpacity;
@@ -1182,12 +1182,12 @@ public final class ClickGui
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
 	
-	public int getBgColor()
+	public float getBgColor()
 	{
 		return bgColor;
 	}
 	
-	public int getAcColor()
+	public float getAcColor()
 	{
 		return acColor;
 	}
