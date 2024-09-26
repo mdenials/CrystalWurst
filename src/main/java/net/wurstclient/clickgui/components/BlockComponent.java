@@ -66,7 +66,7 @@ public final class BlockComponent extends Component
 		float partialTicks)
 	{
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		float[] bgColor = gui.getBgColor();
+		int[] bgColor = gui.getBgColor();
 		int txtColor = gui.getTxtColor();
 		float opacity = gui.getOpacity();
 		
