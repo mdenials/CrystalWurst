@@ -58,7 +58,7 @@ public final class WurstLogoOtf extends OtherFeature
 		return txtColor.getColorI();
 	}
 
-	public int[] getBackgroundColor()
+	public int getBackgroundColor()
 	{
 		return bgColor.getColorI();
 	}
