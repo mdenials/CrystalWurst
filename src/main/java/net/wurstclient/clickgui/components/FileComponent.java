@@ -61,8 +61,8 @@ public final class FileComponent extends Component
 		float partialTicks)
 	{
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		int[] bgColor = gui.getBgColor();
-		int[] acColor = gui.getAcColor();
+		int bgColor = gui.getBgColor();
+		int acColor = gui.getAcColor();
 		int txtColor = gui.getTxtColor();
 		float opacity = gui.getOpacity();
 		
