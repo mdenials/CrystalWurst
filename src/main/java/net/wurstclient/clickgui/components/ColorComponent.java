@@ -127,7 +127,7 @@ public final class ColorComponent extends Component
 	private void drawBox(MatrixStack matrixStack, int x1, int x2, int y2,
 		int y3, boolean hovering)
 	{
-		int color = setting.getColorF();
+		int color = setting.getColorI();
 		int acColor = GUI.getAcColor();
 		float opacity = GUI.getOpacity();
 		
