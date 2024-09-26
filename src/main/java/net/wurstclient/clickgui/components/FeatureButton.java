@@ -180,8 +180,7 @@ public final class FeatureButton extends Component
 			RenderSystem.setShaderColor(0, 1, 0,
 				hHack ? opacity * 1.5F : opacity);
 		else
-			RenderUtils.setShaderColor(bgColor,
-				hHack ? opacity * 1.5F : opacity);
+			RenderUtils.setShaderColor(bgColor);
 		
 		bufferBuilder.vertex(matrix, x1, y1, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0);
@@ -195,15 +194,13 @@ public final class FeatureButton extends Component
 		int y1, int y2, boolean hSettings)
 	{
 		float[] bgColor = GUI.getBgColor();
-		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-		RenderUtils.setShaderColor(bgColor,
-			hSettings ? opacity * 1.5F : opacity);
+		RenderUtils.setShaderColor(bgColor);
 		bufferBuilder.vertex(matrix, x3, y1, 0);
 		bufferBuilder.vertex(matrix, x3, y2, 0);
 		bufferBuilder.vertex(matrix, x2, y2, 0);
@@ -221,7 +218,7 @@ public final class FeatureButton extends Component
 		
 		BufferBuilder bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
-		RenderUtils.setShaderColor(acColor, 0.5F);
+		RenderUtils.setShaderColor(acColor);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0);
 		bufferBuilder.vertex(matrix, x2, y2, 0);
