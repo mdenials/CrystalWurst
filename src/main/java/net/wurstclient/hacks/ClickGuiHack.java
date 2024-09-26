@@ -66,12 +66,12 @@ public final class ClickGuiHack extends Hack
 		setEnabled(false);
 	}
 	
-	public float getBackgroundColor()
+	public float[] getBackgroundColor()
 	{
 		return bgColor.getColorF();
 	}
 	
-	public float getAccentColor()
+	public float[] getAccentColor()
 	{
 		return acColor.getColorF();
 	}
