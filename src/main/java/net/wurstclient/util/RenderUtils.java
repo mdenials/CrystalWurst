@@ -119,7 +119,7 @@ public enum RenderUtils
 	
 	public static void setShaderColor(int rgb)
 	{
-		RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], rgb[3]);
+		RenderSystem.setShaderColor(rgb);
 	}
 	
 	public static void drawSolidBox(MatrixStack matrixStack)
