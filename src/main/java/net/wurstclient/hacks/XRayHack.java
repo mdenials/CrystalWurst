@@ -44,11 +44,6 @@ public final class XRayHack extends Hack implements UpdateListener,
 	SetOpaqueCubeListener, GetAmbientOcclusionLightLevelListener,
 	ShouldDrawSideListener, RenderBlockEntityListener
 {
-	private final SliderSetting opacity = new SliderSetting("Alpha",
-		"Alpha of non-ore blocks when X-Ray is enabled.\n\n"
-			+ "Remember to restart X-Ray when changing this setting.",
-		0, 0, 255, 1, ValueDisplay.INTEGER.withLabel(0, "off"));
-
 	private final ColorSetting color = new ColorSetting("Color",
 		"Xray will be highlighted blocks in this color.", Color.WHITE);
 	
@@ -93,6 +88,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 			+ " anti-X-Ray plugins.\n\n"
 			+ "Remember to restart X-Ray when changing this setting.",
 		false);
+	private final CheckboxSetting layer = new CheckboxSetting("Render Layers", false);
 
 	private final ThreadLocal<BlockPos.Mutable> mutablePosForExposedCheck = ThreadLocal.withInitial(BlockPos.Mutable::new);
 	
@@ -106,10 +102,10 @@ public final class XRayHack extends Hack implements UpdateListener,
 	{
 		super("X-Ray");
 		setCategory(Category.RENDER);
-		addSetting(opacity);
 		addSetting(color);
 		addSetting(ores);
 		addSetting(onlyExposed);
+		addSetting(layer);
 		optiFineWarning = checkOptiFine();
 	}
 	
@@ -184,7 +180,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 	public void onShouldDrawSide(ShouldDrawSideEvent event)
 	{
 		boolean visible = isVisible(event.getState().getBlock(), event.getPos());
-		if(!visible && opacity.getValue() > 0)
+		if(!visible)
 			return;
 		
 		event.setRendered(visible);
@@ -222,12 +218,11 @@ public final class XRayHack extends Hack implements UpdateListener,
 
 	public boolean isOpacityMode()
 	{
-		return isEnabled() && color.getAlpha() > 0;
+		return isEnabled() && layer.isChecked();
 	}
 	
 	public int getOpacityColorMask()
 	{
-		//return (int)(opacity.getValue() * 255) << 24 | 0xFFFFFF;
 		return (int)(color.getColorI());
 	}
 	
