@@ -117,7 +117,7 @@ public enum RenderUtils
 		return rainbow;
 	}
 	
-	public static void setShaderColor(int[] rgb)
+	public static void setShaderColor(int rgb)
 	{
 		RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], rgb[3]);
 	}
