@@ -55,8 +55,8 @@ public final class ClickGui
 	private final ArrayList<Popup> popups = new ArrayList<>();
 	private final Path windowsFile;
 	
-	private float[] bgColor = new float[3];
-	private float[] acColor = new float[3];
+	private int bgColor;
+	private int acColor;
 	private int txtColor;
 	private float opacity;
 	private float ttOpacity;
