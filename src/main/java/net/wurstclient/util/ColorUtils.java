@@ -18,7 +18,7 @@ public enum ColorUtils
 	
 	public static String toHex(Color color)
 	{
-		return String.format("#%06X", color.getRGB() & 0x00FFFFFF);
+		return String.format("#%08X", color.getRGB() & 0x00FFFFFF);
 	}
 	
 	public static Color parseHex(String s) throws JsonException
@@ -26,15 +26,15 @@ public enum ColorUtils
 		if(!s.startsWith("#"))
 			throw new JsonException("Missing '#' prefix.");
 		
-		if(s.length() != 7)
+		if(s.length() != 9)
 			throw new JsonException(
 				"Expected String of length 7, got " + s.length() + " instead.");
 		
-		int[] rgb = new int[3];
+		int[] rgb = new int[4];
 		
 		try
 		{
-			for(int i = 0; i < rgb.length; i++)
+			for(int i = 0; i < 4; i++)
 			{
 				String channelString = s.substring(i * 2 + 1, i * 2 + 3);
 				int channel = Integer.parseUnsignedInt(channelString, 16);
@@ -46,7 +46,7 @@ public enum ColorUtils
 			throw new JsonException(e);
 		}
 		
-		return new Color(rgb[0], rgb[1], rgb[2]);
+		return new Color(rgb[0], rgb[1], rgb[2], rgb[3]);
 	}
 	
 	public static Color tryParseHex(String s)
@@ -61,15 +61,15 @@ public enum ColorUtils
 		}
 	}
 	
-	public static Color parseRGB(String red, String green, String blue)
+	public static Color parseRGB(String red, String green, String blue, String alpha)
 		throws JsonException
 	{
-		String[] rgbStrings = {red, green, blue};
-		int[] rgb = new int[3];
+		String[] rgbStrings = {red, green, blue, alpha};
+		int[] rgb = new int[4];
 		
 		try
 		{
-			for(int i = 0; i < rgb.length; i++)
+			for(int i = 0; i < 4; i++)
 			{
 				int channel = Integer.parseInt(rgbStrings[i]);
 				rgb[i] = MathHelper.clamp(channel, 0, 255);
@@ -80,14 +80,14 @@ public enum ColorUtils
 			throw new JsonException(e);
 		}
 		
-		return new Color(rgb[0], rgb[1], rgb[2]);
+		return new Color(rgb[0], rgb[1], rgb[2], rgb[3]);
 	}
 	
-	public static Color tryParseRGB(String red, String green, String blue)
+	public static Color tryParseRGB(String red, String green, String blue, String alpha)
 	{
 		try
 		{
-			return parseRGB(red, green, blue);
+			return parseRGB(red, green, blue, alpha);
 			
 		}catch(JsonException e)
 		{
