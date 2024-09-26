@@ -473,7 +473,8 @@ public final class NavigatorFeatureScreen extends NavigatorScreen
 				alpha = 0.375F;
 			
 			float[] rgb = buttonData.color.getColorComponents(null);
-			RenderUtils.setShaderColor((int)(rgb[0] * 255), (int)(rgb[1] * 255), (int)(rgb[2] * 255), (int)(rgb[3] * 255));
+			int color = ((int)(rgb[0] * 255) | (int)(rgb[1] * 255) | (int)(rgb[2] * 255) | (int)(rgb[3] * 255));
+			RenderUtils.setShaderColor(color);
 			
 			// button
 			drawBox(matrixStack, x1, y1, x2, y2);
