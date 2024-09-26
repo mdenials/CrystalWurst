@@ -38,6 +38,7 @@ public final class EditColorScreen extends Screen
 	private TextFieldWidget redValueField;
 	private TextFieldWidget greenValueField;
 	private TextFieldWidget blueValueField;
+	private TextFieldWidget alphaValueField;
 	
 	private ButtonWidget doneButton;
 	
@@ -85,43 +86,44 @@ public final class EditColorScreen extends Screen
 		fieldsX = width / 2 - 100;
 		fieldsY = 129 + 5;
 		
-		hexValueField =
-			new TextFieldWidget(tr, fieldsX, fieldsY, 92, 20, Text.literal(""));
+		hexValueField = new TextFieldWidget(tr, fieldsX, fieldsY, 92, 20, Text.literal(""));
 		hexValueField.setText(ColorUtils.toHex(color).substring(1));
 		hexValueField.setMaxLength(6);
 		hexValueField.setChangedListener(s -> updateColor(true));
 		
-		// RGB fields
-		redValueField = new TextFieldWidget(tr, fieldsX, fieldsY + 35, 50, 20,
-			Text.literal(""));
+		// RGBA fields
+		redValueField = new TextFieldWidget(tr, fieldsX, fieldsY + 35, 50, 20, Text.literal(""));
 		redValueField.setText("" + color.getRed());
 		redValueField.setMaxLength(3);
 		redValueField.setChangedListener(s -> updateColor(false));
 		
-		greenValueField = new TextFieldWidget(tr, fieldsX + 75, fieldsY + 35,
-			50, 20, Text.literal(""));
+		greenValueField = new TextFieldWidget(tr, fieldsX + 75, fieldsY + 35, 50, 20, Text.literal(""));
 		greenValueField.setText("" + color.getGreen());
 		greenValueField.setMaxLength(3);
 		greenValueField.setChangedListener(s -> updateColor(false));
 		
-		blueValueField = new TextFieldWidget(tr, fieldsX + 150, fieldsY + 35,
-			50, 20, Text.literal(""));
+		blueValueField = new TextFieldWidget(tr, fieldsX + 150, fieldsY + 35, 50, 20, Text.literal(""));
 		blueValueField.setText("" + color.getBlue());
 		blueValueField.setMaxLength(3);
 		blueValueField.setChangedListener(s -> updateColor(false));
+
+		alphaValueField = new TextFieldWidget(tr, fieldsX + 225, fieldsY + 35, 50, 20, Text.literal(""));
+		alphaValueField.setText("" + color.getAlpha());
+		alphaValueField.setMaxLength(3);
+		alphaValueField.setChangedListener(s -> updateColor(false));
 		
 		addSelectableChild(hexValueField);
 		addSelectableChild(redValueField);
 		addSelectableChild(greenValueField);
 		addSelectableChild(blueValueField);
+		addSelectableChild(alphaValueField);
 		
 		setFocused(hexValueField);
 		hexValueField.setFocused(true);
 		hexValueField.setSelectionStart(0);
-		hexValueField.setSelectionEnd(6);
+		hexValueField.setSelectionEnd(8);
 		
-		doneButton = ButtonWidget.builder(Text.literal("Done"), b -> done())
-			.dimensions(fieldsX, height - 30, 200, 20).build();
+		doneButton = ButtonWidget.builder(Text.literal("Done"), b -> done()).dimensions(fieldsX, height - 30, 200, 20).build();
 		addDrawableChild(doneButton);
 	}
 	
@@ -136,7 +138,7 @@ public final class EditColorScreen extends Screen
 			newColor = ColorUtils.tryParseHex("#" + hexValueField.getText());
 		else
 			newColor = ColorUtils.tryParseRGB(redValueField.getText(),
-				greenValueField.getText(), blueValueField.getText());
+				greenValueField.getText(), blueValueField.getText(), alphaValueField.getText());
 		
 		if(newColor == null || newColor.equals(color))
 			return;
@@ -147,6 +149,7 @@ public final class EditColorScreen extends Screen
 		redValueField.setText("" + color.getRed());
 		greenValueField.setText("" + color.getGreen());
 		blueValueField.setText("" + color.getBlue());
+		alphaValueField.setText(""  + color.getAlpha());
 		ignoreChanges = false;
 	}
 	
@@ -191,6 +194,7 @@ public final class EditColorScreen extends Screen
 		redValueField.render(context, mouseX, mouseY, partialTicks);
 		greenValueField.render(context, mouseX, mouseY, partialTicks);
 		blueValueField.render(context, mouseX, mouseY, partialTicks);
+		alphaValueField.render(context, mouseX, mouseY, partialTicks);
 		
 		// Color preview
 		
@@ -220,6 +224,7 @@ public final class EditColorScreen extends Screen
 		String r = redValueField.getText();
 		String g = greenValueField.getText();
 		String b = blueValueField.getText();
+		String a = alphaValueField.getText();
 		
 		init(client, width, height);
 		
@@ -227,6 +232,7 @@ public final class EditColorScreen extends Screen
 		redValueField.setText(r);
 		greenValueField.setText(g);
 		blueValueField.setText(b);
+		alphaValueField.setText(a);
 	}
 	
 	@Override
@@ -281,6 +287,7 @@ public final class EditColorScreen extends Screen
 		redValueField.setText("" + color.getRed());
 		greenValueField.setText("" + color.getGreen());
 		blueValueField.setText("" + color.getBlue());
+		alphaValueField.setText("" + color.getAlpha());
 	}
 	
 	@Override
