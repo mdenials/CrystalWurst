@@ -226,7 +226,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 	public int getOpacityColorMask()
 	{
 		//return (int)(opacity.getValue() * 255) << 24 | 0xFFFFFF;
-		return (int)(color.getValue(opacity.getValueF()))
+		return (int)(color.getValue(opacity.getValueF()));
 	}
 	
 	/**
