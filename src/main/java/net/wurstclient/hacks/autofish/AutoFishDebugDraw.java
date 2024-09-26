@@ -118,7 +118,7 @@ public final class AutoFishDebugDraw
 			.subtract(region.toVec3d());
 		matrixStack.translate(pos.getX(), pos.getY(), pos.getZ());
 		
-		ddColor.setAsShaderColor(0.5F);
+		ddColor.setAsShaderColor();
 		
 		double vr = validRange.getValue();
 		Box vrBox = new Box(-vr, -1 / 16.0, -vr, vr, 1 / 16.0, vr);
@@ -137,7 +137,7 @@ public final class AutoFishDebugDraw
 		matrixStack.translate(lastSoundPos.x - region.x(), lastSoundPos.y,
 			lastSoundPos.z - region.z());
 		
-		ddColor.setAsShaderColor(0.5F);
+		ddColor.setAsShaderColor();
 		
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
@@ -156,7 +156,7 @@ public final class AutoFishDebugDraw
 		Box noseBox =
 			headBox.offset(0.125, 0.125, 0.5).shrink(0.25, 0.35, 0.45);
 		
-		ddColor.setAsShaderColor(0.75F);
+		ddColor.setAsShaderColor();
 		
 		for(FishingSpot spot : fishingSpots.getFishingSpots())
 		{
