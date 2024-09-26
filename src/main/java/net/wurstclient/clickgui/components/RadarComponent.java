@@ -54,8 +54,8 @@ public final class RadarComponent extends Component
 		float partialTicks)
 	{
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		float[] bgColor = gui.getBgColor();
-		float[] acColor = gui.getAcColor();
+		int[] bgColor = gui.getBgColor();
+		int[] acColor = gui.getAcColor();
 		float opacity = gui.getOpacity();
 		
 		int x1 = getX();
