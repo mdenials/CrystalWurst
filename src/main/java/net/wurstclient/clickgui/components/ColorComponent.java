@@ -106,7 +106,7 @@ public final class ColorComponent extends Component
 	private void drawBackground(MatrixStack matrixStack, int x1, int x2, int y1,
 		int y2)
 	{
-		float[] bgColor = GUI.getBgColor();
+		int[] bgColor = GUI.getBgColor();
 		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
@@ -128,7 +128,7 @@ public final class ColorComponent extends Component
 		int y3, boolean hovering)
 	{
 		float[] color = setting.getColorF();
-		float[] acColor = GUI.getAcColor();
+		int[] acColor = GUI.getAcColor();
 		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
