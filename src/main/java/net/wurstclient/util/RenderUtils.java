@@ -119,7 +119,12 @@ public enum RenderUtils
 	
 	public static void setShaderColor(int rgb)
 	{
-		RenderSystem.setShaderColor(rgb);
+		int red = (acColor >> 16) & 0xFF;
+		int green = (acColor >> 8) & 0xFF;
+		int blue = acColor & 0xFF;
+		int alpha = (acColor >> 24) & 0xFF;
+
+		RenderSystem.setShaderColor(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 	}
 	
 	public static void drawSolidBox(MatrixStack matrixStack)
