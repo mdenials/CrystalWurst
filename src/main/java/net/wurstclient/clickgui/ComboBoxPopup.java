@@ -118,7 +118,7 @@ public final class ComboBoxPopup<T extends Enum<T>> extends Popup
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
 		float[] acColor = gui.getAcColor();
-		RenderUtils.setShaderColor(acColor, 0.5F);
+		RenderUtils.setShaderColor(acColor);
 		
 		BufferBuilder bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
@@ -139,7 +139,7 @@ public final class ComboBoxPopup<T extends Enum<T>> extends Popup
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
-		RenderUtils.setShaderColor(bgColor, alpha);
+		RenderUtils.setShaderColor(bgColor);
 		
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
