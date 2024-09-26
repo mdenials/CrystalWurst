@@ -155,7 +155,7 @@ public final class ComboBoxComponent<T extends Enum<T>> extends Component
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
-		RenderUtils.setShaderColor(bgColor, opacity);
+		RenderUtils.setShaderColor(bgColor);
 		
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
@@ -178,7 +178,7 @@ public final class ComboBoxComponent<T extends Enum<T>> extends Component
 		
 		// background
 		float bgAlpha = hBox ? opacity * 1.5F : opacity;
-		RenderUtils.setShaderColor(bgColor, bgAlpha);
+		RenderUtils.setShaderColor(bgColor);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x4, y1, 0);
@@ -188,7 +188,7 @@ public final class ComboBoxComponent<T extends Enum<T>> extends Component
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
 		// outline
-		RenderUtils.setShaderColor(acColor, 0.5F);
+		RenderUtils.setShaderColor(acColor);
 		bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x4, y1, 0);
