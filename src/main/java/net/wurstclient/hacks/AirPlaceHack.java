@@ -141,10 +141,10 @@ public final class AirPlaceHack extends Hack
 		Box box = new Box(renderPos.subtract(region.toBlockPos()));
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
-		guideColor.setAsShaderColor(0.1F);
+		guideColor.setAsShaderColor();
 		RenderUtils.drawSolidBox(box, matrixStack);
 		
-		guideColor.setAsShaderColor(0.75F);
+		guideColor.setAsShaderColor();
 		RenderUtils.drawOutlinedBox(box, matrixStack);
 		
 		matrixStack.pop();
