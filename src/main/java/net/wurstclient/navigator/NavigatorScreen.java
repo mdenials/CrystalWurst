@@ -370,7 +370,7 @@ public abstract class NavigatorScreen extends Screen
 	protected final void setColorToBackground()
 	{
 		WurstClient.INSTANCE.getGui().updateColors();
-		int[] bgColor = WurstClient.INSTANCE.getGui().getBgColor();
+		int bgColor = WurstClient.INSTANCE.getGui().getBgColor();
 		float opacity = WurstClient.INSTANCE.getGui().getOpacity();
 		RenderUtils.setShaderColor(bgColor);
 	}
@@ -378,7 +378,7 @@ public abstract class NavigatorScreen extends Screen
 	protected final void setColorToForeground()
 	{
 		WurstClient.INSTANCE.getGui().updateColors();
-		int[] bgColor = WurstClient.INSTANCE.getGui().getBgColor();
+		int bgColor = WurstClient.INSTANCE.getGui().getBgColor();
 		float opacity = WurstClient.INSTANCE.getGui().getOpacity();
 		RenderUtils.setShaderColor(bgColor);
 	}
