@@ -193,7 +193,7 @@ public final class SearchHack extends Hack
 		RenderUtils.applyRegionalRenderOffset(matrixStack, bufferRegion);
 		
 		float[] rainbow = RenderUtils.getRainbowColor();
-		RenderUtils.setShaderColor(rainbow, 0.5F);
+		RenderUtils.setShaderColor(rainbow);
 		
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
