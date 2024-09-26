@@ -64,6 +64,10 @@ public final class SearchHack extends Hack
 		"The maximum number of blocks to display.\n"
 			+ "Higher values require a faster computer.",
 		4, 3, 6, 1, ValueDisplay.LOGARITHMIC);
+
+	 private final ColorSetting color = new ColorSetting("Color",
+		"Items will be highlighted in this color.", Color.YELLOW);
+	
 	private int prevLimit;
 	private boolean notify;
 	
@@ -85,6 +89,7 @@ public final class SearchHack extends Hack
 		addSetting(block);
 		addSetting(area);
 		addSetting(limit);
+		addSetting(color)
 	}
 	
 	@Override
@@ -192,8 +197,7 @@ public final class SearchHack extends Hack
 		matrixStack.push();
 		RenderUtils.applyRegionalRenderOffset(matrixStack, bufferRegion);
 		
-		float[] rainbow = RenderUtils.getRainbowColor();
-		RenderUtils.setShaderColor(rainbow);
+		color.setAsShaderColor();
 		
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
