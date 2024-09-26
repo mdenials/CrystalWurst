@@ -31,14 +31,11 @@ public abstract class AbstractBlockRenderContextMixin
 	 * Applies X-Ray's opacity mask to the block color after all the normal
 	 * coloring and shading is done.
 	 */
-	@Inject(at = @At("RETURN"),
-		method = "shadeQuad(Lnet/fabricmc/fabric/impl/client/indigo/renderer/mesh/MutableQuadViewImpl;ZZZ)V")
-	private void onShadeQuad(MutableQuadViewImpl quad, boolean ao,
-		boolean emissive, boolean vanillaShade, CallbackInfo ci)
+	@Inject(at = @At("RETURN"), method = "shadeQuad(Lnet/fabricmc/fabric/impl/client/indigo/renderer/mesh/MutableQuadViewImpl;ZZZ)V")
+	private void onShadeQuad(MutableQuadViewImpl quad, boolean ao, boolean emissive, boolean vanillaShade, CallbackInfo ci)
 	{
 		XRayHack xray = WurstClient.INSTANCE.getHax().xRayHack;
-		if(!xray.isOpacityMode() || xray
-			.isVisible(blockInfo.blockState.getBlock(), blockInfo.blockPos))
+		if(!xray.isOpacityMode())
 			return;
 
 		int opacityColorMask = xray.getOpacityColorMask();
