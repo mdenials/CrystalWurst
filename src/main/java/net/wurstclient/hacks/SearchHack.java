@@ -90,7 +90,7 @@ public final class SearchHack extends Hack
 		addSetting(block);
 		addSetting(area);
 		addSetting(limit);
-		addSetting(color)
+		addSetting(color);
 	}
 	
 	@Override
