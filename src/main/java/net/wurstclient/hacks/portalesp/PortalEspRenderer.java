@@ -48,7 +48,7 @@ public final class PortalEspRenderer
 	
 	public void renderBoxes(PortalEspBlockGroup group)
 	{
-		int[] colorF = group.getColorI();
+		int colorF = group.getColorI();
 		
 		for(Box box : group.getBoxes())
 		{
@@ -86,7 +86,7 @@ public final class PortalEspRenderer
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
-		int[] colorF = group.getColorI();
+		int colorF = group.getColorI();
 		RenderUtils.setShaderColor(colorF);
 		
 		BufferBuilder bufferBuilder = tessellator
