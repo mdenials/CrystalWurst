@@ -215,8 +215,8 @@ public final class TabGui implements KeyPressListener
 		int y2)
 	{
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		float[] bgColor = gui.getBgColor();
-		float[] acColor = gui.getAcColor();
+		int[] bgColor = gui.getBgColor();
+		int[] acColor = gui.getAcColor();
 		float opacity = gui.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
@@ -272,9 +272,9 @@ public final class TabGui implements KeyPressListener
 		
 		// top
 		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		
@@ -282,15 +282,15 @@ public final class TabGui implements KeyPressListener
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		
 		// right
 		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		
@@ -298,9 +298,9 @@ public final class TabGui implements KeyPressListener
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
