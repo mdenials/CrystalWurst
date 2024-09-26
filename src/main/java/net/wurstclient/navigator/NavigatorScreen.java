@@ -259,7 +259,7 @@ public abstract class NavigatorScreen extends Screen
 		int x2, int y2)
 	{
 		// color
-		float[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
+		int[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
 		
 		// outline positions
 		float xi1 = x1 - 0.1F;
@@ -296,9 +296,9 @@ public abstract class NavigatorScreen extends Screen
 		
 		// top
 		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		
@@ -306,15 +306,15 @@ public abstract class NavigatorScreen extends Screen
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]
 		
 		// right
 		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		
@@ -322,9 +322,9 @@ public abstract class NavigatorScreen extends Screen
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
@@ -354,9 +354,9 @@ public abstract class NavigatorScreen extends Screen
 		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS,
 			VertexFormats.POSITION_COLOR);
 		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], 0.75F);
+			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x2, y2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0).color(0, 0, 0, 0);
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
@@ -372,7 +372,7 @@ public abstract class NavigatorScreen extends Screen
 	protected final void setColorToBackground()
 	{
 		WurstClient.INSTANCE.getGui().updateColors();
-		float[] bgColor = WurstClient.INSTANCE.getGui().getBgColor();
+		int[] bgColor = WurstClient.INSTANCE.getGui().getBgColor();
 		float opacity = WurstClient.INSTANCE.getGui().getOpacity();
 		RenderUtils.setShaderColor(bgColor);
 	}
@@ -380,7 +380,7 @@ public abstract class NavigatorScreen extends Screen
 	protected final void setColorToForeground()
 	{
 		WurstClient.INSTANCE.getGui().updateColors();
-		float[] bgColor = WurstClient.INSTANCE.getGui().getBgColor();
+		int[] bgColor = WurstClient.INSTANCE.getGui().getBgColor();
 		float opacity = WurstClient.INSTANCE.getGui().getOpacity();
 		RenderUtils.setShaderColor(bgColor);
 	}
