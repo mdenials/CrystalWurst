@@ -224,7 +224,7 @@ public final class TabGui implements KeyPressListener
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
 		// color
-		RenderUtils.setShaderColor(bgColor, opacity);
+		RenderUtils.setShaderColor(bgColor);
 		
 		// box
 		BufferBuilder bufferBuilder = tessellator
@@ -245,7 +245,7 @@ public final class TabGui implements KeyPressListener
 		
 		// outline
 		GL11.glLineWidth(1);
-		RenderUtils.setShaderColor(acColor, 0.5F);
+		RenderUtils.setShaderColor(acColor);
 		bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		{
