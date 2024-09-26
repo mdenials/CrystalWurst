@@ -180,7 +180,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 	public void onShouldDrawSide(ShouldDrawSideEvent event)
 	{
 		boolean visible = isVisible(event.getState().getBlock(), event.getPos());
-		if(!visible)
+		if(!visible && layer.isChecked())
 			return;
 		
 		event.setRendered(visible);
