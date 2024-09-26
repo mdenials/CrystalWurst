@@ -210,8 +210,8 @@ public final class NavigatorMainScreen extends NavigatorScreen
 	{
 		MatrixStack matrixStack = context.getMatrices();
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		float[] bgColor = gui.getBgColor();
-		float[] acColor = gui.getAcColor();
+		int[] bgColor = gui.getBgColor();
+		int[] acColor = gui.getAcColor();
 		int txtColor = gui.getTxtColor();
 		tooltip = null;
 		
@@ -301,7 +301,7 @@ public final class NavigatorMainScreen extends NavigatorScreen
 	{
 		MatrixStack matrixStack = context.getMatrices();
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		float[] bgColor = gui.getBgColor();
+		int[] bgColor = gui.getBgColor();
 		int txtColor = gui.getTxtColor();
 		float opacity = gui.getOpacity();
 		boolean clickTimerRunning = clickTimer != -1;
@@ -346,7 +346,7 @@ public final class NavigatorMainScreen extends NavigatorScreen
 		int bx1 = area.x + area.width - area.height;
 		int by1 = area.y + 2;
 		int by2 = by1 + area.height - 4;
-		float[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
+		int[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
 		RenderUtils.setShaderColor(acColor);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
