@@ -259,7 +259,12 @@ public abstract class NavigatorScreen extends Screen
 		int x2, int y2)
 	{
 		// color
-		int[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
+		int acColor = WurstClient.INSTANCE.getGui().getAcColor();
+		int red = (acColor >> 16) & 0xFF;
+		int green = (acColor >> 8) & 0xFF;
+		int blue = acColor & 0xFF;
+		int alpha = (acColor >> 24) & 0xFF;
+
 		
 		// outline positions
 		float xi1 = x1 - 0.1F;
@@ -295,36 +300,28 @@ public abstract class NavigatorScreen extends Screen
 			VertexFormats.POSITION_COLOR);
 		
 		// top
-		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
-		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
+		bufferBuilder.vertex(matrix, x1, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x2, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		
 		// left
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
-		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
-		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
+		bufferBuilder.vertex(matrix, x1, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x1, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 		
 		// right
-		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
-		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
+		bufferBuilder.vertex(matrix, x2, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x2, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		
 		// bottom
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
-		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
-		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
+		bufferBuilder.vertex(matrix, x1, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x2, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
@@ -333,7 +330,11 @@ public abstract class NavigatorScreen extends Screen
 		int x2, int y2)
 	{
 		// color
-		int[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
+		int acColor = WurstClient.INSTANCE.getGui().getAcColor();
+		int red = (acColor >> 16) & 0xFF;
+		int green = (acColor >> 8) & 0xFF;
+		int blue = acColor & 0xFF;
+		int alpha = (acColor >> 24) & 0xFF;
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
@@ -342,8 +343,7 @@ public abstract class NavigatorScreen extends Screen
 		// outline
 		float yi1 = y1 + 0.1F;
 		RenderUtils.setShaderColor(acColor);
-		BufferBuilder bufferBuilder = tessellator
-			.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
+		BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, yi1, 0);
 		bufferBuilder.vertex(matrix, x2, yi1, 0);
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
@@ -353,10 +353,8 @@ public abstract class NavigatorScreen extends Screen
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS,
 			VertexFormats.POSITION_COLOR);
-		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
-		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
+		bufferBuilder.vertex(matrix, x1, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x2, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 		bufferBuilder.vertex(matrix, x2, y2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0).color(0, 0, 0, 0);
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
