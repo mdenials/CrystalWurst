@@ -135,9 +135,9 @@ public final class EditColorScreen extends Screen
 		Color newColor;
 		
 		if(hex)
-			newColor = ColorUtils.tryParseHex("#" + hexValueField.getText());
+			newColor = ColorUtils.parseHex("#" + hexValueField.getText());
 		else
-			newColor = ColorUtils.tryParseRGB(redValueField.getText(),
+			newColor = ColorUtils.parseRGB(redValueField.getText(),
 				greenValueField.getText(), blueValueField.getText(), alphaValueField.getText());
 		
 		if(newColor == null || newColor.equals(color))
