@@ -106,7 +106,7 @@ public final class BlockComponent extends Component
 		}
 		
 		// background
-		RenderUtils.setShaderColor(bgColor, opacity);
+		RenderUtils.setShaderColor(bgColor);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
