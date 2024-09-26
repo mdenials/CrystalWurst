@@ -135,9 +135,9 @@ public final class EditColorScreen extends Screen
 		Color newColor;
 		
 		if(hex)
-			newColor = ColorUtils.parseHex("#" + hexValueField.getText());
+			newColor = ColorUtils.tryParseHex("#" + hexValueField.getText());
 		else
-			newColor = ColorUtils.parseRGB(redValueField.getText(),
+			newColor = ColorUtils.tryParseRGB(redValueField.getText(),
 				greenValueField.getText(), blueValueField.getText(), alphaValueField.getText());
 		
 		if(newColor == null || newColor.equals(color))
@@ -189,6 +189,8 @@ public final class EditColorScreen extends Screen
 			fieldsY + 6 + 35, 0x00FF00, false);
 		context.drawText(tr, "B:", fieldsX + 150 - 3 - tr.getWidth("B:"),
 			fieldsY + 6 + 35, 0x0000FF, false);
+		context.drawText(tr, "A:", fieldsX + 225 - 3 - tr.getWidth("A:"),
+			fieldsY + 6 + 35, 0x000000FF, false);
 		
 		hexValueField.render(context, mouseX, mouseY, partialTicks);
 		redValueField.render(context, mouseX, mouseY, partialTicks);
@@ -273,7 +275,7 @@ public final class EditColorScreen extends Screen
 				Color color = new Color(rgb, true);
 				
 				// Set color if pixel has full alpha
-				if(color.getAlpha() >= 255)
+				if(color.getAlpha() >= 0)
 					setColor(color);
 			}
 		}
