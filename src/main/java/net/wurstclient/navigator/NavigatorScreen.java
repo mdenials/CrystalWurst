@@ -308,7 +308,7 @@ public abstract class NavigatorScreen extends Screen
 		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
 			acColor[2], acColor[3]);
 		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]
+			acColor[2], acColor[3]);
 		
 		// right
 		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
