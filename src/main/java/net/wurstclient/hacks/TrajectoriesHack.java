@@ -130,7 +130,7 @@ public final class TrajectoriesHack extends Hack implements RenderListener
 		
 		BufferBuilder bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
-		color.setAsShaderColor(0.75F);
+		color.setAsShaderColor();
 		
 		for(Vec3d point : path)
 			bufferBuilder.vertex(matrix, (float)(point.x - camPos.x),
