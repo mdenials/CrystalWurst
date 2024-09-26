@@ -43,7 +43,7 @@ public final class WurstLogo
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		int[] color;
+		int color;
 		if(WurstClient.INSTANCE.getHax().rainbowUiHack.isEnabled())
 			color = WurstClient.INSTANCE.getGui().getAcColor();
 		else
