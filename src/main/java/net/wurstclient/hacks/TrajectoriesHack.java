@@ -150,10 +150,10 @@ public final class TrajectoriesHack extends Hack implements RenderListener
 		matrixStack.push();
 		matrixStack.translate(renderX - 0.5, renderY - 0.5, renderZ - 0.5);
 		
-		color.setAsShaderColor(0.25F);
+		color.setAsShaderColor();
 		RenderUtils.drawSolidBox(matrixStack);
 		
-		color.setAsShaderColor(0.75F);
+		color.setAsShaderColor();
 		RenderUtils.drawOutlinedBox(matrixStack);
 		
 		matrixStack.pop();
