@@ -168,7 +168,7 @@ public final class BaseFinderHack extends Hack implements UpdateListener, Render
 		matrixStack.push();
 		RenderUtils.applyRegionalRenderOffset(matrixStack, region);
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
-        	color.setAsShaderColor(0.5F);
+        	color.setAsShaderColor();
 		
 		if(vertexBuffer != null)
 		{
