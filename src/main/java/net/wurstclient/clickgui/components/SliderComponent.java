@@ -170,7 +170,7 @@ public final class SliderComponent extends Component
 	private void drawBackground(MatrixStack matrixStack, int x1, int x2, int x3,
 		int x4, int y1, int y2, int y4, int y5)
 	{
-		int[] bgColor = GUI.getBgColor();
+		int bgColor = GUI.getBgColor();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
@@ -205,8 +205,8 @@ public final class SliderComponent extends Component
 	private void drawRail(MatrixStack matrixStack, int x3, int x4, int y4,
 		int y5, boolean hSlider, boolean renderAsDisabled)
 	{
-		int[] bgColor = GUI.getBgColor();
-		int[] acColor = GUI.getAcColor();
+		int bgColor = GUI.getBgColor();
+		int acColor = GUI.getAcColor();
 		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
