@@ -333,7 +333,7 @@ public abstract class NavigatorScreen extends Screen
 		int x2, int y2)
 	{
 		// color
-		float[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
+		int[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
