@@ -48,7 +48,7 @@ public final class ChestEspRenderer
 	
 	public void renderBoxes(ChestEspGroup group)
 	{
-		float[] colorF = group.getColorF();
+		int[] colorF = group.getColorI();
 		
 		for(Box box : group.getBoxes())
 		{
@@ -64,12 +64,12 @@ public final class ChestEspRenderer
 			Matrix4f projMatrix = RenderSystem.getProjectionMatrix();
 			ShaderProgram shader = RenderSystem.getShader();
 			
-			RenderUtils.setShaderColor(colorF, 0.25F);
+			RenderUtils.setShaderColor(colorF);
 			solidBox.bind();
 			solidBox.draw(viewMatrix, projMatrix, shader);
 			VertexBuffer.unbind();
 			
-			RenderUtils.setShaderColor(colorF, 0.5F);
+			RenderUtils.setShaderColor(colorF);
 			outlinedBox.bind();
 			outlinedBox.draw(viewMatrix, projMatrix, shader);
 			VertexBuffer.unbind();
@@ -86,8 +86,8 @@ public final class ChestEspRenderer
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
-		float[] colorF = group.getColorF();
-		RenderUtils.setShaderColor(colorF, 0.5F);
+		int[] colorF = group.getColorI();
+		RenderUtils.setShaderColor(colorF);
 		
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
