@@ -164,7 +164,7 @@ public final class FeatureButton extends Component
 	private void drawButtonBackground(MatrixStack matrixStack, int x1, int x3,
 		int y1, int y2, boolean hHack)
 	{
-		float[] bgColor = GUI.getBgColor();
+		int[] bgColor = GUI.getBgColor();
 		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
@@ -193,7 +193,7 @@ public final class FeatureButton extends Component
 	private void drawSettingsBackground(MatrixStack matrixStack, int x2, int x3,
 		int y1, int y2, boolean hSettings)
 	{
-		float[] bgColor = GUI.getBgColor();
+		int[] bgColor = GUI.getBgColor();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
@@ -211,7 +211,7 @@ public final class FeatureButton extends Component
 	private void drawOutline(MatrixStack matrixStack, int x1, int x2, int y1,
 		int y2)
 	{
-		float[] acColor = GUI.getAcColor();
+		int[] acColor = GUI.getAcColor();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
