@@ -614,15 +614,11 @@ public final class ClickGui
 		
 		opacity = clickGui.getOpacity();
 		ttOpacity = clickGui.getTooltipOpacity();
+		acColor = clickGui.getAccentColor();
 		bgColor = clickGui.getBackgroundColor();
 		txtColor = clickGui.getTextColor();
 		maxHeight = clickGui.getMaxHeight();
-		maxSettingsHeight = clickGui.getMaxSettingsHeight();
-		
-		if(WurstClient.INSTANCE.getHax().rainbowUiHack.isEnabled())
-			acColor = RenderUtils.getRainbowColor();
-		else
-			acColor = clickGui.getAccentColor();
+		maxSettingsHeight = clickGui.getMaxSettingsHeight();		
 	}
 	
 	private void renderWindow(DrawContext context, Window window, int mouseX,
