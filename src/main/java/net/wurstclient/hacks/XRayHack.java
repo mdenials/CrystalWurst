@@ -33,6 +33,7 @@ import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
 import net.wurstclient.settings.BlockListSetting;
 import net.wurstclient.settings.CheckboxSetting;
+import net.wurstclient.settings.ColorSetting;
 import net.wurstclient.util.BlockUtils;
 import net.wurstclient.util.ChatUtils;
 
@@ -45,6 +46,9 @@ public final class XRayHack extends Hack implements UpdateListener,
 		"Opacity of non-ore blocks when X-Ray is enabled.\n\n"
 			+ "Remember to restart X-Ray when changing this setting.",
 		0, 0, 1, 0.01, ValueDisplay.PERCENTAGE.withLabel(0, "off"));
+
+	private final ColorSetting color = new ColorSetting("Color",
+		"Xray will be highlighted blocks in this color.", Color.WHITE);
 	
 	private final BlockListSetting ores = new BlockListSetting("Ores",
 		"A list of blocks that X-Ray will show. They don't have to be just ores"
@@ -101,6 +105,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 		super("X-Ray");
 		setCategory(Category.RENDER);
 		addSetting(opacity);
+		addSetting(color);
 		addSetting(ores);
 		addSetting(onlyExposed);
 		optiFineWarning = checkOptiFine();
@@ -220,7 +225,8 @@ public final class XRayHack extends Hack implements UpdateListener,
 	
 	public int getOpacityColorMask()
 	{
-		return (int)(opacity.getValue() * 255) << 24 | 0xFFFFFF;
+		//return (int)(opacity.getValue() * 255) << 24 | 0xFFFFFF;
+		return (int)(color.getValue(opacity.getValueF()))
 	}
 	
 	/**
