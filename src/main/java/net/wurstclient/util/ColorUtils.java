@@ -18,7 +18,7 @@ public enum ColorUtils
 	
 	public static String toHex(Color color)
 	{
-		return String.format("#%08X", color.getRGB() & 0x00FFFFFF);
+		return String.format("#%08X", color.getRGB());
 	}
 	
 	public static Color parseHex(String s) throws JsonException
