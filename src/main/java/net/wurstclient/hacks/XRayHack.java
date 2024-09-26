@@ -180,7 +180,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 	public void onShouldDrawSide(ShouldDrawSideEvent event)
 	{
 		boolean visible = isVisible(event.getState().getBlock(), event.getPos());
-		if(!visible && layer.isChecked())
+		if(!visible && color.getAlpha() > 0)
 			return;
 		
 		event.setRendered(visible);
@@ -218,7 +218,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 
 	public boolean isOpacityMode()
 	{
-		return isEnabled() && layer.isChecked();
+		return isEnabled() && color.getAlpha() > 0;
 	}
 	
 	public int getOpacityColorMask()
