@@ -219,6 +219,11 @@ public final class TabGui implements KeyPressListener
 		int acColor = gui.getAcColor();
 		float opacity = gui.getOpacity();
 		
+		int red = (acColor >> 16) & 0xFF;
+		int green = (acColor >> 8) & 0xFF;
+		int blue = acColor & 0xFF;
+		int alpha = (acColor >> 24) & 0xFF;
+		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
@@ -271,36 +276,28 @@ public final class TabGui implements KeyPressListener
 			VertexFormats.POSITION_COLOR);
 		
 		// top
-		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
-		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
+		bufferBuilder.vertex(matrix, x1, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x2, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		
 		// left
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
-		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
-		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
+		bufferBuilder.vertex(matrix, x1, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x1, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 		
 		// right
-		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
-		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
+		bufferBuilder.vertex(matrix, x2, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x2, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		
 		// bottom
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
-		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
-		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
-			acColor[2], acColor[3]);
+		bufferBuilder.vertex(matrix, x1, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x2, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
