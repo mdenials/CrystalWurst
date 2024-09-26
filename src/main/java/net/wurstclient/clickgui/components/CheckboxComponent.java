@@ -114,7 +114,7 @@ public final class CheckboxComponent extends Component
 	private void drawBackground(MatrixStack matrixStack, int x2, int x3, int y1,
 		int y2)
 	{
-		int[] bgColor = GUI.getBgColor();
+		int bgColor = GUI.getBgColor();
 		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
@@ -133,8 +133,8 @@ public final class CheckboxComponent extends Component
 	private void drawBox(MatrixStack matrixStack, int x1, int x3, int y1,
 		int y2, boolean hovering)
 	{
-		int[] bgColor = GUI.getBgColor();
-		int[] acColor = GUI.getAcColor();
+		int bgColor = GUI.getBgColor();
+		int acColor = GUI.getAcColor();
 		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
