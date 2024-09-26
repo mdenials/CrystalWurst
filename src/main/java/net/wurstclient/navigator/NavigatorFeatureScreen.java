@@ -471,6 +471,7 @@ public final class NavigatorFeatureScreen extends NavigatorScreen
 				activeButton = buttonData;
 			}else
 				alpha = 0.375F;
+			
 			int[] rgb = buttonData.color.getColorComponents(null);
 			RenderUtils.setShaderColor(rgb);
 			
