@@ -80,7 +80,8 @@ public final class PortalEspBlockGroup
 
 	public int[] getColorI()
 	{
-		return color.getColorI();
+		int[] color = color.getColorI();
+		return color;
 	}
 	
 	public List<Box> getBoxes()
