@@ -215,8 +215,8 @@ public final class TabGui implements KeyPressListener
 		int y2)
 	{
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		int[] bgColor = gui.getBgColor();
-		int[] acColor = gui.getAcColor();
+		int bgColor = gui.getBgColor();
+		int acColor = gui.getAcColor();
 		float opacity = gui.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
