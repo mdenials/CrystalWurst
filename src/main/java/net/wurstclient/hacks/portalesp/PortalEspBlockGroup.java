@@ -77,6 +77,11 @@ public final class PortalEspBlockGroup
 	{
 		return color.getColorF();
 	}
+
+	public int[] getColorI()
+	{
+		return color.getColorI();
+	}
 	
 	public List<Box> getBoxes()
 	{
