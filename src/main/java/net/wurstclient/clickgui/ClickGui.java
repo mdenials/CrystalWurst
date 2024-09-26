@@ -895,8 +895,7 @@ public final class ClickGui
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
 		// button background
-		RenderUtils.setShaderColor(bgColor,
-			hovering ? opacity * 1.5F : opacity);
+		RenderUtils.setShaderColor(bgColor);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
