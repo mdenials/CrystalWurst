@@ -149,7 +149,7 @@ public final class ComboBoxComponent<T extends Enum<T>> extends Component
 	private void drawBackground(MatrixStack matrixStack, int x1, int x4, int y1,
 		int y2)
 	{
-		int[] bgColor = gui.getBgColor();
+		int bgColor = gui.getBgColor();
 		float opacity = gui.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
@@ -169,8 +169,8 @@ public final class ComboBoxComponent<T extends Enum<T>> extends Component
 	private void drawBox(MatrixStack matrixStack, int x2, int x4, int y1,
 		int y2, boolean hBox)
 	{
-		int[] bgColor = gui.getBgColor();
-		int[] acColor = gui.getAcColor();
+		int bgColor = gui.getBgColor();
+		int acColor = gui.getAcColor();
 		float opacity = gui.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
