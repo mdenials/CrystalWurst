@@ -171,12 +171,11 @@ public final class SliderComponent extends Component
 		int x4, int y1, int y2, int y4, int y5)
 	{
 		float[] bgColor = GUI.getBgColor();
-		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
-		RenderUtils.setShaderColor(bgColor, opacity);
+		RenderUtils.setShaderColor(bgColor);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		
@@ -238,7 +237,7 @@ public final class SliderComponent extends Component
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
 		// background
-		RenderUtils.setShaderColor(bgColor, hSlider ? opacity * 1.5F : opacity);
+		RenderUtils.setShaderColor(bgColor);
 		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS,
 			VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, xl1, y4, 0);
@@ -248,7 +247,7 @@ public final class SliderComponent extends Component
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
 		// outline
-		RenderUtils.setShaderColor(acColor, 0.5F);
+		RenderUtils.setShaderColor(acColor);
 		bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x3, y4, 0);
