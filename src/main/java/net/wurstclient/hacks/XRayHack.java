@@ -222,7 +222,7 @@ public final class XRayHack extends Hack implements UpdateListener,
 
 	public boolean isOpacityMode()
 	{
-		return isEnabled();
+		return isEnabled() && color.getAlpha() > 0;
 	}
 	
 	public int getOpacityColorMask()
