@@ -95,9 +95,9 @@ public final class NewChunksRenderer
 				matrixStack.translate(0, altitudeD, 0);
 			
 			if(i < 2)
-				newChunksColor.setAsShaderColor(alpha);
+				newChunksColor.setAsShaderColor();
 			else
-				oldChunksColor.setAsShaderColor(alpha);
+				oldChunksColor.setAsShaderColor();
 			
 			Matrix4f viewMatrix = matrixStack.peek().getPositionMatrix();
 			buffer.bind();
