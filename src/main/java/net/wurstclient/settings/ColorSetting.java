@@ -52,13 +52,14 @@ public final class ColorSetting extends Setting
 		float red = color.getRed() / 255F;
 		float green = color.getGreen() / 255F;
 		float blue = color.getBlue() / 255F;
-		return new float[]{red, green, blue};
+		float alpha = color.getAlpha() / 255F;
+		return new float[]{red, green, blue, alpha};
 	}
 	
-	public void setAsShaderColor(float opacity)
+	public void setAsShaderColor()
 	{
 		float[] rgb = getColorF();
-		RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], opacity);
+		RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], rgb[3]);
 	}
 	
 	public int getColorI()
@@ -80,6 +81,11 @@ public final class ColorSetting extends Setting
 	{
 		return color.getBlue();
 	}
+
+	public int getAlpha()
+    	{
+        	return color.getAlpha();
+    	}
 	
 	public Color getDefaultColor()
 	{
@@ -140,14 +146,14 @@ public final class ColorSetting extends Setting
 			+ getName().toLowerCase().replace(" ", "_") + " ";
 		
 		LinkedHashSet<PossibleKeybind> pkb = new LinkedHashSet<>();
-		addPKB(pkb, command + "#FF0000", description + "red");
-		addPKB(pkb, command + "#00FF00", description + "green");
-		addPKB(pkb, command + "#0000FF", description + "blue");
-		addPKB(pkb, command + "#FFFF00", description + "yellow");
-		addPKB(pkb, command + "#00FFFF", description + "cyan");
-		addPKB(pkb, command + "#FF00FF", description + "magenta");
-		addPKB(pkb, command + "#FFFFFF", description + "white");
-		addPKB(pkb, command + "#000000", description + "black");
+		addPKB(pkb, command + "#FF0000FF", description + "red");
+		addPKB(pkb, command + "#00FF00FF", description + "green");
+		addPKB(pkb, command + "#0000FFFF", description + "blue");
+		addPKB(pkb, command + "#FFFF00FF", description + "yellow");
+		addPKB(pkb, command + "#00FFFFFF", description + "cyan");
+		addPKB(pkb, command + "#FF00FFFF", description + "magenta");
+		addPKB(pkb, command + "#FFFFFFFF", description + "white");
+		addPKB(pkb, command + "#000000FF", description + "black");
 		return pkb;
 	}
 	
