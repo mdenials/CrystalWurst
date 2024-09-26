@@ -34,7 +34,7 @@ public enum ColorUtils
 		
 		try
 		{
-			for(int i = 0; i < 4; i++)
+			for(int i = 0; i < rgb.length/2; i++)
 			{
 				String channelString = s.substring(i * 2 + 1, i * 2 + 3);
 				int channel = Integer.parseUnsignedInt(channelString, 16);
@@ -69,7 +69,7 @@ public enum ColorUtils
 		
 		try
 		{
-			for(int i = 0; i < 4; i++)
+			for(int i = 0; i < rgb.length/2; i++)
 			{
 				int channel = Integer.parseInt(rgbStrings[i]);
 				rgb[i] = MathHelper.clamp(channel, 0, 255);
