@@ -119,10 +119,10 @@ public enum RenderUtils
 	
 	public static void setShaderColor(int rgb)
 	{
-		int red = (acColor >> 16) & 0xFF;
-		int green = (acColor >> 8) & 0xFF;
-		int blue = acColor & 0xFF;
-		int alpha = (acColor >> 24) & 0xFF;
+		int red = (rgb >> 16) & 0xFF;
+		int green = (rgb >> 8) & 0xFF;
+		int blue = rgb & 0xFF;
+		int alpha = (rgb >> 24) & 0xFF;
 
 		RenderSystem.setShaderColor(red / 255f, green / 255f, blue / 255f, alpha / 255f);
 	}
