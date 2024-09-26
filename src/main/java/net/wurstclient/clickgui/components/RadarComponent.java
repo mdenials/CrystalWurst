@@ -76,7 +76,7 @@ public final class RadarComponent extends Component
 			gui.setTooltip("");
 		
 		// background
-		RenderUtils.setShaderColor(bgColor, opacity);
+		RenderUtils.setShaderColor(bgColor);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
@@ -105,7 +105,7 @@ public final class RadarComponent extends Component
 		float ya3 = 1;
 		
 		// arrow
-		RenderUtils.setShaderColor(acColor, opacity);
+		RenderUtils.setShaderColor(acColor);
 		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS,
 			VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, xa1, ya1, 0);
