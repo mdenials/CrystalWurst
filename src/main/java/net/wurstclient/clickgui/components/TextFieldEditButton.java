@@ -100,7 +100,7 @@ public final class TextFieldEditButton extends Component
 			gui.setTooltip(ChatUtils.wrapText(setting.getValue(), 200));
 		
 		// background
-		RenderUtils.setShaderColor(bgColor, opacity);
+		RenderUtils.setShaderColor(bgColor);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
@@ -110,7 +110,7 @@ public final class TextFieldEditButton extends Component
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
 		// box
-		RenderUtils.setShaderColor(bgColor, hBox ? opacity * 1.5F : opacity);
+		RenderUtils.setShaderColor(bgColor);
 		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS,
 			VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y3, 0);
@@ -118,7 +118,7 @@ public final class TextFieldEditButton extends Component
 		bufferBuilder.vertex(matrix, x2, y2, 0);
 		bufferBuilder.vertex(matrix, x2, y3, 0);
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-		RenderUtils.setShaderColor(acColor, 0.5F);
+		RenderUtils.setShaderColor(acColor);
 		bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y3, 0);
