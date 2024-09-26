@@ -272,7 +272,7 @@ public abstract class NavigatorScreen extends Screen
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
 		// outline
-		RenderUtils.setShaderColor(acColor, 0.5F);
+		RenderUtils.setShaderColor(acColor);
 		BufferBuilder bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, xi1, yi1, 0);
@@ -341,7 +341,7 @@ public abstract class NavigatorScreen extends Screen
 		
 		// outline
 		float yi1 = y1 + 0.1F;
-		RenderUtils.setShaderColor(acColor, 0.5F);
+		RenderUtils.setShaderColor(acColor);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, yi1, 0);
@@ -374,7 +374,7 @@ public abstract class NavigatorScreen extends Screen
 		WurstClient.INSTANCE.getGui().updateColors();
 		float[] bgColor = WurstClient.INSTANCE.getGui().getBgColor();
 		float opacity = WurstClient.INSTANCE.getGui().getOpacity();
-		RenderUtils.setShaderColor(bgColor, opacity);
+		RenderUtils.setShaderColor(bgColor);
 	}
 	
 	protected final void setColorToForeground()
@@ -382,7 +382,7 @@ public abstract class NavigatorScreen extends Screen
 		WurstClient.INSTANCE.getGui().updateColors();
 		float[] bgColor = WurstClient.INSTANCE.getGui().getBgColor();
 		float opacity = WurstClient.INSTANCE.getGui().getOpacity();
-		RenderUtils.setShaderColor(bgColor, opacity);
+		RenderUtils.setShaderColor(bgColor);
 	}
 	
 	protected final void drawBackgroundBox(MatrixStack matrixStack, int x1,
