@@ -273,9 +273,6 @@ public final class SliderComponent extends Component
 		// knob
 		if(renderAsDisabled)
 			RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 0.75F);
-		else
-			RenderUtils.setShaderColor(setting.getKnobColor(),
-				hSlider ? 1 : 0.75F);
 		
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
