@@ -186,7 +186,7 @@ public final class CaveFinderHack extends Hack
 		if(opacity.getValue() > 0)
 			alpha = opacity.getValueF();
 		
-		color.setAsShaderColor(alpha);
+		color.setAsShaderColor();
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
 		Matrix4f viewMatrix = matrixStack.peek().getPositionMatrix();
