@@ -58,9 +58,9 @@ public final class WurstLogoOtf extends OtherFeature
 		return txtColor.getColorI();
 	}
 
-	public int getBackgroundColor()
+	public float getBackgroundColor()
 	{
-		return bgColor.getColorI();
+		return bgColor.getColorF();
 	}
 	
 	public static enum Visibility
