@@ -149,13 +149,13 @@ public final class ComboBoxComponent<T extends Enum<T>> extends Component
 	private void drawBackground(MatrixStack matrixStack, int x1, int x4, int y1,
 		int y2)
 	{
-		int bgColor = gui.getBgColor();
+		float[] bgColor = gui.getBgColor();
 		float opacity = gui.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
-		RenderUtils.setShaderColor(bgColor);
+		RenderUtils.setShaderColor(bgColor, opacity);
 		
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
@@ -169,8 +169,8 @@ public final class ComboBoxComponent<T extends Enum<T>> extends Component
 	private void drawBox(MatrixStack matrixStack, int x2, int x4, int y1,
 		int y2, boolean hBox)
 	{
-		int bgColor = gui.getBgColor();
-		int acColor = gui.getAcColor();
+		float[] bgColor = gui.getBgColor();
+		float[] acColor = gui.getAcColor();
 		float opacity = gui.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
@@ -178,7 +178,7 @@ public final class ComboBoxComponent<T extends Enum<T>> extends Component
 		
 		// background
 		float bgAlpha = hBox ? opacity * 1.5F : opacity;
-		RenderUtils.setShaderColor(bgColor);
+		RenderUtils.setShaderColor(bgColor, bgAlpha);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x4, y1, 0);
@@ -188,7 +188,7 @@ public final class ComboBoxComponent<T extends Enum<T>> extends Component
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
 		// outline
-		RenderUtils.setShaderColor(acColor);
+		RenderUtils.setShaderColor(acColor, 0.5F);
 		bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x4, y1, 0);
