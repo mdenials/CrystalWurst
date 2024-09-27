@@ -7,10 +7,8 @@
  */
 package net.wurstclient.hud;
 
-import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
@@ -39,7 +37,7 @@ import net.wurstclient.util.RenderUtils;
 
 public final class TabGui implements KeyPressListener
 {
-	private final List<Tab> tabs = new LinkedList<>();
+	private final ArrayList<Tab> tabs = new ArrayList<>();
 	private final TabGuiOtf tabGuiOtf =
 		WurstClient.INSTANCE.getOtfs().tabGuiOtf;
 	
@@ -57,7 +55,7 @@ public final class TabGui implements KeyPressListener
 		for(Category category : Category.values())
 			tabMap.put(category, new Tab(category.getName()));
 		
-		List<Feature> features = new LinkedList<>();
+		ArrayList<Feature> features = new ArrayList<>();
 		features.addAll(WurstClient.INSTANCE.getHax().getAllHax());
 		features.addAll(WurstClient.INSTANCE.getCmds().getAllCmds());
 		features.addAll(WurstClient.INSTANCE.getOtfs().getAllOtfs());
@@ -215,21 +213,16 @@ public final class TabGui implements KeyPressListener
 		int y2)
 	{
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		int bgColor = gui.getBgColor();
-		int acColor = gui.getAcColor();
+		float[] bgColor = gui.getBgColor();
+		float[] acColor = gui.getAcColor();
 		float opacity = gui.getOpacity();
-		
-		int red = (acColor >> 16) & 0xFF;
-		int green = (acColor >> 8) & 0xFF;
-		int blue = acColor & 0xFF;
-		int alpha = (acColor >> 24) & 0xFF;
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
 		// color
-		RenderUtils.setShaderColor(bgColor);
+		RenderUtils.setShaderColor(bgColor, opacity);
 		
 		// box
 		BufferBuilder bufferBuilder = tessellator
@@ -250,7 +243,7 @@ public final class TabGui implements KeyPressListener
 		
 		// outline
 		GL11.glLineWidth(1);
-		RenderUtils.setShaderColor(acColor);
+		RenderUtils.setShaderColor(acColor, 0.5F);
 		bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		{
@@ -276,28 +269,36 @@ public final class TabGui implements KeyPressListener
 			VertexFormats.POSITION_COLOR);
 		
 		// top
-		bufferBuilder.vertex(matrix, x1, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
-		bufferBuilder.vertex(matrix, x2, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
+			acColor[2], 0.75F);
+		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
+			acColor[2], 0.75F);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		
 		// left
 		bufferBuilder.vertex(matrix, xi1, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
-		bufferBuilder.vertex(matrix, x1, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
-		bufferBuilder.vertex(matrix, x1, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
+			acColor[2], 0.75F);
+		bufferBuilder.vertex(matrix, x1, y1, 0).color(acColor[0], acColor[1],
+			acColor[2], 0.75F);
 		
 		// right
-		bufferBuilder.vertex(matrix, x2, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
-		bufferBuilder.vertex(matrix, x2, y1, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
+			acColor[2], 0.75F);
+		bufferBuilder.vertex(matrix, x2, y1, 0).color(acColor[0], acColor[1],
+			acColor[2], 0.75F);
 		bufferBuilder.vertex(matrix, xi2, yi1, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		
 		// bottom
 		bufferBuilder.vertex(matrix, xi2, yi2, 0).color(0, 0, 0, 0);
 		bufferBuilder.vertex(matrix, xi1, yi2, 0).color(0, 0, 0, 0);
-		bufferBuilder.vertex(matrix, x1, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
-		bufferBuilder.vertex(matrix, x2, y2, 0).color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
+		bufferBuilder.vertex(matrix, x1, y2, 0).color(acColor[0], acColor[1],
+			acColor[2], 0.75F);
+		bufferBuilder.vertex(matrix, x2, y2, 0).color(acColor[0], acColor[1],
+			acColor[2], 0.75F);
 		
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 	}
@@ -305,7 +306,7 @@ public final class TabGui implements KeyPressListener
 	private static final class Tab
 	{
 		private final String name;
-		private final List<Feature> features = new LinkedList<>();
+		private final ArrayList<Feature> features = new ArrayList<>();
 		
 		private int width;
 		private int height;
