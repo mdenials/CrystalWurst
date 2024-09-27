@@ -32,7 +32,7 @@ public final class WurstLogo
 	
 	public void render(DrawContext context)
 	{
-		int acColor = WurstClient.INSTANCE.getGui().getAcColor();
+		float[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
 		int red = (acColor >> 16) & 0xFF;
 		int green = (acColor >> 8) & 0xFF;
 		int blue = acColor & 0xFF;
