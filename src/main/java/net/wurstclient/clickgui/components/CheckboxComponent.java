@@ -114,13 +114,13 @@ public final class CheckboxComponent extends Component
 	private void drawBackground(MatrixStack matrixStack, int x2, int x3, int y1,
 		int y2)
 	{
-		int bgColor = GUI.getBgColor();
+		float[] bgColor = GUI.getBgColor();
 		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
-		RenderUtils.setShaderColor(bgColor);
+		RenderUtils.setShaderColor(bgColor, opacity);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x3, y1, 0);
@@ -133,14 +133,15 @@ public final class CheckboxComponent extends Component
 	private void drawBox(MatrixStack matrixStack, int x1, int x3, int y1,
 		int y2, boolean hovering)
 	{
-		int bgColor = GUI.getBgColor();
-		int acColor = GUI.getAcColor();
+		float[] bgColor = GUI.getBgColor();
+		float[] acColor = GUI.getAcColor();
 		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
-		RenderUtils.setShaderColor(bgColor);
+		RenderUtils.setShaderColor(bgColor,
+			hovering ? opacity * 1.5F : opacity);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
@@ -149,7 +150,7 @@ public final class CheckboxComponent extends Component
 		bufferBuilder.vertex(matrix, x3, y1, 0);
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
-		RenderUtils.setShaderColor(acColor);
+		RenderUtils.setShaderColor(acColor, 0.5F);
 		bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
