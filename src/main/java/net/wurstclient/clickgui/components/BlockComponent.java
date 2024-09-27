@@ -66,7 +66,7 @@ public final class BlockComponent extends Component
 		float partialTicks)
 	{
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		int bgColor = gui.getBgColor();
+		float[] bgColor = gui.getBgColor();
 		int txtColor = gui.getTxtColor();
 		float opacity = gui.getOpacity();
 		
@@ -106,7 +106,7 @@ public final class BlockComponent extends Component
 		}
 		
 		// background
-		RenderUtils.setShaderColor(bgColor);
+		RenderUtils.setShaderColor(bgColor, opacity);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
