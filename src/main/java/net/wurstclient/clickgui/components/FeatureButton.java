@@ -164,7 +164,7 @@ public final class FeatureButton extends Component
 	private void drawButtonBackground(MatrixStack matrixStack, int x1, int x3,
 		int y1, int y2, boolean hHack)
 	{
-		int bgColor = GUI.getBgColor();
+		float[] bgColor = GUI.getBgColor();
 		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
@@ -180,7 +180,8 @@ public final class FeatureButton extends Component
 			RenderSystem.setShaderColor(0, 1, 0,
 				hHack ? opacity * 1.5F : opacity);
 		else
-			RenderUtils.setShaderColor(bgColor);
+			RenderUtils.setShaderColor(bgColor,
+				hHack ? opacity * 1.5F : opacity);
 		
 		bufferBuilder.vertex(matrix, x1, y1, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0);
@@ -193,14 +194,16 @@ public final class FeatureButton extends Component
 	private void drawSettingsBackground(MatrixStack matrixStack, int x2, int x3,
 		int y1, int y2, boolean hSettings)
 	{
-		int bgColor = GUI.getBgColor();
+		float[] bgColor = GUI.getBgColor();
+		float opacity = GUI.getOpacity();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-		RenderUtils.setShaderColor(bgColor);
+		RenderUtils.setShaderColor(bgColor,
+			hSettings ? opacity * 1.5F : opacity);
 		bufferBuilder.vertex(matrix, x3, y1, 0);
 		bufferBuilder.vertex(matrix, x3, y2, 0);
 		bufferBuilder.vertex(matrix, x2, y2, 0);
@@ -211,14 +214,14 @@ public final class FeatureButton extends Component
 	private void drawOutline(MatrixStack matrixStack, int x1, int x2, int y1,
 		int y2)
 	{
-		int acColor = GUI.getAcColor();
+		float[] acColor = GUI.getAcColor();
 		
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		
 		BufferBuilder bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
-		RenderUtils.setShaderColor(acColor);
+		RenderUtils.setShaderColor(acColor, 0.5F);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0);
 		bufferBuilder.vertex(matrix, x2, y2, 0);
