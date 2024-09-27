@@ -32,12 +32,6 @@ public final class WurstLogo
 	
 	public void render(DrawContext context)
 	{
-		float[] acColor = WurstClient.INSTANCE.getGui().getAcColor();
-		int red = (acColor >> 16) & 0xFF;
-		int green = (acColor >> 8) & 0xFF;
-		int blue = acColor & 0xFF;
-		int alpha = (acColor >> 24) & 0xFF;
-		
 		MatrixStack matrixStack = context.getMatrices();
 		if(!otf.isVisible())
 			return;
@@ -49,8 +43,14 @@ public final class WurstLogo
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		int color;
-		drawQuads(matrixStack, 0, 6, tr.getWidth(version) + 76, 17, red, green, blue, alpha);
+		float[] color;
+		if(WurstClient.INSTANCE.getHax().rainbowUiHack.isEnabled())
+			color = WurstClient.INSTANCE.getGui().getAcColor();
+		else
+			color = otf.getBackgroundColor();
+		
+		drawQuads(matrixStack, 0, 6, tr.getWidth(version) + 76, 17, color[0],
+			color[1], color[2], 0.5F);
 		
 		// draw version string
 		GL11.glEnable(GL11.GL_CULL_FACE);
