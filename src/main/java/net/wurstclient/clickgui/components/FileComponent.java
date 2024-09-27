@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2014-2024 Wurst-Imperium and contributors.
  *
@@ -12,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.BufferBuilder;
@@ -24,18 +26,22 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.wurstclient.WurstClient;
 import net.wurstclient.clickgui.ClickGui;
 import net.wurstclient.clickgui.Component;
-import net.wurstclient.clickgui.screens.SelectFileScreen;
-import net.wurstclient.settings.FileSetting;
+import net.wurstclient.clickgui.Window;
+import net.wurstclient.clickgui.screens.EditColorScreen;
+import net.wurstclient.settings.ColorSetting;
+import net.wurstclient.util.ColorUtils;
 import net.wurstclient.util.RenderUtils;
 
-public final class FileComponent extends Component
+public final class ColorComponent extends Component
 {
-	private final FileSetting setting;
+	private final MinecraftClient MC = WurstClient.MC;
+	private final ClickGui GUI = WurstClient.INSTANCE.getGui();
 	
-	public FileComponent(FileSetting setting)
+	private final ColorSetting setting;
+	
+	public ColorComponent(ColorSetting setting)
 	{
 		this.setting = setting;
-		
 		setWidth(getDefaultWidth());
 		setHeight(getDefaultHeight());
 	}
@@ -43,112 +49,140 @@ public final class FileComponent extends Component
 	@Override
 	public void handleMouseClick(double mouseX, double mouseY, int mouseButton)
 	{
-		if(mouseButton != 0)
+		if(mouseY < getY() + 11)
 			return;
 		
-		TextRenderer fr = WurstClient.MC.textRenderer;
-		int buttonWidth = fr.getWidth(setting.getSelectedFileName());
-		
-		if(mouseX < getX() + getWidth() - buttonWidth - 4)
-			return;
-		
-		WurstClient.MC.setScreen(
-			new SelectFileScreen(WurstClient.MC.currentScreen, setting));
+		if(mouseButton == 0)
+			MC.setScreen(new EditColorScreen(MC.currentScreen, setting));
+		else if(mouseButton == 1)
+			setting.setColor(setting.getDefaultColor());
 	}
 	
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY,
 		float partialTicks)
 	{
-		ClickGui gui = WurstClient.INSTANCE.getGui();
-		int bgColor = gui.getBgColor();
-		int acColor = gui.getAcColor();
-		int txtColor = gui.getTxtColor();
-		float opacity = gui.getOpacity();
-		
-		TextRenderer tr = WurstClient.MC.textRenderer;
-		int buttonWidth = tr.getWidth(setting.getSelectedFileName());
-		
+		MatrixStack matrixStack = context.getMatrices();
 		int x1 = getX();
 		int x2 = x1 + getWidth();
-		int x3 = x2 - buttonWidth - 4;
 		int y1 = getY();
 		int y2 = y1 + getHeight();
+		int y3 = y1 + 11;
 		
-		int scroll = getParent().isScrollingEnabled()
-			? getParent().getScrollOffset() : 0;
-		boolean hovering = mouseX >= x1 && mouseY >= y1 && mouseX < x2
-			&& mouseY < y2 && mouseY >= -scroll
-			&& mouseY < getParent().getHeight() - 13 - scroll;
-		boolean hText = hovering && mouseX < x3;
-		boolean hBox = hovering && mouseX >= x3;
+		boolean hovering = isHovering(mouseX, mouseY, x1, x2, y1, y2);
 		
-		MatrixStack matrixStack = context.getMatrices();
-		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
-		Tessellator tessellator = RenderSystem.renderThreadTesselator();
 		RenderSystem.setShader(GameRenderer::getPositionProgram);
 		
-		// tooltip
-		if(hText)
-			gui.setTooltip(setting.getWrappedDescription(200));
-		else if(hBox)
-		{
-			String tooltip = "\u00a7e[left-click]\u00a7r to select file";
-			gui.setTooltip(tooltip);
-		}
+		if(hovering)
+			if(mouseY < y3)
+				GUI.setTooltip(setting.getWrappedDescription(200));
+			else
+			{
+				String tooltip = "\u00a7cR:\u00a7r" + setting.getRed();
+				tooltip += " \u00a7aG:\u00a7r" + setting.getGreen();
+				tooltip += " \u00a79B:\u00a7r" + setting.getBlue();
+				tooltip += " \u00a79A:\u00a7r" + setting.getAlpha();
+				tooltip += "\n\n\u00a7e[left-click]\u00a7r to edit";
+				tooltip += "\n\u00a7e[right-click]\u00a7r to reset";
+				GUI.setTooltip(tooltip);
+			}
 		
-		// background
-		RenderUtils.setShaderColor(bgColor);
+		drawBackground(matrixStack, x1, x2, y1, y3);
+		drawBox(matrixStack, x1, x2, y2, y3, hovering && mouseY >= y3);
+		
+		drawNameAndValue(context, x1, x2, y1 + 2);
+	}
+	
+	private boolean isHovering(int mouseX, int mouseY, int x1, int x2, int y1,
+		int y2)
+	{
+		Window parent = getParent();
+		boolean scrollEnabled = parent.isScrollingEnabled();
+		int scroll = scrollEnabled ? parent.getScrollOffset() : 0;
+		
+		return mouseX >= x1 && mouseY >= y1 && mouseX < x2 && mouseY < y2
+			&& mouseY >= -scroll && mouseY < parent.getHeight() - 13 - scroll;
+	}
+	
+	private void drawBackground(MatrixStack matrixStack, int x1, int x2, int y1,
+		int y2)
+	{
+		float[] bgColor = GUI.getBgColor();
+		float opacity = GUI.getOpacity();
+		
+		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
+		Tessellator tessellator = RenderSystem.renderThreadTesselator();
+		
+		RenderUtils.setShaderColor(bgColor, opacity);
+		
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-		bufferBuilder.vertex(matrix, x1, y1, 0);
+		bufferBuilder.vertex(matrix, x2, y1, 0);
+		bufferBuilder.vertex(matrix, x2, y2, 0);
 		bufferBuilder.vertex(matrix, x1, y2, 0);
-		bufferBuilder.vertex(matrix, x3, y2, 0);
-		bufferBuilder.vertex(matrix, x3, y1, 0);
+		bufferBuilder.vertex(matrix, x1, y1, 0);
+		
+		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+	}
+	
+	private void drawBox(MatrixStack matrixStack, int x1, int x2, int y2,
+		int y3, boolean hovering)
+	{
+		float[] color = setting.getColorF();
+		float[] acColor = GUI.getAcColor();
+		float opacity = GUI.getOpacity();
+		
+		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
+		Tessellator tessellator = RenderSystem.renderThreadTesselator();
+		
+		RenderUtils.setShaderColor(color, hovering ? 1F : opacity);
+		
+		BufferBuilder bufferBuilder = tessellator
+			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
+		bufferBuilder.vertex(matrix, x1, y2, 0);
+		bufferBuilder.vertex(matrix, x1, y3, 0);
+		bufferBuilder.vertex(matrix, x2, y3, 0);
+		bufferBuilder.vertex(matrix, x2, y2, 0);
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
-		// box
-		RenderUtils.setShaderColor(bgColor);
-		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS,
-			VertexFormats.POSITION);
-		bufferBuilder.vertex(matrix, x3, y1, 0);
-		bufferBuilder.vertex(matrix, x3, y2, 0);
-		bufferBuilder.vertex(matrix, x2, y2, 0);
-		bufferBuilder.vertex(matrix, x2, y1, 0);
-		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-		RenderUtils.setShaderColor(acColor);
+		RenderUtils.setShaderColor(acColor, 0.5F);
+		
 		bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
-		bufferBuilder.vertex(matrix, x3, y1, 0);
-		bufferBuilder.vertex(matrix, x3, y2, 0);
+		bufferBuilder.vertex(matrix, x1, y2, 0);
+		bufferBuilder.vertex(matrix, x1, y3, 0);
+		bufferBuilder.vertex(matrix, x2, y3, 0);
 		bufferBuilder.vertex(matrix, x2, y2, 0);
-		bufferBuilder.vertex(matrix, x2, y1, 0);
-		bufferBuilder.vertex(matrix, x3, y1, 0);
+		bufferBuilder.vertex(matrix, x1, y2, 0);
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+	}
+	
+	private void drawNameAndValue(DrawContext context, int x1, int x2, int y1)
+	{
+		ClickGui gui = WurstClient.INSTANCE.getGui();
+		int txtColor = gui.getTxtColor();
 		
-		// setting name
 		RenderSystem.setShaderColor(1, 1, 1, 1);
-		String text = setting.getName() + ": ";
-		context.drawText(tr, text, x1, y1 + 2, txtColor, false);
-		context.drawText(tr, setting.getSelectedFileName(), x3 + 2, y1 + 2,
-			txtColor, false);
+		TextRenderer tr = MC.textRenderer;
+		
+		context.drawText(tr, setting.getName(), x1, y1, txtColor, false);
+		
+		String value = ColorUtils.toHex(setting.getColor());
+		int valueWidth = tr.getWidth(value);
+		context.drawText(tr, value, x2 - valueWidth, y1, txtColor, false);
+		
 		GL11.glEnable(GL11.GL_BLEND);
 	}
 	
 	@Override
 	public int getDefaultWidth()
 	{
-		TextRenderer fr = WurstClient.MC.textRenderer;
-		
-		String text = setting.getName() + ": ";
-		int buttonWidth = fr.getWidth(setting.getSelectedFileName());
-		
-		return fr.getWidth(text) + buttonWidth + 6;
+		return MC.textRenderer.getWidth(setting.getName() + "#FFFFFFFF") + 6;
 	}
 	
 	@Override
 	public int getDefaultHeight()
 	{
-		return 11;
+		return 22;
 	}
 }
