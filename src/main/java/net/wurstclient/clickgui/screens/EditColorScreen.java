@@ -181,14 +181,14 @@ public final class EditColorScreen extends Screen
 		context.drawTexture(paletteIdentifier, x, y, u, v, w, h, fw, fh);
 		
 		// RGB letters
-		context.drawText(tr, "#", fieldsX - 3 - tr.getWidth("#"), fieldsY + 6,
-			0xF0F0F0, false);
+		context.drawText(tr, "#", fieldsX - 3 - tr.getWidth("#"),
+			fieldsY + 6, 0xF0F0F0FF, false);
 		context.drawText(tr, "R:", fieldsX - 3 - tr.getWidth("R:"),
-			fieldsY + 6 + 35, 0xFF0000, false);
+			fieldsY + 6 + 35, 0xFF0000FF, false);
 		context.drawText(tr, "G:", fieldsX + 75 - 3 - tr.getWidth("G:"),
-			fieldsY + 6 + 35, 0x00FF00, false);
+			fieldsY + 6 + 35, 0x00FF00FF, false);
 		context.drawText(tr, "B:", fieldsX + 150 - 3 - tr.getWidth("B:"),
-			fieldsY + 6 + 35, 0x0000FF, false);
+			fieldsY + 6 + 35, 0x0000FFFF, false);
 		context.drawText(tr, "A:", fieldsX + 225 - 3 - tr.getWidth("A:"),
 			fieldsY + 6 + 35, 0x000000FF, false);
 		
