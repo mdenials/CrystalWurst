@@ -63,8 +63,8 @@ public abstract class AbstractListEditButton extends Component
 		float partialTicks)
 	{
 		ClickGui gui = WurstClient.INSTANCE.getGui();
-		int bgColor = gui.getBgColor();
-		int acColor = gui.getAcColor();
+		float[] bgColor = gui.getBgColor();
+		float[] acColor = gui.getAcColor();
 		int txtColor = gui.getTxtColor();
 		float opacity = gui.getOpacity();
 		
@@ -92,7 +92,7 @@ public abstract class AbstractListEditButton extends Component
 			gui.setTooltip(getSetting().getWrappedDescription(200));
 		
 		// background
-		RenderUtils.setShaderColor(bgColor);
+		RenderUtils.setShaderColor(bgColor, opacity);
 		BufferBuilder bufferBuilder = tessellator
 			.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x1, y1, 0);
@@ -102,7 +102,7 @@ public abstract class AbstractListEditButton extends Component
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		
 		// box
-		RenderUtils.setShaderColor(bgColor);
+		RenderUtils.setShaderColor(bgColor, hBox ? opacity * 1.5F : opacity);
 		bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS,
 			VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x3, y1, 0);
@@ -110,7 +110,7 @@ public abstract class AbstractListEditButton extends Component
 		bufferBuilder.vertex(matrix, x2, y2, 0);
 		bufferBuilder.vertex(matrix, x2, y1, 0);
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-		RenderUtils.setShaderColor(acColor);
+		RenderUtils.setShaderColor(acColor, 0.5F);
 		bufferBuilder = tessellator.begin(
 			VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION);
 		bufferBuilder.vertex(matrix, x3, y1, 0);
