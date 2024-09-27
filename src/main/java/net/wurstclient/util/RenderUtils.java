@@ -117,10 +117,9 @@ public enum RenderUtils
 		return rainbow;
 	}
 	
-	public static void setShaderColor(float rgba)
+	public static void setShaderColor(float[] rgb)
 	{
-		float[] color = rgba.getColorF();
-		RenderSystem.setShaderColor(color[0],color[1],color[2],color[3]);
+		RenderSystem.setShaderColor(rgb[0], rgb[1], rgb[2], rgb[3]);
 	}
 	
 	public static void drawSolidBox(MatrixStack matrixStack)
