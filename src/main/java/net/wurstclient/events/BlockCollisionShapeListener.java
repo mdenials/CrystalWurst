@@ -27,12 +27,12 @@ public interface BlockCollisionShapeListener extends Listener
 		private Block block;
 		private VoxelShape collisionShape;
 		
-		public VoxelShape getCollisionBlockPos()
+		public BlockPos getCollisionBlockPos()
 		{
 			return blockPos;
 		}
 
-		public VoxelShape getCollisionBlock()
+		public Block getCollisionBlock()
 		{
 			return block;
 		}
@@ -61,7 +61,7 @@ public interface BlockCollisionShapeListener extends Listener
 		public void fire(ArrayList<BlockCollisionShapeListener> listeners)
 		{
 			for(BlockCollisionShapeListener listener : listeners)
-				listener.onBlockCollisionShape(this);
+				listener.onBlockCollisionShape(blockPos, block, this);
 		}
 		
 		@Override
