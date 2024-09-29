@@ -22,6 +22,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.util.shape.VoxelShape;
 import net.wurstclient.events.BlockCollisionShapeListener.BlockCollisionShapeEvent;
+import net.wurstclient.event.EventManager;
 import net.wurstclient.WurstClient;
 import net.wurstclient.hack.HackList;
 
