@@ -50,7 +50,7 @@ public final class AntiHazardHack extends Hack implements BlockCollisionShapeLis
 	public void onBlockCollisionShape(BlockPos pos, Block block, BlockCollisionShapeEvent event)
 	{
 		BlockPos pos = event.getCollisionBlockPos()
-        	if(hazards.contains(BlockUtils.getName(pos)))
+        	if(hazards.getBlockNames().contains(BlockUtils.getName(pos)))
 			event.setCollisionShape(VoxelShapes.fullCube());
 	}
 }
