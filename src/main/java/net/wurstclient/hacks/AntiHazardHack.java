@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 import net.minecraft.block.Block;
 
 import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.block.Block;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.events.BlockCollisionShapeListener;
