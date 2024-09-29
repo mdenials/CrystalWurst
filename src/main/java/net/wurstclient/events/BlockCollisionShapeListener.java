@@ -36,7 +36,7 @@ public interface BlockCollisionShapeListener extends Listener
 		public void fire(ArrayList<BlockCollisionShapeListener> listeners)
 		{
 			for(BlockCollisionShapeListener listener : listeners)
-				listener.onCactusCollisionShape(this);
+				listener.onBlockCollisionShape(this);
 		}
 		
 		@Override
