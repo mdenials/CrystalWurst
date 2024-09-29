@@ -19,6 +19,9 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.util.shape.VoxelShape;
+import net.wurstclient.events.BlockCollisionShapeListener.BlockCollisionShapeEvent;
 import net.wurstclient.WurstClient;
 import net.wurstclient.hack.HackList;
 
@@ -34,4 +37,19 @@ public abstract class AbstractBlockMixin
         if (hax.noTextureRotationsHack.isEnabled())
           cir.setReturnValue(RANDOM.nextLong());
     }
+
+@Inject(at = @At("HEAD"),
+		method = "getCollisionShape(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;",
+		cancellable = true)
+	private void onGetCollisionShape(BlockState state, BlockView world,
+		BlockPos pos, ShapeContext context,
+		CallbackInfoReturnable<VoxelShape> cir)
+	{
+		BlockCollisionShapeEvent event = new BlockCollisionShapeEvent();
+		EventManager.fire(event);
+		
+		VoxelShape collisionShape = event.getCollisionShape();
+		if(collisionShape != null)
+			cir.setReturnValue(collisionShape);
+	}
 }
