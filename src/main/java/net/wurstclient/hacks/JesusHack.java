@@ -19,6 +19,7 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.wurstclient.util.BlockUtils;
 import net.wurstclient.Category;
 import net.wurstclient.SearchTags;
 import net.wurstclient.events.PacketOutputListener;
@@ -27,7 +28,7 @@ import net.wurstclient.hack.Hack;
 import net.wurstclient.settings.CheckboxSetting;
 import net.wurstclient.settings.SliderSetting;
 import net.wurstclient.settings.SliderSetting.ValueDisplay;
-import net.wurstclient.util.BlockUtils;
+import net.wurstclient.settings.BlockListSetting;
 
 @SearchTags({"WaterWalking", "water walking"})
 public final class JesusHack extends Hack implements UpdateListener, PacketOutputListener
@@ -38,6 +39,8 @@ public final class JesusHack extends Hack implements UpdateListener, PacketOutpu
 	private final SliderSetting tick = new SliderSetting("Timer", "Jesus tick timer.\n", 10, 0, 20, 1, ValueDisplay.INTEGER);
 	private final SliderSetting packetT = new SliderSetting("Packet Timer", "Packet timer.\n", 4, 0, 20, 1, ValueDisplay.INTEGER);
 	private final SliderSetting dst = new SliderSetting("Distance", "Water bypass distance.\n", 0.05, 0, 20, 0.000001, ValueDisplay.DECIMAL);
+	private final BlockListSetting liquids = new BlockListSetting("Liquids", "The Liquids blocks", "minecraft:water", "minecraft:lava");
+	private final BlockListSetting solids = new BlockListSetting("Solids", "The solids blocks", );
 	private final CheckboxSetting solidliquid = new CheckboxSetting("Solid liquid", "Make liquid is solid.", false);
 	private final CheckboxSetting bypass = new CheckboxSetting("NoCheat+ bypass", "Bypasses NoCheat+ but slows down your movement.", false);
 	
@@ -54,6 +57,8 @@ public final class JesusHack extends Hack implements UpdateListener, PacketOutpu
         	addSetting(tick);
         	addSetting(packetT);
         	addSetting(dst);
+		addSetting(liquids);
+		addSetting(solids);
         	addSetting(solidliquid);
 		addSetting(bypass);
 	}
@@ -177,11 +182,19 @@ public final class JesusHack extends Hack implements UpdateListener, PacketOutpu
 			.collect(Collectors.toCollection(ArrayList::new));
 		
 		for(Block block : blockCollisions)
-			if(block instanceof FluidBlock)
+		{
+			if(liquids.contains(block))
+				foundLiquid = true
+				
+			if(solids.contains(block))
+				foundSolid = true;
+
+			/* if(block instanceof FluidBlock)
 				foundLiquid = true;
 			else if(!(block instanceof AirBlock))
-				foundSolid = true;
-			
+				foundSolid = true; */
+		}
+
 		return foundLiquid && !foundSolid;
 	}
 	
