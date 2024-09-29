@@ -27,8 +27,9 @@ public final class AntiHazardHack extends Hack implements BlockCollisionShapeLis
 
 	public AntiHazardHack()
 	{
-		super("AntiHazard);
+		super("AntiHazard");
 		setCategory(Category.BLOCKS);
+		addSetting(hazards);
 	}
 	
 	@Override
