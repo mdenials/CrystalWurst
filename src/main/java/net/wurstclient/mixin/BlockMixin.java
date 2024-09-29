@@ -14,6 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -21,6 +24,7 @@ import net.minecraft.world.BlockView;
 import net.wurstclient.WurstClient;
 import net.wurstclient.event.EventManager;
 import net.wurstclient.events.ShouldDrawSideListener.ShouldDrawSideEvent;
+import net.wurstclient.events.BlockCollisionShapeListener.BlockCollisionShapeEvent;
 import net.wurstclient.hack.HackList;
 
 @Mixin(Block.class)
@@ -63,6 +67,21 @@ public abstract class BlockMixin implements ItemConvertible
 		HackList hax = WurstClient.INSTANCE.getHax();
 		if(hax == null || !hax.noFrictionHack.isEnabled()) return;
         	cir.setReturnValue((float)hax.noFrictionHack.friction.getValue());
+	}
+
+	@Inject(at = @At("HEAD"),
+		method = "getCollisionShape(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;",
+		cancellable = true)
+	private void onGetCollisionShape(BlockState state, BlockView world,
+		BlockPos pos, ShapeContext context,
+		CallbackInfoReturnable<VoxelShape> cir)
+	{
+		BlockCollisionShapeEvent event = new BlockCollisionShapeEvent();
+		EventManager.fire(event);
+		
+		VoxelShape collisionShape = event.getCollisionShape();
+		if(collisionShape != null)
+			cir.setReturnValue(collisionShape);
 	}
 	
 }
