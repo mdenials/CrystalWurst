@@ -39,8 +39,8 @@ public final class JesusHack extends Hack implements UpdateListener, PacketOutpu
 	private final SliderSetting tick = new SliderSetting("Timer", "Jesus tick timer.\n", 10, 0, 20, 1, ValueDisplay.INTEGER);
 	private final SliderSetting packetT = new SliderSetting("Packet Timer", "Packet timer.\n", 4, 0, 20, 1, ValueDisplay.INTEGER);
 	private final SliderSetting dst = new SliderSetting("Distance", "Water bypass distance.\n", 0.05, 0, 20, 0.000001, ValueDisplay.DECIMAL);
-	private final BlockListSetting liquids = new BlockListSetting("Liquids", "The Liquids blocks", "minecraft:water", "minecraft:lava");
-	private final BlockListSetting solids = new BlockListSetting("Solids", "The solids blocks", );
+	private final BlockListSetting liquids = new BlockListSetting("Liquids", "The Liquids blocks");
+	private final BlockListSetting solids = new BlockListSetting("Solids", "The solids blocks");
 	private final CheckboxSetting solidliquid = new CheckboxSetting("Solid liquid", "Make liquid is solid.", false);
 	private final CheckboxSetting bypass = new CheckboxSetting("NoCheat+ bypass", "Bypasses NoCheat+ but slows down your movement.", false);
 	
@@ -184,7 +184,7 @@ public final class JesusHack extends Hack implements UpdateListener, PacketOutpu
 		for(Block block : blockCollisions)
 		{
 			if(liquids.contains(block))
-				foundLiquid = true
+				foundLiquid = true;
 				
 			if(solids.contains(block))
 				foundSolid = true;
