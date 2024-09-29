@@ -68,20 +68,4 @@ public abstract class BlockMixin implements ItemConvertible
 		if(hax == null || !hax.noFrictionHack.isEnabled()) return;
         	cir.setReturnValue((float)hax.noFrictionHack.friction.getValue());
 	}
-
-	@Inject(at = @At("HEAD"),
-		method = "getCollisionShape(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;",
-		cancellable = true)
-	private void onGetCollisionShape(BlockState state, BlockView world,
-		BlockPos pos, ShapeContext context,
-		CallbackInfoReturnable<VoxelShape> cir)
-	{
-		BlockCollisionShapeEvent event = new BlockCollisionShapeEvent();
-		EventManager.fire(event);
-		
-		VoxelShape collisionShape = event.getCollisionShape();
-		if(collisionShape != null)
-			cir.setReturnValue(collisionShape);
-	}
-	
 }
