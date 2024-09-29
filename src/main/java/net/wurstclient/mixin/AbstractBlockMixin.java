@@ -46,7 +46,7 @@ public abstract class AbstractBlockMixin
 		BlockPos pos, ShapeContext context,
 		CallbackInfoReturnable<VoxelShape> cir)
 	{
-		BlockCollisionShapeEvent event = new BlockCollisionShapeEvent();
+		BlockCollisionShapeEvent event = new BlockCollisionShapeEvent(pos, state.getBlock(), this.collidable ? state.getOutlineShape(world, pos) : VoxelShapes.empty());
 		EventManager.fire(event);
 		
 		VoxelShape collisionShape = event.getCollisionShape();
